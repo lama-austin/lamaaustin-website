@@ -2,8 +2,7 @@ backend:
   name: github
   repo: lama-austin/lamaaustin-website
   branch: main
-  base_url: https://api.netlify.com
-  site_domain: austinadmin.netlify.app
+  base_url: https://oauth.lamaaustin.com
 
 media_folder: "static/images"
 public_folder: "/images"
