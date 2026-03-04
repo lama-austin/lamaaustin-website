@@ -1,0 +1,71 @@
+backend:
+  name: github
+  repo: lama-austin/lamaaustin-website
+  branch: main
+
+media_folder: "static/images"
+public_folder: "/images"
+
+collections:
+  - name: "events"
+    label: "Events & Rides"
+    folder: "content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Event Name", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Event Time", name: "time", widget: "string", hint: "e.g. 8:00 AM" }
+      - { label: "Meet Location", name: "location", widget: "string" }
+      - label: "Event Type"
+        name: "type"
+        widget: "select"
+        options:
+          - { label: "Ride", value: "ride" }
+          - { label: "Social", value: "social" }
+          - { label: "State Event", value: "state" }
+      - { label: "Facebook Event URL", name: "facebook", widget: "string", required: false }
+      - { label: "Description", name: "body", widget: "markdown" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+  - name: "gallery"
+    label: "Gallery Albums"
+    folder: "content/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Album Name", name: "title", widget: "string" }
+      - { label: "Event Date", name: "date", widget: "datetime" }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - label: "Photos"
+        name: "photos"
+        widget: "list"
+        fields:
+          - { label: "Photo", name: "image", widget: "image" }
+          - { label: "Caption", name: "caption", widget: "string", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+  - name: "officers"
+    label: "Chapter Officers"
+    folder: "content/officers"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "title", widget: "string" }
+      - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - { label: "Display Order", name: "weight", widget: "number", default: 10 }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "data/settings.json"
+        fields:
+          - { label: "Facebook URL", name: "facebook", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "Founded Year", name: "founded", widget: "string" }
+          - { label: "Member Count", name: "members", widget: "string" }
+          - { label: "Years Rolling", name: "years", widget: "string" }
