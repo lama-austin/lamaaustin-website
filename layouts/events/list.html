@@ -1,0 +1,89 @@
+{{ define "main" }}
+<style>
+  .filter-bar { background: var(--dark); border-bottom: 1px solid var(--border); padding: 0 3rem; display: flex; }
+  .filter-tab { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); padding: 1.2rem 1.8rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+  .filter-tab:hover { color: var(--white); }
+  .filter-tab.active { color: var(--white); border-bottom-color: var(--red); }
+  .featured-event { background: var(--panel); border: 1px solid var(--border); display: grid; grid-template-columns: 260px 1fr; margin-bottom: 1.5px; transition: border-color 0.2s; }
+  .featured-event:hover { border-color: var(--red); }
+  .featured-date-block { background: var(--red); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem; text-align: center; }
+  .featured-month { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .featured-day { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: var(--white); }
+  .featured-year { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); }
+  .featured-body { padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+  .event-type-badge { display: inline-block; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; padding: 0.3rem 0.8rem; margin-bottom: 1rem; }
+  .badge-ride { background: rgba(192,57,43,0.15); color: var(--red); border: 1px solid var(--red); }
+  .badge-social { background: rgba(212,160,23,0.1); color: var(--gold); border: 1px solid var(--gold); }
+  .badge-state { background: rgba(255,255,255,0.05); color: var(--white); border: 1px solid var(--border); }
+  .event-title { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+  .event-meta { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .event-meta-item { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.1em; color: var(--muted); }
+  .event-desc { font-size: 0.9rem; color: #aaa; line-height: 1.7; margin-bottom: 1.5rem; }
+  .event-actions { display: flex; gap: 1rem; }
+  .fb-link { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); text-decoration: none; transition: color 0.2s; }
+  .fb-link:hover { color: var(--red-hot); }
+  .empty-state { color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.1em; padding: 3rem 0; }
+  @media (max-width: 768px) { .filter-bar { padding: 0 1.5rem; overflow-x: auto; } .featured-event { grid-template-columns: 1fr; } .featured-date-block { flex-direction: row; gap: 1rem; justify-content: flex-start; padding: 1.5rem; } .featured-day { font-size: 3rem; } }
+</style>
+
+<div class="page-header" data-label="EVENTS">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="/">Home</a> <span>→</span> <span>Events & Rides</span></div>
+    <h1 class="page-title">Events<br/>& Rides</h1>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-tab active" onclick="filter('all',this)">All</button>
+  <button class="filter-tab" onclick="filter('ride',this)">Rides</button>
+  <button class="filter-tab" onclick="filter('social',this)">Social</button>
+  <button class="filter-tab" onclick="filter('state',this)">State Events</button>
+</div>
+
+<div class="content">
+  {{ $events := where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true }}
+  {{ $sorted := sort $events ".Params.date" "asc" }}
+
+  <div class="section-label">Upcoming</div>
+
+  {{ range $sorted }}
+  {{ $type := .Params.type | default "ride" }}
+  <div class="featured-event" data-type="{{ $type }}">
+    <div class="featured-date-block">
+      <span class="featured-month">{{ .Params.date | time.Format "Jan" }}</span>
+      <span class="featured-day">{{ .Params.date | time.Format "02" }}</span>
+      <span class="featured-year">{{ .Params.date | time.Format "2006" }}</span>
+    </div>
+    <div class="featured-body">
+      <div>
+        <span class="event-type-badge badge-{{ $type }}">{{ $type }}</span>
+        <div class="event-title">{{ .Title }}</div>
+        <div class="event-meta">
+          <div class="event-meta-item">{{ .Params.time }}</div>
+          <div class="event-meta-item">{{ .Params.location }}</div>
+        </div>
+        <div class="event-desc">{{ .Content }}</div>
+      </div>
+      <div class="event-actions">
+        {{ if .Params.facebook }}
+        <a href="{{ .Params.facebook }}" target="_blank" class="btn btn-primary">View on Facebook →</a>
+        {{ end }}
+        <a href="/gallery/" class="btn btn-outline">Past Ride Photos</a>
+      </div>
+    </div>
+  </div>
+  {{ else }}
+  <p class="empty-state">No upcoming events yet — check back soon.</p>
+  {{ end }}
+</div>
+
+<script>
+  function filter(type, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('[data-type]').forEach(c => {
+      c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
+    });
+  }
+</script>
+{{ end }}

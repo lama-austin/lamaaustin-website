@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ if .IsHome }}LAMA Austin | Latin American Motorcyclists Association{{ else }}{{ .Title }} | LAMA Austin{{ end }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a; --dark: #111111; --panel: #161616; --border: #2a2a2a;
+      --red: #c0392b; --red-hot: #e74c3c; --gold: #d4a017;
+      --white: #f0ece4; --muted: #888;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-ui: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--font-body); font-weight: 300; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 64px;
+      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-cta { color: var(--black) !important; background: var(--red); padding: 0.5rem 1.2rem; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--red-hot); color: var(--white) !important; }
+    .page-header { padding: 10rem 3rem 4rem; background: var(--dark); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .page-header::before { content: attr(data-label); position: absolute; right: -1rem; top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-size: clamp(8rem, 18vw, 16rem); color: rgba(255,255,255,0.02); letter-spacing: 0.05em; pointer-events: none; white-space: nowrap; }
+    .page-header-inner { max-width: 1200px; margin: 0 auto; }
+    .breadcrumb { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+    .breadcrumb a { color: var(--red); text-decoration: none; }
+    .page-title { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 6rem); line-height: 1; letter-spacing: 0.03em; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 4rem 3rem; }
+    .section-label { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    .section-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--red); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; letter-spacing: 0.03em; margin-bottom: 1.5rem; }
+    .btn { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.8rem 1.8rem; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--red); color: var(--white); }
+    .btn-primary:hover { background: var(--red-hot); }
+    .btn-outline { border: 1px solid var(--border); color: var(--muted); }
+    .btn-outline:hover { border-color: var(--muted); color: var(--white); }
+    footer { background: var(--dark); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.15em; }
+    .footer-logo span { color: var(--red); }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 0.8rem; color: var(--border); font-family: var(--font-ui); letter-spacing: 0.1em; }
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; } .nav-links { display: none; }
+      .page-header, .content { padding-left: 1.5rem; padding-right: 1.5rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+  {{ block "head" . }}{{ end }}
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo">LAMA<span>.</span>ATX</a>
+    <ul class="nav-links">
+      <li><a href="/about/" {{ if eq .RelPermalink "/about/" }}class="active"{{ end }}>About</a></li>
+      <li><a href="/events/" {{ if eq .Section "events" }}class="active"{{ end }}>Events</a></li>
+      <li><a href="/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>Gallery</a></li>
+      <li><a href="/#join" class="nav-cta">Join Us</a></li>
+    </ul>
+  </nav>
+
+  {{ block "main" . }}{{ end }}
+
+  <footer>
+    <div class="footer-logo">LAMA<span>.</span>ATX</div>
+    <ul class="footer-links">
+      <li><a href="/about/">About</a></li>
+      <li><a href="/events/">Events</a></li>
+      <li><a href="/gallery/">Gallery</a></li>
+      <li><a href="/#join">Join</a></li>
+    </ul>
+    <div class="footer-copy">© {{ now.Format "2006" }} LAMA Austin · lamaaustin.com</div>
+  </footer>
+</body>
+</html>
