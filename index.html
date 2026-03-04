@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LAMA Austin | Latin American Motorcyclists Association</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --dark: #111111;
+      --panel: #161616;
+      --border: #2a2a2a;
+      --red: #c0392b;
+      --red-hot: #e74c3c;
+      --gold: #d4a017;
+      --white: #f0ece4;
+      --muted: #888;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-ui: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 64px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--red); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--red-hot); }
+
+    .nav-cta {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black) !important;
+      background: var(--red);
+      padding: 0.5rem 1.2rem;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--red-hot); color: var(--white) !important; }
+
+    /* ─── HERO ─── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, var(--black) 25%, transparent 70%),
+        linear-gradient(135deg, #1a0000 0%, #0a0a0a 50%, #0d0d0d 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(192,57,43,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(192,57,43,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 60% 40%, black 30%, transparent 70%);
+    }
+
+    .hero-accent {
+      position: absolute;
+      top: 20%;
+      right: -5%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(192,57,43,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-chapter {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-chapter::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 13vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title .red { color: var(--red); }
+
+    .hero-subtitle {
+      font-family: var(--font-ui);
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--red-hot); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-outline:hover { border-color: var(--muted); color: var(--white); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 6rem 3rem; }
+
+    .section-label {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #aaa;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .stat-box {
+      background: var(--panel);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      color: var(--red);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      display: block;
+    }
+
+    /* ─── EVENTS ─── */
+    #events { max-width: 1200px; margin: 0 auto; padding: 6rem 3rem; }
+
+    .events-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .event-card {
+      background: var(--panel);
+      padding: 2rem;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .event-card:hover { background: #1e1e1e; }
+
+    .event-date {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      margin-bottom: 0.8rem;
+    }
+
+    .event-name {
+      font-family: var(--font-ui);
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-detail {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .event-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .event-tag.ride { border-color: var(--red); color: var(--red); }
+    .event-tag.social { border-color: var(--gold); color: var(--gold); }
+
+    /* ─── GALLERY ─── */
+    #gallery {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-inner { max-width: 1200px; margin: 0 auto; }
+
+    .gallery-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 220px 220px;
+      gap: 3px;
+    }
+
+    .gallery-item {
+      background: var(--panel);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--border);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #161616, #1a1a1a);
+      transition: all 0.3s;
+    }
+    .gallery-item:hover .gallery-placeholder {
+      background: linear-gradient(135deg, #1a1a1a, #222);
+      color: var(--muted);
+    }
+
+    .gallery-placeholder svg {
+      width: 32px;
+      height: 32px;
+      opacity: 0.3;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .gallery-item:hover img { transform: scale(1.04); }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(192,57,43,0);
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-item:hover .gallery-overlay { background: rgba(192,57,43,0.15); }
+
+    /* ─── JOIN ─── */
+    #join { max-width: 1200px; margin: 0 auto; padding: 6rem 3rem; }
+
+    .join-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .join-info p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .req-list {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    .req-list li {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      color: #bbb;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .req-list li::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    /* ─── FORM ─── */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .form-field {
+      background: var(--panel);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-field label {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      resize: none;
+    }
+
+    .form-field select option { background: var(--panel); }
+
+    .form-field textarea { min-height: 80px; }
+
+    .form-submit {
+      background: var(--panel);
+      padding: 1.5rem;
+    }
+
+    .form-submit button {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 1rem 2.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .form-submit button:hover { background: var(--red-hot); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--red); }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--border);
+      font-family: var(--font-ui);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-chapter  { animation: fadeUp 0.6s ease 0.2s both; }
+    .hero-title    { animation: fadeUp 0.6s ease 0.35s both; }
+    .hero-subtitle { animation: fadeUp 0.6s ease 0.5s both; }
+    .hero-actions  { animation: fadeUp 0.6s ease 0.65s both; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      section, #events, #join { padding: 4rem 1.5rem; }
+      #home { padding: 0 1.5rem 4rem; }
+      .about-grid, .join-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, 160px);
+      }
+      .gallery-item:first-child { grid-column: span 2; grid-row: span 1; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#home" class="nav-logo">LAMA<span>.</span>ATX</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="#join" class="nav-cta">Join Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-accent"></div>
+
+    <div class="hero-content">
+      <div class="hero-chapter">Austin, Texas Chapter</div>
+      <h1 class="hero-title">LAMA<br/><span class="red">Austin</span></h1>
+      <p class="hero-subtitle">Latin American Motorcyclists Association</p>
+      <div class="hero-actions">
+        <a href="#join" class="btn btn-primary">Join the Chapter</a>
+        <a href="events.html" class="btn btn-outline">Upcoming Rides</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">Who We Are</div>
+        <h2 class="section-title">Brotherhood.<br/>Culture.<br/>The Road.</h2>
+        <p>LAMA — the Latin American Motorcyclists Association — is a nationwide brotherhood built on culture, community, and a shared love of riding. Our Austin chapter carries that legacy across the Hill Country, the city streets, and beyond.</p>
+        <p>We ride together, support each other, and represent our culture with pride every mile of the way. Whether you're a seasoned rider or just getting started, LAMA Austin is your home chapter.</p>
+        <a href="about.html" class="btn btn-outline" style="margin-top:1rem;">Learn More</a>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <span class="stat-num">ATX</span>
+          <span class="stat-label">Home Chapter</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">TX</span>
+          <span class="stat-label">State Chapter</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">Years Rolling</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Cultura</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section id="events" style="background: var(--black);">
+    <div style="max-width:1200px; margin: 0 auto;">
+      <div class="events-header">
+        <div>
+          <div class="section-label">On the Calendar</div>
+          <h2 class="section-title">Upcoming Rides<br/>& Events</h2>
+        </div>
+      </div>
+
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="event-date">SAT — APR 5, 2025 · 8:00 AM</div>
+          <div class="event-name">Hill Country Morning Run</div>
+          <div class="event-detail">Meet at Oasis on Lake Travis. Ride through the Texas Hill Country — Fredericksburg route. ~180 miles round trip.</div>
+          <span class="event-tag ride">Ride</span>
+        </div>
+        <div class="event-card">
+          <div class="event-date">SAT — APR 19, 2025 · 6:00 PM</div>
+          <div class="event-name">Chapter BBQ & Hangout</div>
+          <div class="event-detail">Monthly social at Zilker Park. Familia, food, and good vibes. All members and prospects welcome. Bring your crew.</div>
+          <span class="event-tag social">Social</span>
+        </div>
+        <div class="event-card">
+          <div class="event-date">SUN — MAY 4, 2025 · 9:00 AM</div>
+          <div class="event-name">LAMA TX State Ride</div>
+          <div class="event-detail">Joint ride with all Texas chapters. Route TBD. Full patches required. One of the biggest rides of the year.</div>
+          <span class="event-tag ride">Ride</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="gallery-inner">
+      <div class="section-label">In the Streets</div>
+      <h2 class="section-title">Gallery</h2>
+
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Drop your hero photo here
+          </div>
+          <div class="gallery-overlay"></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Add photo
+          </div>
+          <div class="gallery-overlay"></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Add photo
+          </div>
+          <div class="gallery-overlay"></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Add photo
+          </div>
+          <div class="gallery-overlay"></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Add photo
+          </div>
+          <div class="gallery-overlay"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section id="join" style="background: var(--black); border-top: 1px solid var(--border);">
+    <div style="max-width:1200px; margin: 0 auto;">
+      <div class="join-grid">
+        <div class="join-info">
+          <div class="section-label">Ride With Us</div>
+          <h2 class="section-title">Join LAMA<br/>Austin</h2>
+          <p>We're always looking for riders who share our values — brotherhood, cultura, and a deep love of the open road. If that sounds like you, reach out and let's talk.</p>
+
+          <ul class="req-list">
+            <li>Valid motorcycle license (M class)</li>
+            <li>Your own street-legal motorcycle</li>
+            <li>Latin American heritage or strong affiliation</li>
+            <li>Commitment to the brotherhood and our code</li>
+            <li>Attend prospect rides and chapter events</li>
+          </ul>
+        </div>
+
+        <div>
+          <form class="contact-form" name="contact" netlify>
+            <div class="form-row">
+              <div class="form-field">
+                <label>First Name</label>
+                <input type="text" name="first" placeholder="Victor" required />
+              </div>
+              <div class="form-field">
+                <label>Last Name</label>
+                <input type="text" name="last" placeholder="Fernandez" required />
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="you@email.com" required />
+            </div>
+            <div class="form-field">
+              <label>Phone</label>
+              <input type="tel" name="phone" placeholder="(512) 000-0000" />
+            </div>
+            <div class="form-field">
+              <label>What do you ride?</label>
+              <input type="text" name="bike" placeholder="Year, Make, Model" />
+            </div>
+            <div class="form-field">
+              <label>Tell us about yourself</label>
+              <textarea name="message" placeholder="How long you've been riding, why you want to join LAMA Austin..."></textarea>
+            </div>
+            <div class="form-submit">
+              <button type="submit">Send My Interest →</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">LAMA<span>.</span>ATX</div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#join">Join</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 LAMA Austin · lamaaustin.com</div>
+  </footer>
+
+</body>
+</html>
