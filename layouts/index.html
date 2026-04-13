@@ -85,7 +85,7 @@
       {{ $s := .Site.Data.settings }}
       <div class="stat-box"><span class="stat-num">ATX</span><span class="stat-label">Home Chapter</span></div>
       <div class="stat-box"><span class="stat-num">TX</span><span class="stat-label">State Chapter</span></div>
-      <div class="stat-box"><span class="stat-num">{{ if $s }}{{ $s.years }}{{ else }}12+{{ end }}</span><span class="stat-label">Years Rolling</span></div>
+      <div class="stat-box"><span class="stat-num">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">Years Rolling</span></div>
       <div class="stat-box"><span class="stat-num">100%</span><span class="stat-label">Cultura</span></div>
     </div>
   </div>

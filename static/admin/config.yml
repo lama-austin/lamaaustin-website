@@ -69,4 +69,3 @@ collections:
           - { label: "Instagram URL", name: "instagram", widget: "string" }
           - { label: "Founded Year", name: "founded", widget: "string" }
           - { label: "Member Count", name: "members", widget: "string" }
-          - { label: "Years Rolling", name: "years", widget: "string" }
