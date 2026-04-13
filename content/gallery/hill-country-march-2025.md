@@ -2,7 +2,7 @@
 title: "Hill Country Morning Run"
 date: 2025-03-15
 location: "Austin → Fredericksburg"
-draft: false
+draft: true
 photos:
   - image: ""
     caption: "Group shot before departure"
