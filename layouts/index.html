@@ -1,7 +1,7 @@
 {{ define "main" }}
 <style>
   #home { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
-  .hero-bg { position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 25%, transparent 70%), linear-gradient(135deg, #1a0000 0%, #0a0a0a 50%, #0d0d0d 100%); }
+  .hero-bg { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(10,10,10,0.96) 0%, rgba(10,10,10,0.84) 32%, rgba(10,10,10,0.52) 58%, rgba(10,10,10,0.72) 100%), linear-gradient(to top, rgba(10,10,10,0.96) 5%, rgba(10,10,10,0.2) 45%, rgba(10,10,10,0.72) 100%), url('/images/hero-group.jpg'); background-size: cover; background-position: center center; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(192,57,43,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(192,57,43,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at 60% 40%, black 30%, transparent 70%); }
   .hero-accent { position: absolute; top: 20%; right: -5%; width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle, rgba(192,57,43,0.12) 0%, transparent 65%); pointer-events: none; }
   .hero-content { position: relative; z-index: 2; max-width: 900px; }
@@ -53,6 +53,9 @@
     #about-preview, #events-preview, #join { padding: 4rem 1.5rem; }
     .about-grid, .join-grid { grid-template-columns: 1fr; gap: 3rem; }
     .form-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) {
+    .hero-bg { background-position: 64% center; }
   }
 </style>
 
