@@ -4,18 +4,141 @@ backend:
   branch: main
   base_url: https://oauth.lamaaustin.com
 
+site_url: https://lamaaustin.com
+display_url: https://lamaaustin.com
+
 media_folder: "static/images"
 public_folder: "/images"
 
 collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Home Page"
+        name: "home"
+        file: "content/_index.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Hero Chapter Label", name: "hero_chapter", widget: "string", hint: "Small text above the homepage title." }
+          - { label: "Hero Title Line 1", name: "hero_title_top", widget: "string" }
+          - { label: "Hero Title Accent", name: "hero_title_accent", widget: "string", hint: "The red word on the second line." }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "Primary Button Text", name: "hero_primary_cta_text", widget: "string" }
+          - { label: "Primary Button Link", name: "hero_primary_cta_link", widget: "string" }
+          - { label: "Secondary Button Text", name: "hero_secondary_cta_text", widget: "string" }
+          - { label: "Secondary Button Link", name: "hero_secondary_cta_link", widget: "string" }
+          - { label: "Join Section Label", name: "join_label", widget: "string" }
+          - { label: "Join Heading", name: "join_heading", widget: "text", hint: "Use a new line to split the heading across two lines." }
+          - label: "Join Paragraphs"
+            name: "join_paragraphs"
+            widget: "list"
+            summary: "{{fields.paragraph}}"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - label: "Join Requirements"
+            name: "join_requirements"
+            widget: "list"
+            summary: "{{fields.requirement}}"
+            field: { label: "Requirement", name: "requirement", widget: "string" }
+      - label: "About Page"
+        name: "about"
+        file: "content/about.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Layout", name: "layout", widget: "hidden", default: "about" }
+          - { label: "Header Title", name: "page_title", widget: "text", hint: "Use a new line to split the title across two lines." }
+          - { label: "Intro Label", name: "intro_label", widget: "string" }
+          - { label: "Intro Heading", name: "intro_heading", widget: "text", hint: "Use a new line to split the heading across multiple lines." }
+          - label: "Intro Paragraphs"
+            name: "intro_paragraphs"
+            widget: "list"
+            summary: "{{fields.paragraph}}"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - { label: "Homepage Label", name: "preview_label", widget: "string" }
+          - { label: "Homepage Heading", name: "preview_heading", widget: "text", hint: "Use a new line to split the heading across multiple lines." }
+          - label: "Homepage Paragraphs"
+            name: "preview_paragraphs"
+            widget: "list"
+            summary: "{{fields.paragraph}}"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - label: "Value Cards"
+            name: "values"
+            widget: "list"
+            summary: "{{fields.number}} - {{fields.title}}"
+            fields:
+              - { label: "Number", name: "number", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+          - { label: "Primary Button Text", name: "primary_cta_text", widget: "string" }
+          - { label: "Primary Button Link", name: "primary_cta_link", widget: "string" }
+          - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string" }
+          - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string" }
+          - { label: "Story Content", name: "body", widget: "markdown" }
+      - label: "Officers Page"
+        name: "officers_page"
+        file: "content/officers/_index.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Header Title", name: "page_title", widget: "text", hint: "Use a new line to split the title across two lines." }
+          - { label: "Intro Label", name: "intro_label", widget: "string" }
+          - { label: "Intro Heading", name: "intro_heading", widget: "text", hint: "Use a new line to split the heading across multiple lines." }
+          - label: "Intro Paragraphs"
+            name: "intro_paragraphs"
+            widget: "list"
+            summary: "{{fields.paragraph}}"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+      - label: "Join Page"
+        name: "join"
+        file: "content/join.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Layout", name: "layout", widget: "hidden", default: "join" }
+          - { label: "Header Title", name: "page_title", widget: "text", hint: "Use a new line to split the title across two lines." }
+          - { label: "Intro Label", name: "intro_label", widget: "string" }
+          - { label: "Intro Heading", name: "intro_heading", widget: "text", hint: "Use a new line to split the heading across multiple lines." }
+          - label: "Intro Paragraphs"
+            name: "intro_paragraphs"
+            widget: "list"
+            summary: "{{fields.paragraph}}"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - label: "Requirements"
+            name: "requirements"
+            widget: "list"
+            summary: "{{fields.requirement}}"
+            field: { label: "Requirement", name: "requirement", widget: "string" }
+          - { label: "Contact Section Heading", name: "contact_heading", widget: "string" }
+          - { label: "Contact Section Text", name: "contact_text", widget: "text" }
+          - label: "Process Steps"
+            name: "process"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+          - label: "Membership Stages"
+            name: "stages"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Stage Title", name: "title", widget: "string" }
+              - { label: "Stage Duration / Label", name: "duration", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Patch Image", name: "image", widget: "image", required: false }
+          - { label: "Final Section Heading", name: "final_heading", widget: "string" }
+          - { label: "Final Section Text", name: "final_text", widget: "text" }
+          - { label: "Primary Button Text", name: "primary_cta_text", widget: "string" }
+          - { label: "Primary Button Link", name: "primary_cta_link", widget: "string" }
+          - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string" }
+          - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string" }
+
   - name: "events"
     label: "Events & Rides"
     folder: "content/events"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} - {{date}}"
     fields:
       - { label: "Event Name", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss", date_format: "MMMM D, YYYY", time_format: "h:mm A" }
       - { label: "Event Time", name: "time", widget: "string", hint: "e.g. 8:00 AM" }
       - { label: "Meet Location", name: "location", widget: "string" }
       - label: "Event Type"
@@ -34,13 +157,15 @@ collections:
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
+    summary: "{{title}}"
     fields:
       - { label: "Album Name", name: "title", widget: "string" }
-      - { label: "Event Date", name: "date", widget: "datetime" }
+      - { label: "Event Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false }
       - { label: "Location", name: "location", widget: "string", required: false }
       - label: "Photos"
         name: "photos"
         widget: "list"
+        summary: "{{fields.caption}}"
         fields:
           - { label: "Photo", name: "image", widget: "image" }
           - { label: "Caption", name: "caption", widget: "string", required: false }
@@ -51,11 +176,12 @@ collections:
     folder: "content/officers"
     create: true
     slug: "{{slug}}"
+    summary: "{{title}} - {{role}}"
     fields:
       - { label: "Name", name: "title", widget: "string" }
       - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
       - { label: "Photo", name: "photo", widget: "image", required: false }
-      - { label: "Display Order", name: "weight", widget: "number", default: 10 }
+      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first. Use 1 for President, then 2, 3, 4..." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "settings"

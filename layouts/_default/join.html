@@ -1,0 +1,122 @@
+{{ define "main" }}
+<style>
+  #join-overview { padding: 6rem 3rem; }
+  .join-overview-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 4rem; align-items: start; }
+  .join-copy p { color: #aaa; line-height: 1.9; margin-bottom: 1.25rem; font-size: 1rem; }
+  .join-requirements { background: var(--panel); border: 1px solid var(--border); padding: 2rem; }
+  .join-requirements h3 { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.1rem; }
+  .join-requirements ul { list-style: none; display: grid; gap: 0.9rem; }
+  .join-requirements li { color: #bbb; line-height: 1.7; display: flex; gap: 0.75rem; }
+  .join-requirements li::before { content: ''; width: 7px; height: 7px; background: var(--red); margin-top: 0.55rem; flex-shrink: 0; }
+  #membership-process { padding: 0 3rem 6rem; }
+  .membership-inner { max-width: 1200px; margin: 0 auto; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px; background: var(--border); margin-top: 2rem; }
+  .process-card { background: var(--panel); padding: 2rem; }
+  .process-num { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; color: var(--red); margin-bottom: 0.75rem; }
+  .process-title { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .process-card p { color: #aaa; line-height: 1.8; font-size: 0.95rem; }
+  #membership-stages { padding: 6rem 3rem; background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .stages-inner { max-width: 1200px; margin: 0 auto; }
+  .stages-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5px; background: var(--border); margin-top: 2rem; }
+  .stage-card { background: var(--panel); display: grid; grid-template-columns: 180px 1fr; min-height: 210px; }
+  .stage-image { background: linear-gradient(135deg, #151515, #1d1d1d); border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+  .stage-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .stage-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; color: #3a3a3a; font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; padding: 1rem; }
+  .stage-placeholder svg { width: 32px; height: 32px; opacity: 0.32; }
+  .stage-body { padding: 1.6rem; }
+  .stage-meta { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+  .stage-title { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; letter-spacing: 0.04em; margin-bottom: 0.8rem; }
+  .stage-body p { color: #aaa; line-height: 1.8; font-size: 0.95rem; }
+  #join-cta { padding: 6rem 3rem; }
+  .join-cta-inner { max-width: 1000px; margin: 0 auto; background: linear-gradient(135deg, rgba(192,57,43,0.14), rgba(255,255,255,0.03)); border: 1px solid var(--border); padding: 2.5rem; }
+  .join-cta-inner p { color: #aaa; line-height: 1.8; font-size: 1rem; max-width: 700px; margin-bottom: 1.5rem; }
+  @media (max-width: 1000px) { .process-grid { grid-template-columns: repeat(2, 1fr); } .stages-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .join-overview-inner { grid-template-columns: 1fr; gap: 2rem; } }
+  @media (max-width: 768px) { #join-overview, #membership-process, #membership-stages, #join-cta { padding-left: 1.5rem; padding-right: 1.5rem; } .process-grid { grid-template-columns: 1fr; } .stage-card { grid-template-columns: 1fr; } .stage-image { min-height: 180px; border-right: none; border-bottom: 1px solid var(--border); } }
+</style>
+
+<div class="page-header" data-label="JOIN">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="/">Home</a> <span>→</span> <span>Join</span></div>
+    <h1 class="page-title">{{ replace (.Params.page_title | default "Join\nL.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h1>
+  </div>
+</div>
+
+<section id="join-overview">
+  <div class="join-overview-inner">
+    <div class="join-copy">
+      <div class="section-label">{{ .Params.intro_label | default "Membership" }}</div>
+      <h2 class="section-title">{{ replace (.Params.intro_heading | default "How To Become\nA Member") "\n" "<br/>" | safeHTML }}</h2>
+      {{ range .Params.intro_paragraphs }}
+      <p>{{ . }}</p>
+      {{ end }}
+      <h3 style="font-family:var(--font-ui); font-size:0.85rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-top:2rem; margin-bottom:0.8rem;">{{ .Params.contact_heading | default "Start By Reaching Out" }}</h3>
+      <p>{{ .Params.contact_text }}</p>
+    </div>
+    <div class="join-requirements">
+      <h3>At A Glance</h3>
+      <ul>
+        {{ range .Params.requirements }}
+        <li>{{ . }}</li>
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="membership-process">
+  <div class="membership-inner">
+    <div class="section-label">Process</div>
+    <h2 class="section-title">What The Journey Looks Like</h2>
+    <div class="process-grid">
+      {{ range $i, $step := .Params.process }}
+      <div class="process-card">
+        <div class="process-num">{{ add $i 1 | printf "%02d" }}</div>
+        <div class="process-title">{{ $step.title }}</div>
+        <p>{{ $step.description }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section id="membership-stages">
+  <div class="stages-inner">
+    <div class="section-label">Patches & Progress</div>
+    <h2 class="section-title">Membership Stages</h2>
+    <div class="stages-grid">
+      {{ range .Params.stages }}
+      <div class="stage-card">
+        <div class="stage-image">
+          {{ if .image }}
+          <img src="{{ .image }}" alt="{{ .title }}" />
+          {{ else }}
+          <div class="stage-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 4v10l-7 4-7-4V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+            Add patch image
+          </div>
+          {{ end }}
+        </div>
+        <div class="stage-body">
+          <div class="stage-meta">{{ .duration }}</div>
+          <div class="stage-title">{{ .title }}</div>
+          <p>{{ .description }}</p>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section id="join-cta">
+  <div class="join-cta-inner">
+    <div class="section-label">Next Step</div>
+    <h2 class="section-title">{{ .Params.final_heading | default "Questions Or Ready To Connect?" }}</h2>
+    <p>{{ .Params.final_text }}</p>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+      <a href="{{ .Params.primary_cta_link | default "/#join" }}" class="btn btn-primary">{{ .Params.primary_cta_text | default "Contact The Chapter" }}</a>
+      <a href="{{ .Params.secondary_cta_link | default "/events/" }}" class="btn btn-outline">{{ .Params.secondary_cta_text | default "See Upcoming Rides" }}</a>
+    </div>
+  </div>
+</section>
+{{ end }}

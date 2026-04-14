@@ -1,0 +1,80 @@
+{{ define "main" }}
+<style>
+  #officers-intro { padding: 6rem 3rem 3rem; }
+  .officers-intro-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; }
+  .officers-copy p { font-size: 1rem; line-height: 1.9; color: #aaa; margin-bottom: 1.2rem; }
+  .officers-side { background: var(--panel); border: 1px solid var(--border); padding: 2rem; }
+  .officers-side h3 { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .officers-side p { color: #aaa; line-height: 1.8; font-size: 0.95rem; }
+  #officers-grid { padding: 0 3rem 6rem; }
+  .officers-grid-inner { max-width: 1100px; margin: 0 auto; }
+  .officers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5px; background: var(--border); }
+  .officer-card { background: var(--panel); border: 1px solid transparent; text-align: center; transition: border-color 0.25s, transform 0.25s, background 0.25s; }
+  .officer-card:hover { border-color: var(--red); transform: translateY(-4px); background: #1b1b1b; }
+  .officer-card.president { border-color: var(--red); }
+  .officer-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: var(--dark); }
+  .officer-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .officer-card:hover .officer-photo img { transform: scale(1.05); }
+  .officer-photo-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--border); background: linear-gradient(135deg, #141414, #1a1a1a); }
+  .officer-photo-placeholder svg { width: 32px; height: 32px; opacity: 0.3; }
+  .officer-photo-placeholder span { font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+  .officer-info { padding: 1rem; }
+  .officer-name { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .officer-role { font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); background: var(--muted); padding: 0.25rem 0.6rem; margin-top: 0.45rem; display: inline-block; }
+  .officer-card.president .officer-role { background: var(--red); color: var(--white); }
+  .empty-state { background: var(--panel); padding: 2rem; color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.08em; }
+  @media (max-width: 900px) { .officers-intro-inner { grid-template-columns: 1fr; gap: 2rem; } }
+  @media (max-width: 768px) { #officers-intro, #officers-grid { padding-left: 1.5rem; padding-right: 1.5rem; } }
+</style>
+
+<div class="page-header" data-label="OFFICERS">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="/">Home</a> <span>→</span> <span>Officers</span></div>
+    <h1 class="page-title">{{ replace (.Params.page_title | default "Chapter\nOfficers") "\n" "<br/>" | safeHTML }}</h1>
+  </div>
+</div>
+
+<section id="officers-intro">
+  <div class="officers-intro-inner">
+    <div class="officers-copy">
+      <div class="section-label">{{ .Params.intro_label | default "Leadership" }}</div>
+      <h2 class="section-title">{{ replace (.Params.intro_heading | default "The People Who\nLead L.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h2>
+      {{ range .Params.intro_paragraphs }}
+      <p>{{ . }}</p>
+      {{ end }}
+    </div>
+    <div class="officers-side">
+      <h3>Want To Connect?</h3>
+      <p>If you have questions about rides, membership, or the chapter, any one of our officers can help you get started.</p>
+      <a href="/join/" class="btn btn-primary" style="margin-top:1.25rem;">Membership Info</a>
+    </div>
+  </div>
+</section>
+
+<section id="officers-grid">
+  <div class="officers-grid-inner">
+    <div class="section-label">Current Leadership</div>
+    {{ $officers := where (where .Site.RegularPages "Section" "officers") ".Params.draft" "!=" true }}
+    {{ $sorted := sort $officers ".Params.weight" "asc" }}
+    {{ if $sorted }}
+    <div class="officers-grid">
+      {{ range $sorted }}
+      {{ $role := .Params.role | lower }}
+      <div class="officer-card{{ if and (in $role "president") (not (in $role "vice")) }} president{{ end }}">
+        <div class="officer-photo">
+          {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+          {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Add Photo</span></div>{{ end }}
+        </div>
+        <div class="officer-info">
+          <div class="officer-name">{{ .Title }}</div>
+          <div class="officer-role">{{ .Params.role }}</div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    <div class="empty-state">No officers have been added yet. You can add them from the admin panel.</div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

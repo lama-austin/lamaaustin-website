@@ -56,17 +56,21 @@
   }
 </style>
 
+{{ $home := . }}
+{{ $about := .Site.GetPage "/about" }}
+{{ $s := .Site.Data.settings }}
+
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-accent"></div>
   <div class="hero-content">
-    <div class="hero-chapter">Austin, Texas Chapter</div>
-    <h1 class="hero-title">LAMA<br/><span class="red">Austin</span></h1>
-    <p class="hero-subtitle">Latin American Motorcyclists Association</p>
+    <div class="hero-chapter">{{ $home.Params.hero_chapter | default "Austin, Texas Chapter" }}</div>
+    <h1 class="hero-title">{{ $home.Params.hero_title_top | default "L.A.M.A." }}<br/><span class="red">{{ $home.Params.hero_title_accent | default "Austin" }}</span></h1>
+    <p class="hero-subtitle">{{ $home.Params.hero_subtitle | default "Latin American Motorcyclists Association" }}</p>
     <div class="hero-actions">
-      <a href="#join" class="btn btn-primary">Join the Chapter</a>
-      <a href="/events/" class="btn btn-outline">Upcoming Rides</a>
+      <a href="{{ $home.Params.hero_primary_cta_link | default "#join" }}" class="btn btn-primary">{{ $home.Params.hero_primary_cta_text | default "Join the Chapter" }}</a>
+      <a href="{{ $home.Params.hero_secondary_cta_link | default "/events/" }}" class="btn btn-outline">{{ $home.Params.hero_secondary_cta_text | default "Upcoming Rides" }}</a>
     </div>
   </div>
   <div class="hero-scroll">Scroll</div>
@@ -75,18 +79,23 @@
 <section id="about-preview">
   <div class="about-grid">
     <div class="about-text">
-      <div class="section-label">Who We Are</div>
-      <h2 class="section-title">Brotherhood.<br/>Culture.<br/>The Road.</h2>
-      <p>LAMA — the Latin American Motorcyclists Association — is a nationwide brotherhood built on cultura, community, and a shared love of riding. Our Austin chapter carries that legacy across the Hill Country, the city streets, and beyond.</p>
-      <p>We ride together, support each other, and represent our culture with pride every mile of the way.</p>
+      <div class="section-label">{{ with $about }}{{ .Params.preview_label | default "Who We Are" }}{{ else }}Who We Are{{ end }}</div>
+      <h2 class="section-title">{{ with $about }}{{ replace (.Params.preview_heading | default "A Brotherhood\nWithout Borders.") "\n" "<br/>" | safeHTML }}{{ else }}A Brotherhood<br/>Without Borders.{{ end }}</h2>
+      {{ with $about }}
+        {{ range .Params.preview_paragraphs }}
+        <p>{{ . }}</p>
+        {{ end }}
+      {{ else }}
+      <p>L.A.M.A. began in 1977 in Chicago's Humboldt Park and has grown into an international motorcycle association grounded in culture, respect, and long-distance riding.</p>
+      <p>L.A.M.A. Austin carries that spirit in Central Texas, riding together in brotherhood and representing our community with pride.</p>
+      {{ end }}
       <a href="/about/" class="btn btn-outline" style="margin-top:1.5rem;">Learn More</a>
     </div>
     <div class="about-stats">
-      {{ $s := .Site.Data.settings }}
       <div class="stat-box"><span class="stat-num">ATX</span><span class="stat-label">Home Chapter</span></div>
       <div class="stat-box"><span class="stat-num">TX</span><span class="stat-label">State Chapter</span></div>
       <div class="stat-box"><span class="stat-num">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">Years Rolling</span></div>
-      <div class="stat-box"><span class="stat-num">100%</span><span class="stat-label">Cultura</span></div>
+      <div class="stat-box"><span class="stat-num">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">Members</span></div>
     </div>
   </div>
 </section>
@@ -118,15 +127,15 @@
 <section id="join">
   <div class="join-grid">
     <div class="join-info">
-      <div class="section-label">Ride With Us</div>
-      <h2 class="section-title">Join LAMA<br/>Austin</h2>
-      <p>We're always looking for riders who share our values — brotherhood, cultura, and a deep love of the open road.</p>
+      <div class="section-label">{{ $home.Params.join_label | default "Ride With Us" }}</div>
+      <h2 class="section-title">{{ replace ($home.Params.join_heading | default "Join L.A.M.A.\nAustin") "\n" "<br/>" | safeHTML }}</h2>
+      {{ range $home.Params.join_paragraphs }}
+      <p>{{ . }}</p>
+      {{ end }}
       <ul class="req-list">
-        <li>Valid motorcycle license (M class)</li>
-        <li>Your own street-legal motorcycle</li>
-        <li>Latin American heritage or strong affiliation</li>
-        <li>Commitment to the brotherhood and our code</li>
-        <li>Attend prospect rides and chapter events</li>
+        {{ range $home.Params.join_requirements }}
+        <li>{{ . }}</li>
+        {{ end }}
       </ul>
     </div>
     <div>

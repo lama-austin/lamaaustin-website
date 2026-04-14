@@ -70,10 +70,11 @@
   <nav>
     <a href="/" class="nav-logo">LAMA<span>.</span>ATX</a>
     <ul class="nav-links">
-      <li><a href="/#about-preview">About</a></li>
-      <li><a href="/events/" {{ if eq .Section "events" }}class="active"{{ end }}>Events</a></li>
-      <li><a href="/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>Gallery</a></li>
-      <li><a href="/#join" class="nav-cta">Join Us</a></li>
+      <li><a href="/about/" {{ if and (not .IsHome) (eq .RelPermalink "/about/") }}class="active"{{ end }}>Chapter</a></li>
+      <li><a href="/officers/" {{ if eq .Section "officers" }}class="active"{{ end }}>Officers</a></li>
+      <li><a href="/events/" {{ if eq .Section "events" }}class="active"{{ end }}>Rides</a></li>
+      <li><a href="/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>Media</a></li>
+      <li><a href="/join/" {{ if and (not .IsHome) (eq .RelPermalink "/join/") }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>Join</a></li>
     </ul>
   </nav>
 
@@ -82,10 +83,11 @@
   <footer>
     <div class="footer-logo">LAMA<span>.</span>ATX</div>
     <ul class="footer-links">
-      <li><a href="/about/">About</a></li>
-      <li><a href="/events/">Events</a></li>
-      <li><a href="/gallery/">Gallery</a></li>
-      <li><a href="/#join">Join</a></li>
+      <li><a href="/about/">Chapter</a></li>
+      <li><a href="/officers/">Officers</a></li>
+      <li><a href="/events/">Rides</a></li>
+      <li><a href="/gallery/">Media</a></li>
+      <li><a href="/join/">Join</a></li>
     </ul>
     <div class="footer-copy">© {{ now.Format "2006" }} LAMA Austin · lamaaustin.com</div>
   </footer>
