@@ -9,6 +9,12 @@ display_url: https://lamaaustin.com
 
 media_folder: "static/images"
 public_folder: "/images"
+media_library:
+  name: uploadcare
+  config:
+    publicKey: 9020e4f70d7805b0b92b
+  settings:
+    autoFilename: true
 
 collections:
   - name: "pages"
