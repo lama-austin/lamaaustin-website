@@ -6,25 +6,116 @@
   .officers-side { background: var(--panel); border: 1px solid var(--border); padding: 2rem; }
   .officers-side h3 { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
   .officers-side p { color: #aaa; line-height: 1.8; font-size: 0.95rem; }
+
   #officers-grid { padding: 0 3rem 6rem; }
   .officers-grid-inner { max-width: 1100px; margin: 0 auto; }
-  .officers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5px; background: var(--border); }
-  .officer-card { background: var(--panel); border: 1px solid transparent; text-align: center; transition: border-color 0.25s, transform 0.25s, background 0.25s; }
+
+  /* ── Org Chart Layout ─────────────────────────────────── */
+  .org-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 0 0;
+  }
+
+  .org-tier {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .org-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .org-node.tier-1 { width: 300px; }
+  .org-node.tier-2 { width: 270px; }
+
+  /* Vertical connector between single nodes */
+  .org-connector-v {
+    width: 2px;
+    height: 44px;
+    background: var(--red);
+    opacity: 0.65;
+    flex-shrink: 0;
+  }
+
+  /* Row of officers with branching lines */
+  .org-branch {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), 1fr);
+    width: 100%;
+    position: relative;
+    gap: 1.5px;
+    background: var(--border);
+  }
+
+  /* Horizontal bar across the tops of all branch items */
+  .org-branch::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(100% / (var(--cols, 4) * 2));
+    right: calc(100% / (var(--cols, 4) * 2));
+    height: 2px;
+    background: var(--red);
+    opacity: 0.65;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .org-branch-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--black);
+  }
+
+  /* Vertical stub from horizontal bar down to each officer card */
+  .org-branch-stub {
+    width: 2px;
+    height: 44px;
+    background: var(--red);
+    opacity: 0.65;
+    flex-shrink: 0;
+  }
+
+  /* ── Officer Cards ─────────────────────────────────────── */
+  .officer-card {
+    background: var(--panel);
+    border: 1px solid transparent;
+    text-align: center;
+    transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    width: 100%;
+  }
   .officer-card:hover { border-color: var(--red); transform: translateY(-4px); background: #1b1b1b; }
-  .officer-card.president { border-color: var(--red); }
+  .officer-card.is-president { border-color: var(--red); }
+
   .officer-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: var(--dark); }
   .officer-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
   .officer-card:hover .officer-photo img { transform: scale(1.05); }
   .officer-photo-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--border); background: linear-gradient(135deg, #141414, #1a1a1a); }
   .officer-photo-placeholder svg { width: 32px; height: 32px; opacity: 0.3; }
   .officer-photo-placeholder span { font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
   .officer-info { padding: 1rem; }
   .officer-name { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
   .officer-role { font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); background: var(--muted); padding: 0.25rem 0.6rem; margin-top: 0.45rem; display: inline-block; }
-  .officer-card.president .officer-role { background: var(--red); color: var(--white); }
+  .officer-card.is-president .officer-role { background: var(--red); color: var(--white); }
+
   .empty-state { background: var(--panel); padding: 2rem; color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.08em; }
-  @media (max-width: 900px) { .officers-intro-inner { grid-template-columns: 1fr; gap: 2rem; } }
-  @media (max-width: 768px) { #officers-intro, #officers-grid { padding-left: 1.5rem; padding-right: 1.5rem; } }
+
+  @media (max-width: 900px) {
+    .officers-intro-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .org-node.tier-1 { width: 220px; }
+    .org-node.tier-2 { width: 200px; }
+  }
+  @media (max-width: 768px) {
+    #officers-intro, #officers-grid { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .org-branch { grid-template-columns: repeat(2, 1fr); }
+    .org-branch::before { left: 25%; right: 25%; }
+  }
 </style>
 
 <div class="page-header" data-label="OFFICERS">
@@ -54,27 +145,93 @@
 <section id="officers-grid">
   <div class="officers-grid-inner">
     <div class="section-label">Current Leadership</div>
+
     {{ $officers := where (where .Site.RegularPages "Section" "officers") ".Params.draft" "!=" true }}
     {{ $sorted := sort $officers ".Params.weight" "asc" }}
+
     {{ if $sorted }}
-    <div class="officers-grid">
-      {{ range $sorted }}
-      {{ $role := .Params.role | lower }}
-      <div class="officer-card{{ if and (in $role "president") (not (in $role "vice")) }} president{{ end }}">
-        <div class="officer-photo">
-          {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
-          {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Add Photo</span></div>{{ end }}
-        </div>
-        <div class="officer-info">
-          <div class="officer-name">{{ .Title }}</div>
-          <div class="officer-role">{{ .Params.role }}</div>
+
+    {{ $president := "" }}
+    {{ $vp := "" }}
+    {{ $others := slice }}
+    {{ range $sorted }}
+      {{ $r := .Params.role | lower }}
+      {{ if and (in $r "president") (not (in $r "vice")) }}
+        {{ $president = . }}
+      {{ else if or (in $r "vice") (eq $r "vp") }}
+        {{ $vp = . }}
+      {{ else }}
+        {{ $others = $others | append . }}
+      {{ end }}
+    {{ end }}
+
+    <div class="org-chart">
+
+      {{/* ── Level 1: President ── */}}
+      {{ with $president }}
+      <div class="org-tier">
+        <div class="org-node tier-1">
+          <div class="officer-card is-president">
+            <div class="officer-photo">
+              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Add Photo</span></div>{{ end }}
+            </div>
+            <div class="officer-info">
+              <div class="officer-name">{{ .Title }}</div>
+              <div class="officer-role">{{ .Params.role }}</div>
+            </div>
+          </div>
+          <div class="org-connector-v"></div>
         </div>
       </div>
       {{ end }}
+
+      {{/* ── Level 2: Vice President ── */}}
+      {{ with $vp }}
+      <div class="org-tier">
+        <div class="org-node tier-2">
+          <div class="officer-card">
+            <div class="officer-photo">
+              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Add Photo</span></div>{{ end }}
+            </div>
+            <div class="officer-info">
+              <div class="officer-name">{{ .Title }}</div>
+              <div class="officer-role">{{ .Params.role }}</div>
+            </div>
+          </div>
+          {{ if $others }}<div class="org-connector-v"></div>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+
+      {{/* ── Level 3: All other officers ── */}}
+      {{ if $others }}
+      <div class="org-branch" style="--cols: {{ len $others }}">
+        {{ range $others }}
+        <div class="org-branch-item">
+          <div class="org-branch-stub"></div>
+          <div class="officer-card">
+            <div class="officer-photo">
+              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Add Photo</span></div>{{ end }}
+            </div>
+            <div class="officer-info">
+              <div class="officer-name">{{ .Title }}</div>
+              <div class="officer-role">{{ .Params.role }}</div>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+
     </div>
+
     {{ else }}
     <div class="empty-state">No officers have been added yet. You can add them from the admin panel.</div>
     {{ end }}
+
   </div>
 </section>
 {{ end }}
