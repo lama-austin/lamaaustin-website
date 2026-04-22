@@ -1,5 +1,6 @@
 {{ define "main" }}
 <style>
+  /* ── Hero ─────────────────────────────────────────────── */
   #home { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
   .hero-bg { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(10,10,10,0.96) 0%, rgba(10,10,10,0.84) 32%, rgba(10,10,10,0.52) 58%, rgba(10,10,10,0.72) 100%), linear-gradient(to top, rgba(10,10,10,0.96) 5%, rgba(10,10,10,0.2) 45%, rgba(10,10,10,0.72) 100%), url('/images/hero-group.jpg'); background-size: cover; background-position: center center; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(192,57,43,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(192,57,43,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at 60% 40%, black 30%, transparent 70%); }
@@ -11,9 +12,15 @@
   .hero-title .red { color: var(--red); }
   .hero-subtitle { font-family: var(--font-ui); font-size: clamp(1rem, 2vw, 1.4rem); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; animation: fadeUp 0.6s ease 0.5s both; }
   .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s ease 0.65s both; }
+  .hero-social { display: flex; gap: 0.75rem; margin-top: 1.75rem; animation: fadeUp 0.6s ease 0.8s both; }
+  .hero-social-link { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.12); color: var(--muted); transition: color 0.2s, border-color 0.2s; }
+  .hero-social-link:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+  .hero-social-link svg { width: 16px; height: 16px; }
   .hero-scroll { position: absolute; bottom: 2rem; right: 3rem; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); writing-mode: vertical-rl; display: flex; align-items: center; gap: 0.8rem; }
   .hero-scroll::after { content: ''; display: block; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--muted), transparent); }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── About Preview ─────────────────────────────────────── */
   #about-preview { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6rem 3rem; }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1200px; margin: 0 auto; align-items: center; }
   .about-text p { font-size: 1rem; line-height: 1.8; color: #aaa; margin-bottom: 1.2rem; }
@@ -21,7 +28,26 @@
   .stat-box { background: var(--panel); padding: 2.5rem 2rem; text-align: center; }
   .stat-num { font-family: var(--font-display); font-size: 3.5rem; color: var(--red); line-height: 1; display: block; }
   .stat-label { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-top: 0.4rem; display: block; }
-  #events-preview { padding: 6rem 3rem; }
+
+  /* ── Officers Preview ──────────────────────────────────── */
+  #officers-preview { padding: 6rem 3rem; }
+  .officers-preview-inner { max-width: 1200px; margin: 0 auto; }
+  .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+  .op-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.5px; background: var(--border); }
+  .op-card { background: var(--panel); text-align: center; transition: background 0.2s, transform 0.2s; display: block; text-decoration: none; color: var(--white); }
+  .op-card:hover { background: #1e1e1e; transform: translateY(-3px); }
+  .op-photo { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--black); }
+  .op-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .op-card:hover .op-photo img { transform: scale(1.05); }
+  .op-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #141414, #1a1a1a); color: var(--border); }
+  .op-photo-placeholder svg { width: 28px; height: 28px; opacity: 0.25; }
+  .op-info { padding: 0.8rem; }
+  .op-name { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .op-role { font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+  .op-card.is-president .op-role { color: var(--red); }
+
+  /* ── Events Preview ────────────────────────────────────── */
+  #events-preview { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6rem 3rem; }
   .events-preview-inner { max-width: 1200px; margin: 0 auto; }
   .events-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
   .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5px; background: var(--border); }
@@ -33,7 +59,19 @@
   .event-tag { display: inline-block; margin-top: 1rem; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); }
   .event-tag.ride { border-color: var(--red); color: var(--red); }
   .event-tag.social { border-color: var(--gold); color: var(--gold); }
-  #join { background: var(--black); border-top: 1px solid var(--border); padding: 6rem 3rem; }
+
+  /* ── Gallery Preview ───────────────────────────────────── */
+  #gallery-preview { padding: 6rem 3rem; }
+  .gallery-preview-inner { max-width: 1200px; margin: 0 auto; }
+  .gp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; height: 280px; margin-top: 0; }
+  .gp-tile { overflow: hidden; background: var(--panel); position: relative; }
+  .gp-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+  .gp-tile:hover img { transform: scale(1.06); }
+  .gp-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, #141414, #1a1a1a); color: var(--border); font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; }
+  .gp-placeholder svg { width: 28px; height: 28px; opacity: 0.2; }
+
+  /* ── Join ──────────────────────────────────────────────── */
+  #join { background: var(--dark); border-top: 1px solid var(--border); padding: 6rem 3rem; }
   .join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; max-width: 1200px; margin: 0 auto; }
   .join-info p { color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; font-size: 0.95rem; }
   .req-list { list-style: none; margin-top: 1.5rem; }
@@ -46,16 +84,24 @@
   .form-field input, .form-field textarea { background: transparent; border: none; outline: none; color: var(--white); font-family: var(--font-body); font-size: 0.95rem; resize: none; }
   .form-field textarea { min-height: 80px; }
   .form-submit { background: var(--panel); padding: 1.5rem; }
-  .form-submit button { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; background: var(--red); color: var(--white); border: none; padding: 1rem 2.5rem; cursor: pointer; transition: background 0.2s; width: 100%; }
-  .form-submit button:hover { background: var(--red-hot); }
-  @media (max-width: 768px) {
-    #home { padding: 0 1.5rem 4rem; }
-    #about-preview, #events-preview, #join { padding: 4rem 1.5rem; }
-    .about-grid, .join-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .form-row { grid-template-columns: 1fr; }
-  }
+  .form-submit button { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; background: #25D366; color: #fff; border: none; padding: 1rem 2.5rem; cursor: pointer; transition: background 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; }
+  .form-submit button:hover { background: #1ebe5b; }
+  .form-submit button svg { flex-shrink: 0; }
+  .wa-note { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--muted); margin-top: 0.75rem; text-align: center; }
+
+  /* ── Responsive ────────────────────────────────────────── */
   @media (max-width: 900px) {
     .hero-bg { background-position: 64% center; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (max-width: 768px) {
+    #home { padding: 0 1.5rem 4rem; }
+    #about-preview, #officers-preview, #events-preview, #gallery-preview, #join { padding: 4rem 1.5rem; }
+    .join-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .gp-grid { grid-template-columns: repeat(2, 1fr); height: 320px; }
+    .op-grid { grid-template-columns: repeat(3, 1fr); }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
   }
 </style>
 
@@ -63,6 +109,7 @@
 {{ $about := .Site.GetPage "/about" }}
 {{ $s := .Site.Data.settings }}
 
+<!-- ── Hero ──────────────────────────────────────────────── -->
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
@@ -72,13 +119,20 @@
     <h1 class="hero-title">{{ $home.Params.hero_title_top | default "L.A.M.A." }}<br/><span class="red">{{ $home.Params.hero_title_accent | default "Austin" }}</span></h1>
     <p class="hero-subtitle">{{ $home.Params.hero_subtitle | default "Latin American Motorcyclists Association" }}</p>
     <div class="hero-actions">
-      <a href="{{ $home.Params.hero_primary_cta_link | default "#join" }}" class="btn btn-primary">{{ $home.Params.hero_primary_cta_text | default "Join the Chapter" }}</a>
+      <a href="{{ $home.Params.hero_primary_cta_link | default "/join/" }}" class="btn btn-primary">{{ $home.Params.hero_primary_cta_text | default "Join the Chapter" }}</a>
       <a href="{{ $home.Params.hero_secondary_cta_link | default "/events/" }}" class="btn btn-outline">{{ $home.Params.hero_secondary_cta_text | default "Upcoming Rides" }}</a>
     </div>
+    {{ if or $s.facebook $s.instagram }}
+    <div class="hero-social">
+      {{ with $s.facebook }}<a href="{{ . }}" target="_blank" rel="noopener" aria-label="Facebook" class="hero-social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>{{ end }}
+      {{ with $s.instagram }}<a href="{{ . }}" target="_blank" rel="noopener" aria-label="Instagram" class="hero-social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a>{{ end }}
+    </div>
+    {{ end }}
   </div>
   <div class="hero-scroll">Scroll</div>
 </section>
 
+<!-- ── About Preview ─────────────────────────────────────── -->
 <section id="about-preview">
   <div class="about-grid">
     <div class="about-text">
@@ -103,6 +157,38 @@
   </div>
 </section>
 
+<!-- ── Officers Preview ──────────────────────────────────── -->
+{{ $officers := sort (where (where .Site.RegularPages "Section" "officers") ".Params.draft" "!=" true) ".Params.weight" "asc" }}
+{{ if $officers }}
+<section id="officers-preview">
+  <div class="officers-preview-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">The Chapter</div>
+        <h2 class="section-title">Meet Our<br/>Leadership</h2>
+      </div>
+      <a href="/officers/" class="btn btn-outline">Full Org Chart</a>
+    </div>
+    <div class="op-grid">
+      {{ range $officers }}
+      {{ $r := .Params.role | lower }}
+      <a href="/officers/" class="op-card{{ if and (in $r "president") (not (in $r "vice")) }} is-president{{ end }}">
+        <div class="op-photo">
+          {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" loading="lazy" />
+          {{ else }}<div class="op-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
+        </div>
+        <div class="op-info">
+          <div class="op-name">{{ .Title }}</div>
+          <div class="op-role">{{ .Params.role }}</div>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- ── Events Preview ────────────────────────────────────── -->
 <section id="events-preview">
   <div class="events-preview-inner">
     <div class="events-header">
@@ -127,6 +213,36 @@
   </div>
 </section>
 
+<!-- ── Gallery Preview ───────────────────────────────────── -->
+{{ $galleryAlbums := sort (where (where .Site.RegularPages "Section" "gallery") ".Params.draft" "!=" true) ".Params.date" "desc" }}
+<section id="gallery-preview">
+  <div class="gallery-preview-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Media</div>
+        <h2 class="section-title">Ride Photos</h2>
+      </div>
+      <a href="/gallery/" class="btn btn-outline">All Photos</a>
+    </div>
+    <div class="gp-grid">
+      {{ if $galleryAlbums }}
+        {{ $latest := index $galleryAlbums 0 }}
+        {{ range first 4 $latest.Params.photos }}
+        <div class="gp-tile">
+          {{ if .image }}<img src="{{ .image }}" alt="{{ .caption }}" loading="lazy" />
+          {{ else }}<div class="gp-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Add Photo</div>{{ end }}
+        </div>
+        {{ end }}
+      {{ else }}
+        {{ range seq 4 }}
+        <div class="gp-tile"><div class="gp-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Photos Coming Soon</div></div>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ── Join ──────────────────────────────────────────────── -->
 <section id="join">
   <div class="join-grid">
     <div class="join-info">
@@ -140,9 +256,10 @@
         <li>{{ . }}</li>
         {{ end }}
       </ul>
+      <a href="/join/" class="btn btn-outline" style="margin-top:2rem;">Full Requirements & Process →</a>
     </div>
     <div>
-      <form class="contact-form" action="https://contact.lamaaustin.com" method="POST">
+      <form class="contact-form" id="joinForm">
         <div class="form-row">
           <div class="form-field"><label>First Name</label><input type="text" name="first" placeholder="First" required /></div>
           <div class="form-field"><label>Last Name</label><input type="text" name="last" placeholder="Last" required /></div>
@@ -151,9 +268,41 @@
         <div class="form-field"><label>Phone</label><input type="tel" name="phone" placeholder="(512) 000-0000" /></div>
         <div class="form-field"><label>What do you ride?</label><input type="text" name="bike" placeholder="Year, Make, Model" /></div>
         <div class="form-field"><label>Tell us about yourself</label><textarea name="message" placeholder="How long you've been riding, why you want to join..."></textarea></div>
-        <div class="form-submit"><button type="submit">Send My Interest →</button></div>
+        <div class="form-submit">
+          <button type="submit">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.524 5.853L.057 23.428a.5.5 0 00.515.572l5.718-1.499A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.663-.524-5.18-1.434l-.37-.22-3.838 1.007 1.023-3.74-.24-.386A9.957 9.957 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Send via WhatsApp
+          </button>
+        </div>
       </form>
+      <p class="wa-note">We'll reach out via WhatsApp within 24 hours.</p>
     </div>
   </div>
 </section>
+
+<script>
+  document.getElementById('joinForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = this.querySelector('button[type="submit"]');
+    var originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Sending…';
+
+    try {
+      var res = await fetch('/api/contact', { method: 'POST', body: new FormData(this) });
+      var result = await res.json();
+      if (result.success) {
+        btn.innerHTML = '✓ Message Sent!';
+        btn.style.background = '#1a9e4a';
+        this.reset();
+      } else {
+        throw new Error(result.error || 'Unknown error');
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+      alert('Something went wrong: ' + err.message + '\nPlease try again or reach out on Facebook.');
+    }
+  });
+</script>
 {{ end }}
