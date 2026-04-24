@@ -228,10 +228,10 @@
       {{ if $galleryAlbums }}
         {{ $latest := index $galleryAlbums 0 }}
         {{ range first 4 $latest.Params.photos }}
-        <div class="gp-tile">
+        <a href="/gallery/" class="gp-tile" style="text-decoration: none; cursor: pointer;">
           {{ if .image }}<img src="{{ .image }}" alt="{{ .caption }}" loading="lazy" />
           {{ else }}<div class="gp-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Add Photo</div>{{ end }}
-        </div>
+        </a>
         {{ end }}
       {{ else }}
         {{ range seq 4 }}
