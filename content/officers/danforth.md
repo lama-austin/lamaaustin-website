@@ -1,7 +1,7 @@
 ---
 title: Danforth
 role: President
-photo: https://zwnt0q4ahf.ucarecd.net/378b0bb4-200b-4460-af1e-5477e85cb87b/489851876_122121110336758855_7889405375366649330_n.jpg
+photo: https://zwnt0q4ahf.ucarecd.net/525b2aad-ce14-4d78-b5fb-0e6f9abe0ee9/-/crop/1317x1425/219,0/-/preview/
 weight: 1
 draft: false
 ---
