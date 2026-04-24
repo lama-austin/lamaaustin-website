@@ -95,8 +95,8 @@
 <script>
   const albums = [
     {{ range $i, $album := $sorted }}
-    { title: {{ $album.Title | jsonify }}, photos: [
-      {{ range $album.Params.photos }}{ image: {{ .image | default "" | jsonify }}, caption: {{ .caption | default "" | jsonify }} },{{ end }}
+    { title: {{ $album.Title | jsonify | safeJS }}, photos: [
+      {{ range $album.Params.photos }}{ image: {{ .image | default "" | jsonify | safeJS }}, caption: {{ .caption | default "" | jsonify | safeJS }} },{{ end }}
     ]},
     {{ end }}
   ];
