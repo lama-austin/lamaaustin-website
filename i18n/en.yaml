@@ -68,13 +68,17 @@ form_first_name: First Name
 form_last_name: Last Name
 form_email: Email
 form_phone: Phone
-form_bike: What do you ride?
+form_year: Year
+form_make: Make
+form_model: Model
 form_message: Tell us about yourself
 form_first_ph: First
 form_last_ph: Last
 form_email_ph: you@email.com
 form_phone_ph: "(512) 000-0000"
-form_bike_ph: "Year, Make, Model"
+form_year_ph: "2019"
+form_make_ph: "Honda"
+form_model_ph: "CB650R"
 form_message_ph: "How long you've been riding, why you want to join..."
 btn_whatsapp: Send via WhatsApp
 btn_whatsapp_opening: "✓ Opening WhatsApp…"

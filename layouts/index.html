@@ -264,7 +264,11 @@
         </div>
         <div class="form-field"><label>{{ i18n "form_email" }}</label><input type="email" name="email" placeholder="{{ i18n "form_email_ph" }}" required /></div>
         <div class="form-field"><label>{{ i18n "form_phone" }}</label><input type="tel" name="phone" placeholder="{{ i18n "form_phone_ph" }}" /></div>
-        <div class="form-field"><label>{{ i18n "form_bike" }}</label><input type="text" name="bike" placeholder="{{ i18n "form_bike_ph" }}" /></div>
+        <div class="form-row" style="grid-template-columns: 1fr 1.5fr 1.5fr;">
+          <div class="form-field"><label>{{ i18n "form_year" }}</label><input type="text" name="year" placeholder="{{ i18n "form_year_ph" }}" inputmode="numeric" maxlength="4" /></div>
+          <div class="form-field"><label>{{ i18n "form_make" }}</label><input type="text" name="make" placeholder="{{ i18n "form_make_ph" }}" /></div>
+          <div class="form-field"><label>{{ i18n "form_model" }}</label><input type="text" name="model" placeholder="{{ i18n "form_model_ph" }}" /></div>
+        </div>
         <div class="form-field"><label>{{ i18n "form_message" }}</label><textarea name="message" placeholder="{{ i18n "form_message_ph" }}"></textarea></div>
         <div class="form-submit">
           <button type="submit" data-opening="{{ i18n "btn_whatsapp_opening" }}">
@@ -288,7 +292,10 @@
     var last    = this.querySelector('[name="last"]').value.trim();
     var email   = this.querySelector('[name="email"]').value.trim();
     var phone   = this.querySelector('[name="phone"]').value.trim();
-    var bike    = this.querySelector('[name="bike"]').value.trim();
+    var year    = this.querySelector('[name="year"]').value.trim();
+    var make    = this.querySelector('[name="make"]').value.trim();
+    var model   = this.querySelector('[name="model"]').value.trim();
+    var bike    = [year, make, model].filter(Boolean).join(' ') || '—';
     var message = this.querySelector('[name="message"]').value.trim();
 
     var text = [
@@ -297,7 +304,7 @@
       'Name:  ' + first + ' ' + last,
       'Email: ' + email,
       'Phone: ' + (phone || '—'),
-      'Bike:  ' + (bike  || '—'),
+      'Bike:  ' + bike,
       '',
       'About:',
       message || '(no message)',
