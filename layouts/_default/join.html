@@ -28,8 +28,18 @@
   .stage-title { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; letter-spacing: 0.04em; margin-bottom: 0.8rem; }
   .stage-body p { color: #aaa; line-height: 1.8; font-size: 0.95rem; }
   #join-cta { padding: 6rem 3rem; }
-  .join-cta-inner { max-width: 1000px; margin: 0 auto; background: linear-gradient(135deg, rgba(192,57,43,0.14), rgba(255,255,255,0.03)); border: 1px solid var(--border); padding: 2.5rem; }
-  .join-cta-inner p { color: #aaa; line-height: 1.8; font-size: 1rem; max-width: 700px; margin-bottom: 1.5rem; }
+  .join-cta-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .join-cta-copy p { color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+  .form-field { background: var(--panel); padding: 1.2rem 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-field label { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+  .form-field input, .form-field textarea { background: transparent; border: none; outline: none; color: var(--white); font-family: var(--font-body); font-size: 0.95rem; resize: none; }
+  .form-field textarea { min-height: 80px; }
+  .form-submit { background: var(--panel); padding: 1.5rem; }
+  .form-submit button { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; background: #25D366; color: #fff; border: none; padding: 1rem 2.5rem; cursor: pointer; transition: background 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; }
+  .form-submit button:hover { background: #1ebe5b; }
+  @media (max-width: 900px) { .join-cta-inner { grid-template-columns: 1fr; gap: 3rem; } .form-row { grid-template-columns: 1fr; } }
   @media (max-width: 1000px) { .process-grid { grid-template-columns: repeat(2, 1fr); } .stages-grid { grid-template-columns: 1fr; } }
   @media (max-width: 900px) { .join-overview-inner { grid-template-columns: 1fr; gap: 2rem; } }
   @media (max-width: 768px) { #join-overview, #membership-process, #membership-stages, #join-cta { padding-left: 1.5rem; padding-right: 1.5rem; } .process-grid { grid-template-columns: 1fr; } .stage-card { grid-template-columns: 1fr; } .stage-image { min-height: 180px; border-right: none; border-bottom: 1px solid var(--border); } }
@@ -110,13 +120,70 @@
 
 <section id="join-cta">
   <div class="join-cta-inner">
-    <div class="section-label">Next Step</div>
-    <h2 class="section-title">{{ .Params.final_heading | default "Questions Or Ready To Connect?" }}</h2>
-    <p>{{ .Params.final_text }}</p>
-    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-      <a href="{{ .Params.primary_cta_link | default "/#join" }}" class="btn btn-primary">{{ .Params.primary_cta_text | default "Contact The Chapter" }}</a>
+    <div class="join-cta-copy">
+      <div class="section-label">Next Step</div>
+      <h2 class="section-title">{{ .Params.final_heading | default "Questions Or Ready To Connect?" }}</h2>
+      <p>{{ .Params.final_text }}</p>
       <a href="{{ .Params.secondary_cta_link | default "/events/" }}" class="btn btn-outline">{{ .Params.secondary_cta_text | default "See Upcoming Rides" }}</a>
+    </div>
+    <div>
+      <form class="contact-form" id="joinForm">
+        <div class="form-row">
+          <div class="form-field"><label>First Name</label><input type="text" name="first" placeholder="First" required /></div>
+          <div class="form-field"><label>Last Name</label><input type="text" name="last" placeholder="Last" required /></div>
+        </div>
+        <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="you@email.com" required /></div>
+        <div class="form-field"><label>Phone</label><input type="tel" name="phone" placeholder="(512) 000-0000" /></div>
+        <div class="form-field"><label>What do you ride?</label><input type="text" name="bike" placeholder="Year, Make, Model" /></div>
+        <div class="form-field"><label>Tell us about yourself</label><textarea name="message" placeholder="How long you've been riding, why you want to join..."></textarea></div>
+        <div class="form-submit">
+          <button type="submit">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.527a.5.5 0 00.614.622l5.798-1.525A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.98 0-3.842-.575-5.408-1.57l-.386-.236-4.007 1.055 1.025-3.913-.253-.4A9.964 9.964 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Send via WhatsApp
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </section>
+
+<script>
+  document.getElementById('joinForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = this.querySelector('button[type="submit"]');
+    var originalHTML = btn.innerHTML;
+
+    var first   = this.querySelector('[name="first"]').value.trim();
+    var last    = this.querySelector('[name="last"]').value.trim();
+    var email   = this.querySelector('[name="email"]').value.trim();
+    var phone   = this.querySelector('[name="phone"]').value.trim();
+    var bike    = this.querySelector('[name="bike"]').value.trim();
+    var message = this.querySelector('[name="message"]').value.trim();
+
+    var text = [
+      '🏍️ New Membership Interest — LAMA Austin',
+      '',
+      'Name:  ' + first + ' ' + last,
+      'Email: ' + email,
+      'Phone: ' + (phone || '—'),
+      'Bike:  ' + (bike  || '—'),
+      '',
+      'About:',
+      message || '(no message)',
+    ].join('\n');
+
+    window.open('https://wa.me/15124207514?text=' + encodeURIComponent(text), '_blank');
+
+    btn.disabled = true;
+    btn.innerHTML = '✓ Opening WhatsApp…';
+    btn.style.background = '#1a9e4a';
+    this.reset();
+
+    setTimeout(function() {
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+      btn.style.background = '';
+    }, 4000);
+  });
+</script>
 {{ end }}

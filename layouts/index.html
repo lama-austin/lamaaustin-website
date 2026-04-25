@@ -279,28 +279,42 @@
 </section>
 
 <script>
-  document.getElementById('joinForm').addEventListener('submit', async function(e) {
+  document.getElementById('joinForm').addEventListener('submit', function(e) {
     e.preventDefault();
     var btn = this.querySelector('button[type="submit"]');
     var originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = 'Sending…';
 
-    try {
-      var res = await fetch('/api/contact', { method: 'POST', body: new FormData(this) });
-      var result = await res.json();
-      if (result.success) {
-        btn.innerHTML = '✓ Message Sent!';
-        btn.style.background = '#1a9e4a';
-        this.reset();
-      } else {
-        throw new Error(result.error || 'Unknown error');
-      }
-    } catch (err) {
+    var first   = this.querySelector('[name="first"]').value.trim();
+    var last    = this.querySelector('[name="last"]').value.trim();
+    var email   = this.querySelector('[name="email"]').value.trim();
+    var phone   = this.querySelector('[name="phone"]').value.trim();
+    var bike    = this.querySelector('[name="bike"]').value.trim();
+    var message = this.querySelector('[name="message"]').value.trim();
+
+    var text = [
+      '🏍️ New Membership Interest — LAMA Austin',
+      '',
+      'Name:  ' + first + ' ' + last,
+      'Email: ' + email,
+      'Phone: ' + (phone || '—'),
+      'Bike:  ' + (bike  || '—'),
+      '',
+      'About:',
+      message || '(no message)',
+    ].join('\n');
+
+    window.open('https://wa.me/15124207514?text=' + encodeURIComponent(text), '_blank');
+
+    btn.disabled = true;
+    btn.innerHTML = '✓ Opening WhatsApp…';
+    btn.style.background = '#1a9e4a';
+    this.reset();
+
+    setTimeout(function() {
       btn.disabled = false;
       btn.innerHTML = originalHTML;
-      alert('Something went wrong: ' + err.message + '\nPlease try again or reach out on Facebook.');
-    }
+      btn.style.background = '';
+    }, 4000);
   });
 </script>
 {{ end }}

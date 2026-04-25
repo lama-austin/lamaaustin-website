@@ -83,7 +83,7 @@
       <li><a href="/officers/" {{ if eq .Section "officers" }}class="active"{{ end }}>Officers</a></li>
       <li><a href="/events/" {{ if eq .Section "events" }}class="active"{{ end }}>Rides</a></li>
       <li><a href="/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>Media</a></li>
-      <li><a href="/join/" {{ if and (not .IsHome) (eq .RelPermalink "/join/") }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>Join</a></li>
+      <li><a href="/join/" {{ if eq .RelPermalink "/join/" }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>Join</a></li>
       {{ if or $s.facebook $s.instagram }}<li class="nav-divider"></li>{{ end }}
       {{ with $s.facebook }}<li><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Facebook" class="nav-social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a></li>{{ end }}
       {{ with $s.instagram }}<li><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Instagram" class="nav-social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a></li>{{ end }}
