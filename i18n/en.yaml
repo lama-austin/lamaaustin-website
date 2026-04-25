@@ -1,5 +1,5 @@
 # Navigation
-nav_officers: Officers
+nav_officers: Members
 nav_rides: Rides
 nav_media: Media
 nav_join: Join
@@ -14,6 +14,7 @@ bc_events: Events & Rides
 bc_gallery: Gallery
 bc_join: Join
 bc_officers: Officers
+bc_members: Members
 
 # About page
 stat_home_chapter: Home Chapter
@@ -51,13 +52,22 @@ photos_count: Photos
 no_albums: "No albums yet — add your first one in the admin panel."
 upload_photo: Upload photo in admin panel
 
-# Officers page
+# Officers page (kept for backward compat)
 page_label_officers: OFFICERS
 officers_want_connect: Want To Connect?
 officers_connect_desc: "If you have questions about rides, membership, or the chapter, any one of our officers can help you get started."
 officers_membership_btn: Membership Info
 section_current_leadership: Current Leadership
 add_photo: Add Photo
+
+# Members page
+page_label_members: MEMBERS
+section_full_patch: Full Patch
+section_prospect: Prospect
+section_probate: Probate
+section_associate: Associate
+section_dama_de_lama: Dama de LAMA
+members_count: members
 
 # Join form
 section_process: Process

@@ -1,0 +1,196 @@
+{{ define "main" }}
+<style>
+  #members-intro { padding: 6rem 3rem 3rem; }
+  .members-intro-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; }
+  .members-copy p { font-size: 1rem; line-height: 1.9; color: #aaa; margin-bottom: 1.2rem; }
+  .members-side { background: var(--panel); border: 1px solid var(--border); padding: 2rem; }
+  .members-side h3 { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .members-side p { color: #aaa; line-height: 1.8; font-size: 0.95rem; }
+
+  #members-grid { padding: 0 3rem 6rem; }
+  .members-grid-inner { max-width: 1100px; margin: 0 auto; }
+
+  /* ── Org Chart (Leadership) ───────────────────────────────── */
+  .org-chart { display: flex; flex-direction: column; align-items: center; padding: 2.5rem 0 0; }
+  .org-tier { display: flex; justify-content: center; width: 100%; }
+  .org-node { display: flex; flex-direction: column; align-items: center; }
+  .org-node.tier-1 { width: 300px; }
+  .org-node.tier-2 { width: 270px; }
+  .org-connector-v { width: 2px; height: 44px; background: var(--red); opacity: 0.65; flex-shrink: 0; }
+  .org-branch { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); width: 100%; position: relative; gap: 1.5px; background: var(--border); }
+  .org-branch::before { content: ''; position: absolute; top: 0; left: calc(100% / (var(--cols, 4) * 2)); right: calc(100% / (var(--cols, 4) * 2)); height: 2px; background: var(--red); opacity: 0.65; z-index: 2; pointer-events: none; }
+  .org-branch-item { display: flex; flex-direction: column; align-items: center; background: var(--black); }
+  .org-branch-stub { width: 2px; height: 44px; background: var(--red); opacity: 0.65; flex-shrink: 0; }
+
+  /* ── Officer Cards ───────────────────────────────────────── */
+  .officer-card { background: var(--panel); border: 1px solid transparent; text-align: center; transition: border-color 0.25s, transform 0.25s, background 0.25s; width: 100%; }
+  .officer-card:hover { border-color: var(--red); transform: translateY(-4px); background: #1b1b1b; }
+  .officer-card.is-president { border-color: var(--red); }
+  .officer-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: var(--dark); }
+  .officer-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .officer-card:hover .officer-photo img { transform: scale(1.05); }
+  .officer-photo-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--border); background: linear-gradient(135deg, #141414, #1a1a1a); }
+  .officer-photo-placeholder svg { width: 32px; height: 32px; opacity: 0.3; }
+  .officer-photo-placeholder span { font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+  .officer-info { padding: 1rem; }
+  .officer-name { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .officer-role { font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); background: var(--muted); padding: 0.25rem 0.6rem; margin-top: 0.45rem; display: inline-block; }
+  .officer-card.is-president .officer-role { background: var(--red); color: var(--white); }
+
+  /* ── Member Sections ─────────────────────────────────────── */
+  .member-section { margin-top: 5rem; }
+  .member-section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+  .member-section-title { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.04em; }
+  .member-count { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5px; background: var(--border); }
+  .member-card { background: var(--panel); text-align: center; transition: background 0.2s; }
+  .member-card:hover { background: #1b1b1b; }
+  .member-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: var(--dark); }
+  .member-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .member-card:hover .member-photo img { transform: scale(1.05); }
+  .member-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #141414, #1a1a1a); }
+  .member-photo-placeholder svg { width: 28px; height: 28px; opacity: 0.2; color: var(--border); }
+  .member-name { font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 0.5rem; }
+
+  .empty-state { background: var(--panel); padding: 2rem; color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.08em; }
+
+  @media (max-width: 900px) { .members-intro-inner { grid-template-columns: 1fr; gap: 2rem; } .org-node.tier-1 { width: 220px; } .org-node.tier-2 { width: 200px; } }
+  @media (max-width: 768px) { #members-intro, #members-grid { padding-left: 1.5rem; padding-right: 1.5rem; } .org-branch { grid-template-columns: repeat(2, 1fr); } .org-branch::before { left: 25%; right: 25%; } .member-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }
+</style>
+
+{{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
+<div class="page-header" data-label="{{ i18n "page_label_members" }}">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="{{ $pfx }}/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_members" }}</span></div>
+    <h1 class="page-title">{{ replace (.Params.page_title | default "Chapter\nMembers") "\n" "<br/>" | safeHTML }}</h1>
+  </div>
+</div>
+
+<section id="members-intro">
+  <div class="members-intro-inner">
+    <div class="members-copy">
+      <div class="section-label">{{ .Params.intro_label | default "Our People" }}</div>
+      <h2 class="section-title">{{ replace (.Params.intro_heading | default "The Faces Of\nL.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h2>
+      {{ range .Params.intro_paragraphs }}
+      <p>{{ . }}</p>
+      {{ end }}
+    </div>
+    <div class="members-side">
+      <h3>{{ i18n "officers_want_connect" }}</h3>
+      <p>{{ i18n "officers_connect_desc" }}</p>
+      <a href="{{ $pfx }}/join/" class="btn btn-primary" style="margin-top:1.25rem;">{{ i18n "officers_membership_btn" }}</a>
+    </div>
+  </div>
+</section>
+
+<section id="members-grid">
+  <div class="members-grid-inner">
+
+    {{ $all := where (where .Site.RegularPages "Section" "members") ".Params.draft" "!=" true }}
+
+    {{/* ── Leadership ── */}}
+    {{ $leadership := sort (where $all ".Params.section" "leadership") ".Params.weight" "asc" }}
+    {{ if $leadership }}
+    <div class="section-label">{{ i18n "section_current_leadership" }}</div>
+
+    {{ $president := "" }}
+    {{ $vp := "" }}
+    {{ $others := slice }}
+    {{ range $leadership }}
+      {{ $r := .Params.role | lower }}
+      {{ if and (in $r "president") (not (in $r "vice")) }}
+        {{ $president = . }}
+      {{ else if or (in $r "vice") (eq $r "vp") }}
+        {{ $vp = . }}
+      {{ else }}
+        {{ $others = $others | append . }}
+      {{ end }}
+    {{ end }}
+
+    <div class="org-chart">
+      {{ with $president }}
+      <div class="org-tier">
+        <div class="org-node tier-1">
+          <div class="officer-card is-president">
+            <div class="officer-photo">
+              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
+            </div>
+            <div class="officer-info"><div class="officer-name">{{ .Title }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+          </div>
+          <div class="org-connector-v"></div>
+        </div>
+      </div>
+      {{ end }}
+
+      {{ with $vp }}
+      <div class="org-tier">
+        <div class="org-node tier-2">
+          <div class="officer-card">
+            <div class="officer-photo">
+              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
+            </div>
+            <div class="officer-info"><div class="officer-name">{{ .Title }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+          </div>
+          {{ if $others }}<div class="org-connector-v"></div>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+
+      {{ if $others }}
+      <div class="org-branch" style="--cols: {{ len $others }}">
+        {{ range $others }}
+        <div class="org-branch-item">
+          <div class="org-branch-stub"></div>
+          <div class="officer-card">
+            <div class="officer-photo">
+              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
+            </div>
+            <div class="officer-info"><div class="officer-name">{{ .Title }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{/* ── Member Sections ── */}}
+    {{ $sections := slice
+      (dict "key" "full-patch"   "label" (i18n "section_full_patch"))
+      (dict "key" "prospect"     "label" (i18n "section_prospect"))
+      (dict "key" "probate"      "label" (i18n "section_probate"))
+      (dict "key" "associate"    "label" (i18n "section_associate"))
+      (dict "key" "dama-de-lama" "label" (i18n "section_dama_de_lama"))
+    }}
+
+    {{ range $sections }}
+    {{ $key := .key }}
+    {{ $label := .label }}
+    {{ $group := sort (where $all ".Params.section" $key) ".Title" "asc" }}
+    {{ if $group }}
+    <div class="member-section">
+      <div class="member-section-header">
+        <div class="member-section-title">{{ $label }}</div>
+        <div class="member-count">{{ len $group }} {{ i18n "members_count" }}</div>
+      </div>
+      <div class="member-grid">
+        {{ range $group }}
+        <div class="member-card">
+          <div class="member-photo">
+            {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" loading="lazy" />
+            {{ else }}<div class="member-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
+          </div>
+          <div class="member-name">{{ .Title }}</div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+    {{ end }}
+
+  </div>
+</section>
+{{ end }}

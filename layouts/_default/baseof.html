@@ -94,7 +94,7 @@
     <a href="{{ $pfx }}/" class="nav-logo">LAMA<span>.</span>ATX</a>
     <ul class="nav-links">
       <li><a href="{{ $pfx }}/about/" {{ if and (not .IsHome) (in .RelPermalink "/about/") }}class="active"{{ end }}>{{ i18n "footer_chapter" }}</a></li>
-      <li><a href="{{ $pfx }}/officers/" {{ if eq .Section "officers" }}class="active"{{ end }}>{{ i18n "nav_officers" }}</a></li>
+      <li><a href="{{ $pfx }}/members/" {{ if eq .Section "members" }}class="active"{{ end }}>{{ i18n "nav_officers" }}</a></li>
       <li><a href="{{ $pfx }}/events/" {{ if eq .Section "events" }}class="active"{{ end }}>{{ i18n "nav_rides" }}</a></li>
       <li><a href="{{ $pfx }}/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>{{ i18n "nav_media" }}</a></li>
       <li><a href="{{ $pfx }}/join/" {{ if in .RelPermalink "/join/" }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>{{ i18n "nav_join" }}</a></li>
@@ -112,7 +112,7 @@
     <div class="footer-logo">LAMA<span>.</span>ATX</div>
     <ul class="footer-links">
       <li><a href="{{ $pfx }}/about/">{{ i18n "footer_chapter" }}</a></li>
-      <li><a href="{{ $pfx }}/officers/">{{ i18n "nav_officers" }}</a></li>
+      <li><a href="{{ $pfx }}/members/">{{ i18n "nav_officers" }}</a></li>
       <li><a href="{{ $pfx }}/events/">{{ i18n "nav_rides" }}</a></li>
       <li><a href="{{ $pfx }}/gallery/">{{ i18n "nav_media" }}</a></li>
       <li><a href="{{ $pfx }}/join/">{{ i18n "nav_join" }}</a></li>

@@ -182,18 +182,43 @@ collections:
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "officers"
-    label: "Chapter Officers"
-    folder: "content/officers"
-    create: true
+    label: "Leadership"
+    folder: "content/members"
+    create: false
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
     media_folder: "static/images/officers"
     public_folder: "/images/officers"
+    filter: { field: "section", value: "leadership" }
     fields:
       - { label: "Name", name: "title", widget: "string" }
       - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
-      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible. If the preview looks broken right after upload, publish first and refresh after the site deploys." }
+      - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
+      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
       - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first. Use 1 for President, then 2, 3, 4..." }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+  - name: "members"
+    label: "Chapter Members"
+    folder: "content/members"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} - {{section}}"
+    media_folder: "static/images/members"
+    public_folder: "/images/members"
+    fields:
+      - { label: "Name", name: "title", widget: "string" }
+      - label: "Section"
+        name: "section"
+        widget: "select"
+        options:
+          - { label: "Full Patch", value: "full-patch" }
+          - { label: "Prospect", value: "prospect" }
+          - { label: "Probate", value: "probate" }
+          - { label: "Associate", value: "associate" }
+          - { label: "Dama de LAMA", value: "dama-de-lama" }
+      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
+      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first within the section." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "settings"

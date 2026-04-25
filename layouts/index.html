@@ -156,7 +156,8 @@
 </section>
 
 <!-- ── Officers Preview ──────────────────────────────────── -->
-{{ $officers := sort (where (where .Site.RegularPages "Section" "officers") ".Params.draft" "!=" true) ".Params.weight" "asc" }}
+{{ $allMembers := where (where .Site.RegularPages "Section" "members") ".Params.draft" "!=" true }}
+{{ $officers := sort (where $allMembers ".Params.section" "leadership") ".Params.weight" "asc" }}
 {{ if $officers }}
 <section id="officers-preview">
   <div class="officers-preview-inner">
@@ -165,12 +166,12 @@
         <div class="section-label">The Chapter</div>
         <h2 class="section-title">Meet Our<br/>Leadership</h2>
       </div>
-      <a href="/officers/" class="btn btn-outline">Full Org Chart</a>
+      <a href="/members/" class="btn btn-outline">Full Roster</a>
     </div>
     <div class="op-grid">
       {{ range $officers }}
       {{ $r := .Params.role | lower }}
-      <a href="/officers/" class="op-card{{ if and (in $r "president") (not (in $r "vice")) }} is-president{{ end }}">
+      <a href="/members/" class="op-card{{ if and (in $r "president") (not (in $r "vice")) }} is-president{{ end }}">
         <div class="op-photo">
           {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" loading="lazy" />
           {{ else }}<div class="op-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
