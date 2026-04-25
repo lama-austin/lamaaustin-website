@@ -47,7 +47,8 @@
 
 <div class="page-header" data-label="JOIN">
   <div class="page-header-inner">
-    <div class="breadcrumb"><a href="/">Home</a> <span>→</span> <span>Join</span></div>
+    {{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
+    <div class="breadcrumb"><a href="{{ $pfx }}/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_join" }}</span></div>
     <h1 class="page-title">{{ replace (.Params.page_title | default "Join\nL.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h1>
   </div>
 </div>
@@ -76,8 +77,8 @@
 
 <section id="membership-process">
   <div class="membership-inner">
-    <div class="section-label">Process</div>
-    <h2 class="section-title">What The Journey Looks Like</h2>
+    <div class="section-label">{{ i18n "section_process" }}</div>
+    <h2 class="section-title">{{ i18n "section_journey_heading" }}</h2>
     <div class="process-grid">
       {{ range $i, $step := .Params.process }}
       <div class="process-card">
@@ -92,8 +93,8 @@
 
 <section id="membership-stages">
   <div class="stages-inner">
-    <div class="section-label">Patches & Progress</div>
-    <h2 class="section-title">Membership Stages</h2>
+    <div class="section-label">{{ i18n "section_patches" }}</div>
+    <h2 class="section-title">{{ i18n "section_stages" }}</h2>
     <div class="stages-grid">
       {{ range .Params.stages }}
       <div class="stage-card">
@@ -129,17 +130,17 @@
     <div>
       <form class="contact-form" id="joinForm">
         <div class="form-row">
-          <div class="form-field"><label>First Name</label><input type="text" name="first" placeholder="First" required /></div>
-          <div class="form-field"><label>Last Name</label><input type="text" name="last" placeholder="Last" required /></div>
+          <div class="form-field"><label>{{ i18n "form_first_name" }}</label><input type="text" name="first" placeholder="{{ i18n "form_first_ph" }}" required /></div>
+          <div class="form-field"><label>{{ i18n "form_last_name" }}</label><input type="text" name="last" placeholder="{{ i18n "form_last_ph" }}" required /></div>
         </div>
-        <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="you@email.com" required /></div>
-        <div class="form-field"><label>Phone</label><input type="tel" name="phone" placeholder="(512) 000-0000" /></div>
-        <div class="form-field"><label>What do you ride?</label><input type="text" name="bike" placeholder="Year, Make, Model" /></div>
-        <div class="form-field"><label>Tell us about yourself</label><textarea name="message" placeholder="How long you've been riding, why you want to join..."></textarea></div>
+        <div class="form-field"><label>{{ i18n "form_email" }}</label><input type="email" name="email" placeholder="{{ i18n "form_email_ph" }}" required /></div>
+        <div class="form-field"><label>{{ i18n "form_phone" }}</label><input type="tel" name="phone" placeholder="{{ i18n "form_phone_ph" }}" /></div>
+        <div class="form-field"><label>{{ i18n "form_bike" }}</label><input type="text" name="bike" placeholder="{{ i18n "form_bike_ph" }}" /></div>
+        <div class="form-field"><label>{{ i18n "form_message" }}</label><textarea name="message" placeholder="{{ i18n "form_message_ph" }}"></textarea></div>
         <div class="form-submit">
-          <button type="submit">
+          <button type="submit" data-opening="{{ i18n "btn_whatsapp_opening" }}">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.527a.5.5 0 00.614.622l5.798-1.525A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.98 0-3.842-.575-5.408-1.57l-.386-.236-4.007 1.055 1.025-3.913-.253-.4A9.964 9.964 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-            Send via WhatsApp
+            {{ i18n "btn_whatsapp" }}
           </button>
         </div>
       </form>
@@ -175,7 +176,7 @@
     window.open('https://wa.me/15124207514?text=' + encodeURIComponent(text), '_blank');
 
     btn.disabled = true;
-    btn.innerHTML = '✓ Opening WhatsApp…';
+    btn.innerHTML = btn.dataset.opening;
     btn.style.background = '#1a9e4a';
     this.reset();
 

@@ -26,25 +26,26 @@
   @media (max-width: 768px) { .filter-bar { padding: 0 1.5rem; overflow-x: auto; } .featured-event { grid-template-columns: 1fr; } .featured-date-block { flex-direction: row; gap: 1rem; justify-content: flex-start; padding: 1.5rem; } .featured-day { font-size: 3rem; } }
 </style>
 
-<div class="page-header" data-label="EVENTS">
+{{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
+<div class="page-header" data-label="{{ i18n "page_label_events" }}">
   <div class="page-header-inner">
-    <div class="breadcrumb"><a href="/">Home</a> <span>→</span> <span>Events & Rides</span></div>
-    <h1 class="page-title">Events<br/>& Rides</h1>
+    <div class="breadcrumb"><a href="{{ $pfx }}/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_events" }}</span></div>
+    <h1 class="page-title">{{ i18n "events_title_line1" }}<br/>{{ i18n "events_title_line2" }}</h1>
   </div>
 </div>
 
 <div class="filter-bar">
-  <button class="filter-tab active" onclick="filter('all',this)">All</button>
-  <button class="filter-tab" onclick="filter('ride',this)">Rides</button>
-  <button class="filter-tab" onclick="filter('social',this)">Social</button>
-  <button class="filter-tab" onclick="filter('state',this)">State Events</button>
+  <button class="filter-tab active" onclick="filter('all',this)">{{ i18n "filter_all" }}</button>
+  <button class="filter-tab" onclick="filter('ride',this)">{{ i18n "filter_rides" }}</button>
+  <button class="filter-tab" onclick="filter('social',this)">{{ i18n "filter_social" }}</button>
+  <button class="filter-tab" onclick="filter('state',this)">{{ i18n "filter_state" }}</button>
 </div>
 
 <div class="content">
   {{ $events := where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true }}
   {{ $sorted := sort $events ".Params.date" "asc" }}
 
-  <div class="section-label">Upcoming</div>
+  <div class="section-label">{{ i18n "section_upcoming" }}</div>
 
   {{ range $sorted }}
   {{ $type := .Params.type | default "ride" }}
@@ -56,7 +57,7 @@
     </div>
     <div class="featured-body">
       <div>
-        <span class="event-type-badge badge-{{ $type }}">{{ $type }}</span>
+        <span class="event-type-badge badge-{{ $type }}">{{ i18n (printf "type_%s" $type) | default $type }}</span>
         <div class="event-title">{{ .Title }}</div>
         <div class="event-meta">
           <div class="event-meta-item">{{ .Params.time }}</div>
@@ -66,14 +67,14 @@
       </div>
       <div class="event-actions">
         {{ if .Params.facebook }}
-        <a href="{{ .Params.facebook }}" target="_blank" class="btn btn-primary">View on Facebook →</a>
+        <a href="{{ .Params.facebook }}" target="_blank" class="btn btn-primary">{{ i18n "btn_view_facebook" }}</a>
         {{ end }}
-        <a href="/gallery/" class="btn btn-outline">Past Ride Photos</a>
+        <a href="{{ $pfx }}/gallery/" class="btn btn-outline">{{ i18n "btn_past_photos" }}</a>
       </div>
     </div>
   </div>
   {{ else }}
-  <p class="empty-state">No upcoming events yet — check back soon.</p>
+  <p class="empty-state">{{ i18n "no_events" }}</p>
   {{ end }}
 </div>
 

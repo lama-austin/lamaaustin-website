@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ .Language.Lang }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ if .IsHome }}LAMA Austin | Latin American Motorcyclists Association{{ else }}{{ .Title }} | LAMA Austin{{ end }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+  {{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />{{ end }}
   <style>
     :root {
       --black: #0a0a0a; --dark: #111111; --panel: #161616; --border: #2a2a2a;
@@ -40,6 +41,17 @@
     .nav-social-link:hover { color: var(--white) !important; }
     .nav-social-link svg { display: block; width: 17px; height: 17px; }
     .nav-divider { width: 1px; height: 18px; background: var(--border); }
+    .goog-te-banner-frame, .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0 !important; }
+    #google_translate_element .goog-te-gadget { font-size: 0 !important; }
+    #google_translate_element select {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.25rem 0.4rem; cursor: pointer; outline: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    #google_translate_element select:hover { border-color: var(--muted); color: var(--white); }
+    #google_translate_element select option { background: #1a1a1a; color: var(--white); }
     .page-header { padding: 10rem 3rem 4rem; background: var(--dark); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
     .page-header::before { content: attr(data-label); position: absolute; right: -1rem; top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-size: clamp(8rem, 18vw, 16rem); color: rgba(255,255,255,0.02); letter-spacing: 0.05em; pointer-events: none; white-space: nowrap; }
     .page-header-inner { max-width: 1200px; margin: 0 auto; }
@@ -76,14 +88,18 @@
 </head>
 <body>
   {{ $s := .Site.Data.settings }}
+  {{ $lang := .Language.Lang }}
+  {{ $pfx := cond (eq $lang "es") "/es" "" }}
   <nav>
-    <a href="/" class="nav-logo">LAMA<span>.</span>ATX</a>
+    <a href="{{ $pfx }}/" class="nav-logo">LAMA<span>.</span>ATX</a>
     <ul class="nav-links">
-      <li><a href="/about/" {{ if and (not .IsHome) (eq .RelPermalink "/about/") }}class="active"{{ end }}>Chapter</a></li>
-      <li><a href="/officers/" {{ if eq .Section "officers" }}class="active"{{ end }}>Officers</a></li>
-      <li><a href="/events/" {{ if eq .Section "events" }}class="active"{{ end }}>Rides</a></li>
-      <li><a href="/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>Media</a></li>
-      <li><a href="/join/" {{ if eq .RelPermalink "/join/" }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>Join</a></li>
+      <li><a href="{{ $pfx }}/about/" {{ if and (not .IsHome) (in .RelPermalink "/about/") }}class="active"{{ end }}>{{ i18n "footer_chapter" }}</a></li>
+      <li><a href="{{ $pfx }}/officers/" {{ if eq .Section "officers" }}class="active"{{ end }}>{{ i18n "nav_officers" }}</a></li>
+      <li><a href="{{ $pfx }}/events/" {{ if eq .Section "events" }}class="active"{{ end }}>{{ i18n "nav_rides" }}</a></li>
+      <li><a href="{{ $pfx }}/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>{{ i18n "nav_media" }}</a></li>
+      <li><a href="{{ $pfx }}/join/" {{ if in .RelPermalink "/join/" }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>{{ i18n "nav_join" }}</a></li>
+      <li class="nav-divider"></li>
+      <li><div id="google_translate_element"></div></li>
       {{ if or $s.facebook $s.instagram }}<li class="nav-divider"></li>{{ end }}
       {{ with $s.facebook }}<li><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Facebook" class="nav-social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a></li>{{ end }}
       {{ with $s.instagram }}<li><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Instagram" class="nav-social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a></li>{{ end }}
@@ -95,11 +111,11 @@
   <footer>
     <div class="footer-logo">LAMA<span>.</span>ATX</div>
     <ul class="footer-links">
-      <li><a href="/about/">Chapter</a></li>
-      <li><a href="/officers/">Officers</a></li>
-      <li><a href="/events/">Rides</a></li>
-      <li><a href="/gallery/">Media</a></li>
-      <li><a href="/join/">Join</a></li>
+      <li><a href="{{ $pfx }}/about/">{{ i18n "footer_chapter" }}</a></li>
+      <li><a href="{{ $pfx }}/officers/">{{ i18n "nav_officers" }}</a></li>
+      <li><a href="{{ $pfx }}/events/">{{ i18n "nav_rides" }}</a></li>
+      <li><a href="{{ $pfx }}/gallery/">{{ i18n "nav_media" }}</a></li>
+      <li><a href="{{ $pfx }}/join/">{{ i18n "nav_join" }}</a></li>
     </ul>
     {{ if or $s.facebook $s.instagram }}
     <div class="footer-social">
@@ -109,5 +125,16 @@
     {{ end }}
     <div class="footer-copy">© {{ now.Format "2006" }} LAMA Austin · lamaaustin.com</div>
   </footer>
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'es',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

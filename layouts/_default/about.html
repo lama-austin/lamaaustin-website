@@ -32,7 +32,7 @@
 
 <div class="page-header" data-label="ABOUT">
   <div class="page-header-inner">
-    <div class="breadcrumb"><a href="/">Home</a> <span>→</span> <span>About</span></div>
+    <div class="breadcrumb"><a href="{{ if eq .Language.Lang "es" }}/es/{{ else }}/{{ end }}">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_about" }}</span></div>
     <h1 class="page-title">{{ replace ($about.Params.page_title | default "About\nL.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h1>
   </div>
 </div>
@@ -60,16 +60,16 @@
 
 <section id="stats">
   <div class="stats-inner">
-    <div class="stat-box"><span class="stat-num">ATX</span><span class="stat-label">Home Chapter</span></div>
-    <div class="stat-box"><span class="stat-num">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">Years Rolling</span></div>
-    <div class="stat-box"><span class="stat-num">TX</span><span class="stat-label">State Chapter</span></div>
-    <div class="stat-box"><span class="stat-num">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">Members</span></div>
+    <div class="stat-box"><span class="stat-num">ATX</span><span class="stat-label">{{ i18n "stat_home_chapter" }}</span></div>
+    <div class="stat-box"><span class="stat-num">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">{{ i18n "stat_years_rolling" }}</span></div>
+    <div class="stat-box"><span class="stat-num">TX</span><span class="stat-label">{{ i18n "stat_state_chapter" }}</span></div>
+    <div class="stat-box"><span class="stat-num">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">{{ i18n "stat_members" }}</span></div>
   </div>
 </section>
 
 <section id="story">
   <div class="story-inner">
-    <div class="section-label">Our Story</div>
+    <div class="section-label">{{ i18n "section_our_story" }}</div>
     <div class="story-copy">
       {{ $about.Content }}
     </div>
@@ -78,12 +78,13 @@
 
 <section id="chapter-cta">
   <div class="chapter-cta-inner">
-    <div class="section-label">Meet The Chapter</div>
-    <h2 class="section-title">Get To Know Our Officers<br/>And Membership Process</h2>
-    <p>Want to learn more about the people leading L.A.M.A. Austin or what it takes to join? We have dedicated pages for both, so visitors can quickly find the information they need.</p>
+    {{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
+    <div class="section-label">{{ i18n "cta_meet_chapter_label" }}</div>
+    <h2 class="section-title">{{ i18n "cta_officers_heading" }}</h2>
+    <p>{{ i18n "cta_officers_desc" }}</p>
     <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-      <a href="/officers/" class="btn btn-primary">View Officers</a>
-      <a href="/join/" class="btn btn-outline">How To Join</a>
+      <a href="{{ $pfx }}/officers/" class="btn btn-primary">{{ i18n "btn_view_officers" }}</a>
+      <a href="{{ $pfx }}/join/" class="btn btn-outline">{{ i18n "btn_how_to_join" }}</a>
     </div>
   </div>
 </section>

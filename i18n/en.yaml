@@ -1,0 +1,81 @@
+# Navigation
+nav_officers: Officers
+nav_rides: Rides
+nav_media: Media
+nav_join: Join
+
+# Footer
+footer_chapter: Chapter
+
+# Breadcrumbs
+bc_home: Home
+bc_about: About
+bc_events: Events & Rides
+bc_gallery: Gallery
+bc_join: Join
+bc_officers: Officers
+
+# About page
+stat_home_chapter: Home Chapter
+stat_years_rolling: Years Rolling
+stat_state_chapter: State Chapter
+stat_members: Members
+section_our_story: Our Story
+cta_meet_chapter_label: Meet The Chapter
+cta_officers_heading: "Get To Know Our Officers And Membership Process"
+cta_officers_desc: "Want to learn more about the people leading L.A.M.A. Austin or what it takes to join? We have dedicated pages for both, so visitors can quickly find the information they need."
+btn_view_officers: View Officers
+btn_how_to_join: How To Join
+
+# Events page
+page_label_events: EVENTS
+events_title_line1: Events
+events_title_line2: "& Rides"
+filter_all: All
+filter_rides: Rides
+filter_social: Social
+filter_state: State Events
+section_upcoming: Upcoming
+btn_view_facebook: "View on Facebook →"
+btn_past_photos: Past Ride Photos
+no_events: "No upcoming events yet — check back soon."
+type_ride: ride
+type_social: social
+type_state: state
+
+# Gallery page
+page_label_gallery: GALLERY
+gallery_title_line1: Photo
+gallery_title_line2: Gallery
+photos_count: Photos
+no_albums: "No albums yet — add your first one in the admin panel."
+upload_photo: Upload photo in admin panel
+
+# Officers page
+page_label_officers: OFFICERS
+officers_want_connect: Want To Connect?
+officers_connect_desc: "If you have questions about rides, membership, or the chapter, any one of our officers can help you get started."
+officers_membership_btn: Membership Info
+section_current_leadership: Current Leadership
+add_photo: Add Photo
+
+# Join form
+section_process: Process
+section_journey_heading: What The Journey Looks Like
+section_patches: Patches & Progress
+section_stages: Membership Stages
+form_first_name: First Name
+form_last_name: Last Name
+form_email: Email
+form_phone: Phone
+form_bike: What do you ride?
+form_message: Tell us about yourself
+form_first_ph: First
+form_last_ph: Last
+form_email_ph: you@email.com
+form_phone_ph: "(512) 000-0000"
+form_bike_ph: "Year, Make, Model"
+form_message_ph: "How long you've been riding, why you want to join..."
+btn_whatsapp: Send via WhatsApp
+btn_whatsapp_opening: "✓ Opening WhatsApp…"
+link_full_requirements: "Full Requirements & Process →"
