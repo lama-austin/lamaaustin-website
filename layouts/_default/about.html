@@ -60,10 +60,10 @@
 
 <section id="stats">
   <div class="stats-inner">
-    <div class="stat-box"><span class="stat-num">ATX</span><span class="stat-label">{{ i18n "stat_home_chapter" }}</span></div>
-    <div class="stat-box"><span class="stat-num">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">{{ i18n "stat_years_rolling" }}</span></div>
-    <div class="stat-box"><span class="stat-num">TX</span><span class="stat-label">{{ i18n "stat_state_chapter" }}</span></div>
-    <div class="stat-box"><span class="stat-num">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">{{ i18n "stat_members" }}</span></div>
+    <div class="stat-box"><span class="stat-num" translate="no">ATX</span><span class="stat-label">{{ i18n "stat_home_chapter" }}</span></div>
+    <div class="stat-box"><span class="stat-num" translate="no">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">{{ i18n "stat_years_rolling" }}</span></div>
+    <div class="stat-box"><span class="stat-num" translate="no">TX</span><span class="stat-label">{{ i18n "stat_state_chapter" }}</span></div>
+    <div class="stat-box"><span class="stat-num" translate="no">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">{{ i18n "stat_members" }}</span></div>
   </div>
 </section>
 

@@ -147,10 +147,10 @@
       <a href="/about/" class="btn btn-outline" style="margin-top:1.5rem;">Learn More</a>
     </div>
     <div class="about-stats">
-      <div class="stat-box"><span class="stat-num">ATX</span><span class="stat-label">Home Chapter</span></div>
-      <div class="stat-box"><span class="stat-num">TX</span><span class="stat-label">State Chapter</span></div>
-      <div class="stat-box"><span class="stat-num">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">Years Rolling</span></div>
-      <div class="stat-box"><span class="stat-num">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">Members</span></div>
+      <div class="stat-box"><span class="stat-num" translate="no">ATX</span><span class="stat-label">Home Chapter</span></div>
+      <div class="stat-box"><span class="stat-num" translate="no">TX</span><span class="stat-label">State Chapter</span></div>
+      <div class="stat-box"><span class="stat-num" translate="no">{{ if $s }}{{ sub now.Year (int $s.founded) }}+{{ else }}14+{{ end }}</span><span class="stat-label">Years Rolling</span></div>
+      <div class="stat-box"><span class="stat-num" translate="no">{{ if and $s $s.members }}{{ $s.members }}{{ else }}20+{{ end }}</span><span class="stat-label">Members</span></div>
     </div>
   </div>
 </section>
