@@ -32,7 +32,7 @@
   #officers-preview { padding: 6rem 3rem; }
   .officers-preview-inner { max-width: 1200px; margin: 0 auto; }
   .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
-  .op-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1.5px; background: var(--border); }
+  .op-grid { display: grid; gap: 1.5px; background: var(--border); }
   .op-card { background: var(--panel); text-align: center; transition: background 0.2s, transform 0.2s; display: block; text-decoration: none; color: var(--white); }
   .op-card:hover { background: #1e1e1e; transform: translateY(-3px); }
   .op-photo { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--black); }
@@ -99,7 +99,7 @@
     .join-grid { grid-template-columns: 1fr; gap: 3rem; }
     .form-row { grid-template-columns: 1fr; }
     .gp-grid { grid-template-columns: repeat(2, 1fr); height: 320px; }
-    .op-grid { grid-template-columns: repeat(3, 1fr); }
+    .op-grid { grid-template-columns: repeat(3, 1fr) !important; }
     .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
   }
 </style>
@@ -168,7 +168,7 @@
       </div>
       <a href="/members/" class="btn btn-outline">Full Roster</a>
     </div>
-    <div class="op-grid">
+    <div class="op-grid" style="grid-template-columns: repeat({{ len $officers }}, 1fr);">
       {{ range $officers }}
       {{ $r := .Params.role | lower }}
       <a href="/members/" class="op-card{{ if and (in $r "president") (not (in $r "vice")) }} is-president{{ end }}">
