@@ -218,6 +218,7 @@ collections:
           - { label: "Associate", value: "associate" }
           - { label: "Dama de LAMA", value: "dama-de-lama" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
+      - { label: "Date Joined", name: "joined", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, required: false, hint: "Used to sort members by seniority. Oldest date appears first." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "settings"

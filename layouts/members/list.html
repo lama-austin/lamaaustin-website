@@ -169,7 +169,7 @@
     {{ range $sections }}
     {{ $key := .key }}
     {{ $label := .label }}
-    {{ $group := sort (where $all ".Params.section" $key) ".Title" "asc" }}
+    {{ $group := sort (where $all ".Params.section" $key) ".Params.joined" "asc" }}
     {{ if $group }}
     <div class="member-section">
       <div class="member-section-header">
