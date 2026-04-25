@@ -218,7 +218,6 @@ collections:
           - { label: "Associate", value: "associate" }
           - { label: "Dama de LAMA", value: "dama-de-lama" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
-      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first within the section." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "settings"
