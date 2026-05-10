@@ -17,7 +17,7 @@ collections:
       - label: "Home Page"
         name: "home"
         file: "content/_index.md"
-        media_folder: "static/images/pages"
+        media_folder: "/static/images/pages"
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
@@ -44,7 +44,7 @@ collections:
       - label: "About Page"
         name: "about"
         file: "content/about.md"
-        media_folder: "static/images/pages"
+        media_folder: "/static/images/pages"
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
@@ -80,7 +80,7 @@ collections:
       - label: "Officers Page"
         name: "officers_page"
         file: "content/officers/_index.md"
-        media_folder: "static/images/pages"
+        media_folder: "/static/images/pages"
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
@@ -95,7 +95,7 @@ collections:
       - label: "Join Page"
         name: "join"
         file: "content/join.md"
-        media_folder: "static/images/pages"
+        media_folder: "/static/images/pages"
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
@@ -130,7 +130,7 @@ collections:
               - { label: "Stage Title", name: "title", widget: "string" }
               - { label: "Stage Duration / Label", name: "duration", widget: "string" }
               - { label: "Description", name: "description", widget: "text" }
-              - { label: "Patch Image", name: "image", widget: "image", required: false, media_folder: "static/images/patches", public_folder: "/images/patches", hint: "Best results: upload a square or tightly cropped patch image, then publish and wait for deploy before checking the live page." }
+              - { label: "Patch Image", name: "image", widget: "image", required: false, media_folder: "/static/images/patches", public_folder: "/images/patches", hint: "Best results: upload a square or tightly cropped patch image, then publish and wait for deploy before checking the live page." }
           - { label: "Final Section Heading", name: "final_heading", widget: "string" }
           - { label: "Final Section Text", name: "final_text", widget: "text" }
           - { label: "Primary Button Text", name: "primary_cta_text", widget: "string" }
@@ -166,7 +166,7 @@ collections:
     create: true
     slug: "{{slug}}"
     summary: "{{title}}"
-    media_folder: "static/images/gallery"
+    media_folder: "/static/images/gallery"
     public_folder: "/images/gallery"
     fields:
       - { label: "Album Name", name: "title", widget: "string" }
@@ -177,7 +177,7 @@ collections:
         widget: "list"
         summary: "{{fields.caption}}"
         fields:
-          - { label: "Photo", name: "image", widget: "image", media_folder: "static/images/gallery", public_folder: "/images/gallery", hint: "Phone uploads are fine. Publish the entry, then give Cloudflare a moment to deploy before refreshing the preview." }
+          - { label: "Photo", name: "image", widget: "image", media_folder: "/static/images/gallery", public_folder: "/images/gallery", hint: "Phone uploads are fine. Publish the entry, then give Cloudflare a moment to deploy before refreshing the preview." }
           - { label: "Caption", name: "caption", widget: "string", required: false }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
@@ -187,14 +187,14 @@ collections:
     create: false
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
-    media_folder: "static/images/officers"
+    media_folder: "/static/images/officers"
     public_folder: "/images/officers"
     filter: { field: "section", value: "leadership" }
     fields:
       - { label: "Name", name: "title", widget: "string" }
       - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
       - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
-      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
+      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
       - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first. Use 1 for President, then 2, 3, 4..." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
@@ -204,7 +204,7 @@ collections:
     create: true
     slug: "{{slug}}"
     summary: "{{title}} - {{section}}"
-    media_folder: "static/images/members"
+    media_folder: "/static/images/members"
     public_folder: "/images/members"
     fields:
       - { label: "Name", name: "title", widget: "string" }
@@ -217,7 +217,7 @@ collections:
           - { label: "Probate", value: "probate" }
           - { label: "Associate", value: "associate" }
           - { label: "Dama de LAMA", value: "dama-de-lama" }
-      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
+      - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
       - { label: "Date Joined", name: "joined", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, required: false, hint: "Used to sort members by seniority. Oldest date appears first." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
