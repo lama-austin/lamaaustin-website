@@ -183,7 +183,7 @@ collections:
 
   - name: "officers"
     label: "Leadership"
-    folder: "content/leadership"
+    folder: "content/officers"
     create: true
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
