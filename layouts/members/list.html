@@ -86,10 +86,25 @@
 <section id="members-grid">
   <div class="members-grid-inner">
 
-    {{ $all := where (where .Site.RegularPages "Section" "members") ".Params.draft" "!=" true }}
+    {{/* ── Fetch from Sanity ── */}}
+    {{ $pid := "ac4ujaz2" }}
+    {{ $ds  := "production" }}
+
+    {{ $lq := `*[_type=="leadership" && coalesce(draft,false)==false]|order(weight asc){"title":name,"role":role,"photo":photo.asset->url}` }}
+    {{ $lu := printf "https://%s.api.sanity.io/v2023-01-01/data/query/%s?query=%s" $pid $ds ($lq | urlquery) }}
+    {{ $leadership := slice }}
+    {{ with resources.GetRemote $lu }}
+      {{ with (. | transform.Unmarshal).result }}{{ $leadership = . }}{{ end }}
+    {{ end }}
+
+    {{ $mq := `*[_type=="member" && coalesce(draft,false)==false]|order(joined asc){"title":name,"section":section,"photo":photo.asset->url}` }}
+    {{ $mu := printf "https://%s.api.sanity.io/v2023-01-01/data/query/%s?query=%s" $pid $ds ($mq | urlquery) }}
+    {{ $allMembers := slice }}
+    {{ with resources.GetRemote $mu }}
+      {{ with (. | transform.Unmarshal).result }}{{ $allMembers = . }}{{ end }}
+    {{ end }}
 
     {{/* ── Leadership ── */}}
-    {{ $leadership := sort (where $all ".Params.section" "leadership") ".Params.weight" "asc" }}
     {{ if $leadership }}
     <div class="section-label">{{ i18n "section_current_leadership" }}</div>
 
@@ -97,7 +112,7 @@
     {{ $vp := "" }}
     {{ $others := slice }}
     {{ range $leadership }}
-      {{ $r := .Params.role | lower }}
+      {{ $r := .role | lower }}
       {{ if and (in $r "president") (not (in $r "vice")) }}
         {{ $president = . }}
       {{ else if or (in $r "vice") (eq $r "vp") }}
@@ -113,10 +128,10 @@
         <div class="org-node tier-1">
           <div class="officer-card is-president">
             <div class="officer-photo">
-              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ if .photo }}<img src="{{ .photo }}" alt="{{ .title }}" />
               {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
             </div>
-            <div class="officer-info"><div class="officer-name">{{ .Title }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+            <div class="officer-info"><div class="officer-name">{{ .title }}</div><div class="officer-role">{{ .role }}</div></div>
           </div>
           <div class="org-connector-v"></div>
         </div>
@@ -128,10 +143,10 @@
         <div class="org-node tier-2">
           <div class="officer-card">
             <div class="officer-photo">
-              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ if .photo }}<img src="{{ .photo }}" alt="{{ .title }}" />
               {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
             </div>
-            <div class="officer-info"><div class="officer-name">{{ .Title }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+            <div class="officer-info"><div class="officer-name">{{ .title }}</div><div class="officer-role">{{ .role }}</div></div>
           </div>
           {{ if $others }}<div class="org-connector-v"></div>{{ end }}
         </div>
@@ -145,10 +160,10 @@
           <div class="org-branch-stub"></div>
           <div class="officer-card">
             <div class="officer-photo">
-              {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" />
+              {{ if .photo }}<img src="{{ .photo }}" alt="{{ .title }}" />
               {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
             </div>
-            <div class="officer-info"><div class="officer-name">{{ .Title }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+            <div class="officer-info"><div class="officer-name">{{ .title }}</div><div class="officer-role">{{ .role }}</div></div>
           </div>
         </div>
         {{ end }}
@@ -169,7 +184,7 @@
     {{ range $sections }}
     {{ $key := .key }}
     {{ $label := .label }}
-    {{ $group := sort (where $all ".Params.section" $key) ".Params.joined" "asc" }}
+    {{ $group := where $allMembers "section" $key }}
     {{ if $group }}
     <div class="member-section">
       <div class="member-section-header">
@@ -180,10 +195,10 @@
         {{ range $group }}
         <div class="member-card">
           <div class="member-photo">
-            {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" loading="lazy" />
+            {{ if .photo }}<img src="{{ .photo }}" alt="{{ .title }}" loading="lazy" />
             {{ else }}<div class="member-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
           </div>
-          <div class="member-name">{{ .Title }}</div>
+          <div class="member-name">{{ .title }}</div>
         </div>
         {{ end }}
       </div>

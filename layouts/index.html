@@ -156,8 +156,12 @@
 </section>
 
 <!-- ── Officers Preview ──────────────────────────────────── -->
-{{ $allMembers := where (where .Site.RegularPages "Section" "members") ".Params.draft" "!=" true }}
-{{ $officers := sort (where $allMembers ".Params.section" "leadership") ".Params.weight" "asc" }}
+{{ $lq := `*[_type=="leadership" && coalesce(draft,false)==false]|order(weight asc){"title":name,"role":role,"photo":photo.asset->url}` }}
+{{ $lu := printf "https://ac4ujaz2.api.sanity.io/v2023-01-01/data/query/production?query=%s" ($lq | urlquery) }}
+{{ $officers := slice }}
+{{ with resources.GetRemote $lu }}
+  {{ with (. | transform.Unmarshal).result }}{{ $officers = . }}{{ end }}
+{{ end }}
 {{ if $officers }}
 <section id="officers-preview">
   <div class="officers-preview-inner">
@@ -170,15 +174,15 @@
     </div>
     <div class="op-grid" style="grid-template-columns: repeat({{ len $officers }}, 1fr);">
       {{ range $officers }}
-      {{ $r := .Params.role | lower }}
+      {{ $r := .role | lower }}
       <a href="/members/" class="op-card{{ if and (in $r "president") (not (in $r "vice")) }} is-president{{ end }}">
         <div class="op-photo">
-          {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" loading="lazy" />
+          {{ if .photo }}<img src="{{ .photo }}" alt="{{ .title }}" loading="lazy" />
           {{ else }}<div class="op-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
         </div>
         <div class="op-info">
-          <div class="op-name">{{ .Title }}</div>
-          <div class="op-role">{{ .Params.role }}</div>
+          <div class="op-name">{{ .title }}</div>
+          <div class="op-role">{{ .role }}</div>
         </div>
       </a>
       {{ end }}
