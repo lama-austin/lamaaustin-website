@@ -89,7 +89,7 @@
     {{ $all := where (where .Site.RegularPages "Section" "members") ".Params.draft" "!=" true }}
 
     {{/* ── Leadership ── */}}
-    {{ $leadership := sort (where $all ".Params.section" "leadership") ".Params.weight" "asc" }}
+    {{ $leadership := sort (where (where .Site.RegularPages "Section" "leadership") ".Params.draft" "!=" true) ".Params.weight" "asc" }}
     {{ if $leadership }}
     <div class="section-label">{{ i18n "section_current_leadership" }}</div>
 

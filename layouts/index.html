@@ -156,8 +156,7 @@
 </section>
 
 <!-- ── Officers Preview ──────────────────────────────────── -->
-{{ $allMembers := where (where .Site.RegularPages "Section" "members") ".Params.draft" "!=" true }}
-{{ $officers := sort (where $allMembers ".Params.section" "leadership") ".Params.weight" "asc" }}
+{{ $officers := sort (where (where .Site.RegularPages "Section" "leadership") ".Params.draft" "!=" true) ".Params.weight" "asc" }}
 {{ if $officers }}
 <section id="officers-preview">
   <div class="officers-preview-inner">

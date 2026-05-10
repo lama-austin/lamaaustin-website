@@ -77,9 +77,9 @@ collections:
           - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string" }
           - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string" }
           - { label: "Story Content", name: "body", widget: "markdown" }
-      - label: "Officers Page"
+      - label: "Members Page"
         name: "officers_page"
-        file: "content/officers/_index.md"
+        file: "content/members/_index.md"
         media_folder: "/static/images/pages"
         public_folder: "/images/pages"
         fields:
@@ -183,17 +183,15 @@ collections:
 
   - name: "officers"
     label: "Leadership"
-    folder: "content/members"
-    create: false
+    folder: "content/leadership"
+    create: true
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
     media_folder: "/static/images/officers"
     public_folder: "/images/officers"
-    filter: { field: "section", value: "leadership" }
     fields:
       - { label: "Name", name: "title", widget: "string" }
       - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
-      - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
       - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first. Use 1 for President, then 2, 3, 4..." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
