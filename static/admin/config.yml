@@ -183,15 +183,17 @@ collections:
 
   - name: "officers"
     label: "Leadership"
-    folder: "content/officers"
-    create: true
+    folder: "content/members"
+    create: false
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
     media_folder: "/static/images/officers"
     public_folder: "/images/officers"
+    filter: { field: "section", value: "leadership" }
     fields:
       - { label: "Name", name: "title", widget: "string" }
       - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
+      - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
       - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first. Use 1 for President, then 2, 3, 4..." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
