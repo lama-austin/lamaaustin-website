@@ -22,7 +22,7 @@ jobs:
         working-directory: studio
 
       - name: Deploy Studio
-        run: node_modules/.bin/sanity deploy --yes
+        run: node_modules/.bin/sanity deploy --yes --hostname lama-austin
         working-directory: studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
