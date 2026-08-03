@@ -33,7 +33,7 @@
         "name" .Title
         "startDate" (.Params.date | time.Format "2006-01-02T15:04:05")
         "eventStatus" "https://schema.org/EventScheduled"
-        "location" (dict "@type" "Place" "name" .Params.location)
+        "location" (dict "@type" "Place" "name" .Params.location "hasMap" (printf "https://www.google.com/maps/search/?api=1&query=%s" (.Params.location | urlquery)))
         "description" (.Plain | strings.TrimSpace)
         "url" .Permalink
         "organizer" (dict "@type" "Organization" "name" "LAMA Austin" "url" $.Site.BaseURL)
