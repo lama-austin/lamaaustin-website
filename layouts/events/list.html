@@ -42,7 +42,8 @@
 </div>
 
 <div class="content">
-  {{ $events := where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true }}
+  {{ $now := now }}
+  {{ $events := where (where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true) ".Params.date" "ge" $now }}
   {{ $sorted := sort $events ".Params.date" "asc" }}
 
   <div class="section-label">{{ i18n "section_upcoming" }}</div>

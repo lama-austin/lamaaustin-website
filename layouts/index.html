@@ -197,7 +197,8 @@
       <a href="/events/" class="btn btn-outline">View All Events</a>
     </div>
     <div class="preview-grid">
-      {{ range first 3 (where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true) }}
+      {{ $upcomingEvents := sort (where (where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true) ".Params.date" "ge" now) ".Params.date" "asc" }}
+      {{ range first 3 $upcomingEvents }}
       <div class="preview-card">
         <div class="preview-date">{{ .Params.date | time.Format "MON — Jan 2, 2006" | upper }}</div>
         <div class="preview-name">{{ .Title }}</div>

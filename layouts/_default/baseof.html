@@ -24,7 +24,7 @@
 
   {{/* Event structured data — one entry per upcoming ride/meeting, on the events list page */}}
   {{ if eq .Section "events" }}
-  {{ $rides := where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true }}
+  {{ $rides := where (where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true) ".Params.date" "ge" now }}
   {{ $rides = sort $rides ".Params.date" "asc" }}
   {{ $eventItems := slice }}
   {{ range $rides }}
