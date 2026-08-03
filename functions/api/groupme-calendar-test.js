@@ -10,7 +10,8 @@ export async function onRequestGet(context) {
   }
 
   const groupId = '64017028';
-  const endAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365).toISOString();
+  // Misleadingly named: end_at is the *lower* bound — "don't show events before this date."
+  const endAt = new Date().toISOString();
   const url =
     `https://api.groupme.com/v3/conversations/${groupId}/events/list` +
     `?end_at=${encodeURIComponent(endAt)}&limit=50&token=${env.GROUPME_USER_TOKEN}`;
