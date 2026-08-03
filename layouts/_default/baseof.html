@@ -7,6 +7,43 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
   {{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />{{ end }}
+
+  {{/* Organization structured data — describes the club itself on every page */}}
+  {{ $orgData := dict
+      "@context" "https://schema.org"
+      "@type" "Organization"
+      "name" "LAMA Austin"
+      "alternateName" "L.A.M.A. Austin"
+      "url" .Site.BaseURL
+      "logo" ("images/lama-international-patch.webp" | absURL)
+      "description" .Site.Params.description
+      "foundingDate" .Site.Data.settings.founded
+      "sameAs" (slice .Site.Data.settings.facebook .Site.Data.settings.instagram)
+  }}
+  <script type="application/ld+json">{{ $orgData | jsonify | safeJS }}</script>
+
+  {{/* Event structured data — one entry per upcoming ride/meeting, on the events list page */}}
+  {{ if eq .Section "events" }}
+  {{ $rides := where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true }}
+  {{ $rides = sort $rides ".Params.date" "asc" }}
+  {{ $eventItems := slice }}
+  {{ range $rides }}
+    {{ $eventItems = $eventItems | append (dict
+        "@type" "Event"
+        "name" .Title
+        "startDate" (.Params.date | time.Format "2006-01-02T15:04:05")
+        "eventStatus" "https://schema.org/EventScheduled"
+        "location" (dict "@type" "Place" "name" .Params.location)
+        "description" (.Plain | strings.TrimSpace)
+        "url" .Permalink
+        "organizer" (dict "@type" "Organization" "name" "LAMA Austin" "url" $.Site.BaseURL)
+    ) }}
+  {{ end }}
+  {{ if gt (len $eventItems) 0 }}
+  <script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $eventItems | jsonify | safeJS }}</script>
+  {{ end }}
+  {{ end }}
+
   <style>
     :root {
       --black: #0a0a0a; --dark: #111111; --panel: #161616; --border: #2a2a2a;
