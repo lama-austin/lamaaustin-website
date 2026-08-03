@@ -1,0 +1,35 @@
+# LAMA Austin (lamaaustin.com) — robots.txt
+# https://www.rfc-editor.org/rfc/rfc9309
+
+# Default: allow everything except the CMS admin UI and API endpoints
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+Allow: /
+
+# AI assistant / crawler bots — explicitly welcomed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://lamaaustin.com/sitemap.xml
