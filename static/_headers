@@ -1,0 +1,6 @@
+# Cloudflare Pages custom headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+# RFC 8288 Link header for agent discovery (homepage only)
+/
+  Link: </llms.txt>; rel="describedby"
