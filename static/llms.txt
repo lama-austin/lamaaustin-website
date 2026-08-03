@@ -1,0 +1,32 @@
+# LAMA Austin
+
+> LAMA Austin is the Austin, Texas chapter of the Latin American Motorcyclists
+> Association (L.A.M.A.), a brotherhood of motorcycle riders founded in 2012
+> built on respect, culture, and the road. The chapter organizes group rides,
+> social events, and community outreach in the Austin, Texas area.
+
+Official site: https://lamaaustin.com
+Contact / membership inquiries: https://lamaaustin.com/join/
+
+## About
+
+- [About the Chapter](https://lamaaustin.com/about/): Who we are, our story, and our values.
+- [Leadership & Members](https://lamaaustin.com/members/): Chapter officers and members.
+
+## Rides & Events
+
+- [Upcoming Rides & Events](https://lamaaustin.com/events/): Calendar of chapter rides, meetings, and social events.
+
+## Media
+
+- [Gallery](https://lamaaustin.com/gallery/): Photos from rides and chapter events.
+
+## Join
+
+- [Join the Chapter](https://lamaaustin.com/join/): Membership requirements and how to become a prospect.
+
+## Optional
+
+- Facebook: https://facebook.com/lama.austin.texas
+- Instagram: https://instagram.com/lama.atx
+- Sitemap: https://lamaaustin.com/sitemap.xml
