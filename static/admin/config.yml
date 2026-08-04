@@ -154,10 +154,21 @@ collections:
         widget: "select"
         options:
           - { label: "Ride", value: "ride" }
+          - { label: "Meeting", value: "meeting" }
           - { label: "Social", value: "social" }
-          - { label: "State Event", value: "state" }
+          - { label: "Sanctioned Event", value: "state" }
       - { label: "Facebook Event URL", name: "facebook", widget: "string", required: false }
       - { label: "Description", name: "body", widget: "markdown" }
+      - label: "Photos"
+        name: "photos"
+        widget: "list"
+        required: false
+        summary: "{{fields.caption}}"
+        media_folder: "/static/images/events"
+        public_folder: "/images/events"
+        fields:
+          - { label: "Photo", name: "image", widget: "image", media_folder: "/static/images/events", public_folder: "/images/events" }
+          - { label: "Caption", name: "caption", widget: "string", required: false }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "gallery"
