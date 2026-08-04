@@ -78,6 +78,10 @@
     .nav-social-link:hover { color: var(--white) !important; }
     .nav-social-link svg { display: block; width: 17px; height: 17px; }
     .nav-divider { width: 1px; height: 18px; background: var(--border); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--white); cursor: pointer; padding: 0.5rem; margin-right: -0.5rem; }
+    .nav-toggle svg { display: block; width: 26px; height: 26px; }
+    .nav-toggle .icon-close, .nav-open .nav-toggle .icon-open { display: none; }
+    .nav-open .nav-toggle .icon-close { display: block; }
     .goog-te-banner-frame, .goog-te-banner-frame.skiptranslate { display: none !important; }
     body { top: 0 !important; }
     #google_translate_element .goog-te-gadget { font-size: 0 !important; }
@@ -107,18 +111,44 @@
     footer { background: var(--dark); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
     .footer-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.15em; }
     .footer-logo span { color: var(--red); }
-    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; list-style: none; }
     .footer-links a { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--white); }
     .footer-social { display: flex; gap: 1rem; align-items: center; }
-    .footer-social-link { color: var(--muted); transition: color 0.2s; display: flex; }
+    /* padding pushes the real tap target toward ~44px without enlarging the
+       icon itself; gap is reduced by the same amount so the visual spacing
+       between icons looks the same as before. */
+    .footer-social { gap: 0.5rem; }
+    .footer-social-link { color: var(--muted); transition: color 0.2s; display: flex; align-items: center; justify-content: center; padding: 0.7rem; }
     .footer-social-link:hover { color: var(--white); }
     .footer-social-link svg { width: 18px; height: 18px; display: block; }
     .footer-copy { font-size: 0.8rem; color: var(--border); font-family: var(--font-ui); letter-spacing: 0.1em; }
     @media (max-width: 768px) {
-      nav { padding: 0 1.5rem; } .nav-links { display: none; }
+      nav { padding: 0 1.5rem; }
+      .nav-toggle { display: block; }
+      /* The same <ul> as desktop, re-flowed into a drop-down panel rather than
+         duplicated, so #google_translate_element stays a single unique id. */
+      .nav-links {
+        display: none;
+        position: fixed; top: 64px; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        padding: 0.5rem 1.5rem 1.5rem;
+        background: rgba(10,10,10,0.98); backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        max-height: calc(100vh - 64px); overflow-y: auto;
+      }
+      .nav-open .nav-links { display: flex; }
+      .nav-links > li { width: 100%; }
+      .nav-links a { display: block; padding: 1.1rem 0; font-size: 1rem; border-bottom: 1px solid var(--border); }
+      .nav-cta { text-align: center; margin-top: 1rem; padding: 1rem 1.2rem; border-bottom: none !important; }
+      .nav-divider { display: none; }
+      .nav-social-item { display: inline-flex !important; width: auto !important; margin: 0.5rem 0.3rem 0 0; }
+      /* !important required: .nav-social-link's desktop rule sets padding:0
+         !important, which beats a plain override regardless of source order. */
+      .nav-social-item a.nav-social-link { border-bottom: none; padding: 0.65rem !important; }
+      .nav-social-link svg { width: 20px; height: 20px; }
       .page-header, .content { padding-left: 1.5rem; padding-right: 1.5rem; }
-      footer { flex-direction: column; text-align: center; }
+      footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
     }
   </style>
   {{ block "head" . }}{{ end }}
@@ -129,7 +159,11 @@
   {{ $pfx := cond (eq $lang "es") "/es" "" }}
   <nav>
     <a href="{{ $pfx }}/" class="nav-logo">LAMA<span>.</span>ATX</a>
-    <ul class="nav-links">
+    <button class="nav-toggle" type="button" aria-label="{{ i18n "nav_menu" | default "Menu" }}" aria-expanded="false" aria-controls="nav-links">
+      <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <ul class="nav-links" id="nav-links">
       <li><a href="{{ $pfx }}/about/" {{ if and (not .IsHome) (in .RelPermalink "/about/") }}class="active"{{ end }}>{{ i18n "footer_chapter" }}</a></li>
       <li><a href="{{ $pfx }}/members/" {{ if eq .Section "members" }}class="active"{{ end }}>{{ i18n "nav_officers" }}</a></li>
       <li><a href="{{ $pfx }}/events/" {{ if eq .Section "events" }}class="active"{{ end }}>{{ i18n "nav_rides" }}</a></li>
@@ -138,8 +172,8 @@
       <li class="nav-divider"></li>
       <li><div id="google_translate_element"></div></li>
       {{ if or $s.facebook $s.instagram }}<li class="nav-divider"></li>{{ end }}
-      {{ with $s.facebook }}<li><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Facebook" class="nav-social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a></li>{{ end }}
-      {{ with $s.instagram }}<li><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Instagram" class="nav-social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a></li>{{ end }}
+      {{ with $s.facebook }}<li class="nav-social-item"><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Facebook" class="nav-social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a></li>{{ end }}
+      {{ with $s.instagram }}<li class="nav-social-item"><a href="{{ . }}" target="_blank" rel="noopener" aria-label="Instagram" class="nav-social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a></li>{{ end }}
     </ul>
   </nav>
 
@@ -163,6 +197,37 @@
     <div class="footer-copy">© {{ now.Format "2006" }} LAMA Austin · lamaaustin.com</div>
   </footer>
   <script>
+    (function () {
+      var nav = document.querySelector('nav');
+      var toggle = nav && nav.querySelector('.nav-toggle');
+      if (!toggle) return;
+
+      function setOpen(open) {
+        nav.classList.toggle('nav-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+
+      toggle.addEventListener('click', function () {
+        setOpen(!nav.classList.contains('nav-open'));
+      });
+
+      // Navigating to an in-page anchor does not reload, so the panel would
+      // otherwise stay open on top of the section it just jumped to.
+      nav.querySelectorAll('.nav-links a').forEach(function (a) {
+        a.addEventListener('click', function () { setOpen(false); });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+
+      // Dragging past the breakpoint with the panel open leaves the desktop bar
+      // rendered but aria-expanded stale; reset both.
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) setOpen(false);
+      });
+    })();
+
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',

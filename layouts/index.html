@@ -82,9 +82,13 @@
   .req-list li::before { content: ''; display: block; width: 6px; height: 6px; background: var(--red); flex-shrink: 0; }
   .contact-form { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-  .form-field { background: var(--panel); padding: 1.2rem 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-row-bike { grid-template-columns: 1fr 1.5fr 1.5fr; }
+  /* min-width:0 is load-bearing: grid items default to min-width:auto, so an
+     input's intrinsic ~20ch width becomes a floor the column cannot shrink
+     below, and the whole page inherits that as a minimum width. */
+  .form-field { background: var(--panel); padding: 1.2rem 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
   .form-field label { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
-  .form-field input, .form-field textarea { background: transparent; border: none; outline: none; color: var(--white); font-family: var(--font-body); font-size: 0.95rem; resize: none; }
+  .form-field input, .form-field textarea { background: transparent; border: none; outline: none; color: var(--white); font-family: var(--font-body); font-size: 0.95rem; resize: none; width: 100%; min-width: 0; }
   .form-field textarea { min-height: 80px; }
   .form-submit { background: var(--panel); padding: 1.5rem; }
   .form-submit button { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; background: #25D366; color: #fff; border: none; padding: 1rem 2.5rem; cursor: pointer; transition: background 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; }
@@ -105,6 +109,12 @@
     .gp-grid { grid-template-columns: repeat(2, 1fr); height: 320px; }
     .op-grid { grid-template-columns: repeat(3, 1fr) !important; }
     .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    /* auto-fill's 340px minimum is wider than a small phone's viewport once
+       padding is subtracted (e.g. 360px screen - 2*1.5rem padding = 312px),
+       forcing the grid wider than the page. Drop to a single column instead
+       of shrinking the minimum, since a squeezed 312px card reads worse than
+       a full-width one. */
+    .preview-grid { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -204,7 +214,7 @@
       {{ $upcomingEvents := sort (where (where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true) ".Params.date" "ge" now) ".Params.date" "asc" }}
       {{ range first 3 $upcomingEvents }}
       <a href="/events/#{{ .File.ContentBaseName }}" class="preview-card">
-        <div class="preview-date">{{ .Params.date | time.Format "MON — Jan 2, 2006" | upper }}</div>
+        <div class="preview-date">{{ .Params.date | time.Format "Mon — Jan 2, 2006" | upper }}</div>
         <div class="preview-name">{{ .Title }}</div>
         <p class="preview-detail">{{ with .Params.location }}{{ . }} · {{ end }}{{ .Params.time }}</p>
         {{ $eventType := .Params.type | default "ride" }}
@@ -270,7 +280,7 @@
         </div>
         <div class="form-field"><label>{{ i18n "form_email" }}</label><input type="email" name="email" placeholder="{{ i18n "form_email_ph" }}" required /></div>
         <div class="form-field"><label>{{ i18n "form_phone" }}</label><input type="tel" name="phone" placeholder="{{ i18n "form_phone_ph" }}" /></div>
-        <div class="form-row" style="grid-template-columns: 1fr 1.5fr 1.5fr;">
+        <div class="form-row form-row-bike">
           <div class="form-field"><label>{{ i18n "form_year" }}</label><input type="text" name="year" placeholder="{{ i18n "form_year_ph" }}" inputmode="numeric" maxlength="4" /></div>
           <div class="form-field"><label>{{ i18n "form_make" }}</label><input type="text" name="make" placeholder="{{ i18n "form_make_ph" }}" /></div>
           <div class="form-field"><label>{{ i18n "form_model" }}</label><input type="text" name="model" placeholder="{{ i18n "form_model_ph" }}" /></div>

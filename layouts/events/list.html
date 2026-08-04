@@ -1,6 +1,6 @@
 {{ define "main" }}
 <style>
-  .filter-bar { background: var(--dark); border-bottom: 1px solid var(--border); padding: 0 3rem; display: flex; }
+  .filter-bar { position: relative; background: var(--dark); border-bottom: 1px solid var(--border); padding: 0 3rem; display: flex; }
   .filter-tab { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); padding: 1.2rem 1.8rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
   .filter-tab:hover { color: var(--white); }
   .filter-tab.active { color: var(--white); border-bottom-color: var(--red); }
@@ -29,7 +29,16 @@
   .fb-link { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); text-decoration: none; transition: color 0.2s; }
   .fb-link:hover { color: var(--red-hot); }
   .empty-state { color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.1em; padding: 3rem 0; }
-  @media (max-width: 768px) { .filter-bar { padding: 0 1.5rem; overflow-x: auto; } .featured-event { grid-template-columns: 1fr; } .featured-date-block { flex-direction: row; gap: 1rem; justify-content: flex-start; padding: 1.5rem; } .featured-day { font-size: 3rem; } }
+  @media (max-width: 768px) {
+    .filter-bar { padding: 0 1.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* Static edge fade signaling the tab bar scrolls — there's no scroll
+       listener, so it doesn't fade out once you've scrolled to the end, but
+       it's enough to show there's more than fits on screen. */
+    .filter-bar::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 28px; background: linear-gradient(to right, transparent, var(--dark)); pointer-events: none; }
+    .featured-event { grid-template-columns: 1fr; }
+    .featured-date-block { flex-direction: row; gap: 1rem; justify-content: flex-start; padding: 1.5rem; }
+    .featured-day { font-size: 3rem; }
+  }
 </style>
 
 {{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
