@@ -28,7 +28,12 @@ export async function onRequestPost(context) {
       listSyncedFiles(env),
     ]);
   } catch (err) {
-    return json({ error: `Failed to fetch current state: ${err.message}` }, 502);
+    // Cloudflare's edge replaces 502/503/504 response bodies with its own
+    // generic error page regardless of what the Worker returns, so this has
+    // to be a plain 500 for the real error message to actually reach the
+    // client instead of being silently swallowed.
+    console.error('groupme-calendar-sync: failed to fetch current state', err);
+    return json({ error: `Failed to fetch current state: ${err.message}` }, 500);
   }
 
   const results = { created: [], updated: [], deleted: [], errors: [] };
@@ -50,6 +55,7 @@ export async function onRequestPost(context) {
       await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, existing?.path === path ? existing.sha : undefined, env.GITHUB_BRANCH);
       results[existing ? 'updated' : 'created'].push(event.name);
     } catch (err) {
+      console.error(`groupme-calendar-sync: failed syncing "${event.name}"`, err);
       results.errors.push(`${event.name}: ${err.message}`);
     }
   }
@@ -60,6 +66,7 @@ export async function onRequestPost(context) {
       await githubDeleteFile(env, file.path, file.sha, `Remove event no longer on GroupMe calendar (${shortId})`, env.GITHUB_BRANCH);
       results.deleted.push(shortId);
     } catch (err) {
+      console.error(`groupme-calendar-sync: failed deleting ${shortId}`, err);
       results.errors.push(`delete ${shortId}: ${err.message}`);
     }
   }
