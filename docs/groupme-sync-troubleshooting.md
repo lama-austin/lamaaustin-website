@@ -4,15 +4,11 @@ Notes from debugging the failing `Sync GroupMe calendar` GitHub Action, so we
 remember what was changed and why.
 
 > **Picking this up later:** everything in this file is on `main` and live in
-> production as of the "Skip GroupMe sync commits..." section near the
-> bottom. One small thing is NOT yet on `main`: better error reporting in
-> `.github/workflows/sync-groupme-calendar.yml` (`--fail-with-body` instead of
-> `-sf`, plus a check that fails the job if the sync's response contains
-> per-event errors) sits on the never-merged branch
-> **`fix/groupme-sync-bot-challenge`** (commit `33b3133`). Harmless to leave
-> unmerged — main's workflow still works, it would just go back to an opaque
-> "exit code 22" if the bot-challenge symptom ever recurred, instead of
-> printing the real error.
+> production, including the workflow's error reporting (`--fail-with-body`
+> instead of `-sf`, plus a check that fails the job if the sync's response
+> contains per-event errors — applied by hand rather than merged, since the
+> branch it originated on (`fix/groupme-sync-bot-challenge`) still had the
+> old 30-minute cron and would have reverted the schedule change below).
 >
 > Outstanding follow-up work is in
 > [contact-form-hardening.md](contact-form-hardening.md), which is **not done**.
