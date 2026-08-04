@@ -50,7 +50,7 @@
   .events-preview-inner { max-width: 1200px; margin: 0 auto; }
   .events-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
   .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5px; background: var(--border); }
-  .preview-card { background: var(--panel); padding: 2rem; transition: background 0.2s; }
+  .preview-card { display: block; background: var(--panel); padding: 2rem; transition: background 0.2s; color: inherit; text-decoration: none; }
   .preview-card:hover { background: #1e1e1e; }
   .preview-date { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.15em; color: var(--red); margin-bottom: 0.8rem; }
   .preview-name { font-family: var(--font-ui); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
@@ -203,13 +203,13 @@
     <div class="preview-grid">
       {{ $upcomingEvents := sort (where (where (where .Site.RegularPages "Section" "events") ".Params.draft" "!=" true) ".Params.date" "ge" now) ".Params.date" "asc" }}
       {{ range first 3 $upcomingEvents }}
-      <div class="preview-card">
+      <a href="/events/#{{ .File.ContentBaseName }}" class="preview-card">
         <div class="preview-date">{{ .Params.date | time.Format "MON — Jan 2, 2006" | upper }}</div>
         <div class="preview-name">{{ .Title }}</div>
-        <p class="preview-detail">{{ with .Params.location }}<a class="map-link" href="https://www.google.com/maps/search/?api=1&query={{ . | urlquery }}" target="_blank" rel="noopener">{{ . }}</a>{{ end }} · {{ .Params.time }}</p>
+        <p class="preview-detail">{{ with .Params.location }}{{ . }} · {{ end }}{{ .Params.time }}</p>
         {{ $eventType := .Params.type | default "ride" }}
         <span class="event-tag {{ $eventType }}">{{ i18n (printf "type_%s" $eventType) | default $eventType }}</span>
-      </div>
+      </a>
       {{ else }}
       <div class="preview-card"><div class="preview-name" style="color:var(--muted)">No upcoming events — check back soon.</div></div>
       {{ end }}

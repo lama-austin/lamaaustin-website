@@ -4,8 +4,9 @@
   .filter-tab { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); padding: 1.2rem 1.8rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
   .filter-tab:hover { color: var(--white); }
   .filter-tab.active { color: var(--white); border-bottom-color: var(--red); }
-  .featured-event { background: var(--panel); border: 1px solid var(--border); display: grid; grid-template-columns: 260px 1fr; margin-bottom: 1.5px; transition: border-color 0.2s; }
+  .featured-event { background: var(--panel); border: 1px solid var(--border); display: grid; grid-template-columns: 260px 1fr; margin-bottom: 1.5px; transition: border-color 0.2s; scroll-margin-top: 5rem; }
   .featured-event:hover { border-color: var(--red); }
+  .featured-event:target { border-color: var(--red); box-shadow: 0 0 0 1px var(--red); }
   .featured-date-block { background: var(--red); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem; text-align: center; }
   .featured-month { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
   .featured-day { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: var(--white); }
@@ -56,7 +57,7 @@
 
   {{ range $sorted }}
   {{ $type := .Params.type | default "ride" }}
-  <div class="featured-event" data-type="{{ $type }}">
+  <div class="featured-event" id="{{ .File.ContentBaseName }}" data-type="{{ $type }}">
     <div class="featured-date-block">
       <span class="featured-month">{{ .Params.date | time.Format "Jan" }}</span>
       <span class="featured-day">{{ .Params.date | time.Format "02" }}</span>
