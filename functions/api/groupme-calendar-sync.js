@@ -3,11 +3,13 @@
 // and removes ones that were deleted or un-RSVP'd from GroupMe.
 // Triggered on a schedule by .github/workflows/sync-groupme-calendar.yml,
 // since GroupMe has no push notification for calendar changes.
-import { githubListDir, githubPutFile, githubDeleteFile, yamlString } from '../_lib/github.js';
+import { githubListDir, githubPutFile, githubDeleteFile, slugify, yamlString } from '../_lib/github.js';
 
 const GROUP_ID = '64017028';
 const EVENTS_DIR = 'content/events';
-const FILE_RE = /^groupme-([a-z0-9-]+)\.md$/i;
+// e.g. groupme-2026-11-06-lama-houston-anniversary-32b6a423.md
+const FILE_RE = /^groupme-.+-([0-9a-f]{8})\.md$/i;
+const SHORT_ID_LEN = 8;
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -28,25 +30,32 @@ export async function onRequestPost(context) {
   const seenIds = new Set();
 
   for (const event of activeEvents) {
-    seenIds.add(event.event_id);
-    const path = `${EVENTS_DIR}/groupme-${event.event_id}.md`;
-    const existing = existingFiles.get(event.event_id);
+    const shortId = event.event_id.slice(0, SHORT_ID_LEN).toLowerCase();
+    seenIds.add(shortId);
+    const datePart = event.start_at.slice(0, 10);
+    const slug = slugify(event.name);
+    const path = `${EVENTS_DIR}/groupme-${datePart}-${slug}-${shortId}.md`;
+    const existing = existingFiles.get(shortId);
     const content = eventToMarkdown(event);
     try {
-      await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, existing?.sha, env.GITHUB_BRANCH);
+      // Renamed (title/date changed the filename) -> remove the old file first.
+      if (existing && existing.path !== path) {
+        await githubDeleteFile(env, existing.path, existing.sha, `Rename synced event: ${event.name}`, env.GITHUB_BRANCH);
+      }
+      await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, existing?.path === path ? existing.sha : undefined, env.GITHUB_BRANCH);
       results[existing ? 'updated' : 'created'].push(event.name);
     } catch (err) {
       results.errors.push(`${event.name}: ${err.message}`);
     }
   }
 
-  for (const [id, file] of existingFiles) {
-    if (seenIds.has(id)) continue;
+  for (const [shortId, file] of existingFiles) {
+    if (seenIds.has(shortId)) continue;
     try {
-      await githubDeleteFile(env, file.path, file.sha, `Remove event no longer on GroupMe calendar (${id})`, env.GITHUB_BRANCH);
-      results.deleted.push(id);
+      await githubDeleteFile(env, file.path, file.sha, `Remove event no longer on GroupMe calendar (${shortId})`, env.GITHUB_BRANCH);
+      results.deleted.push(shortId);
     } catch (err) {
-      results.errors.push(`delete ${id}: ${err.message}`);
+      results.errors.push(`delete ${shortId}: ${err.message}`);
     }
   }
 
@@ -69,7 +78,7 @@ async function listSyncedFiles(env) {
   const map = new Map();
   for (const entry of entries) {
     const match = entry.name.match(FILE_RE);
-    if (match) map.set(match[1], { path: entry.path, sha: entry.sha });
+    if (match) map.set(match[1].toLowerCase(), { path: entry.path, sha: entry.sha });
   }
   return map;
 }
