@@ -20,6 +20,16 @@ export async function onRequestPost(context) {
   if (!env.GITHUB_TOKEN || !env.GROUPME_USER_TOKEN || !env.GITHUB_BRANCH) {
     return json({ error: 'server not configured (missing GITHUB_TOKEN, GROUPME_USER_TOKEN, or GITHUB_BRANCH)' }, 500);
   }
+  // TEMP diagnostic -- reveals shape, not the actual secret value. Remove once GITHUB_TOKEN 401 is resolved.
+  if (new URL(request.url).searchParams.has('debug')) {
+    return json({
+      github_token_length: env.GITHUB_TOKEN.length,
+      github_token_prefix: env.GITHUB_TOKEN.slice(0, 5),
+      github_token_suffix: env.GITHUB_TOKEN.slice(-3),
+      github_token_has_whitespace: /\s/.test(env.GITHUB_TOKEN),
+      github_branch: env.GITHUB_BRANCH,
+    }, 200);
+  }
 
   let activeEvents, existingFiles;
   try {
