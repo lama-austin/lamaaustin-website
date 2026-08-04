@@ -1,0 +1,20 @@
+name: Sync GroupMe calendar
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call sync endpoint
+        run: |
+          curl -sf -X POST "$SYNC_URL" \
+            -H "Authorization: Bearer $SYNC_SECRET" \
+            -H "Content-Type: application/json"
+        env:
+          # TODO: point at https://lamaaustin.com/api/groupme-calendar-sync once merged to main
+          SYNC_URL: https://feature-groupme-event-bot.lamaaustin-website.pages.dev/api/groupme-calendar-sync
+          SYNC_SECRET: ${{ secrets.SYNC_SECRET }}
