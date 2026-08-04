@@ -11,9 +11,25 @@ jobs:
     steps:
       - name: Call sync endpoint
         run: |
-          curl -sf -X POST "$SYNC_URL" \
+          body=$(curl -s --fail-with-body -X POST "$SYNC_URL" \
             -H "Authorization: Bearer $SYNC_SECRET" \
-            -H "Content-Type: application/json"
+            -H "Content-Type: application/json") || {
+            echo "::error::Sync endpoint request failed"
+            echo "$body"
+            exit 1
+          }
+          echo "$body"
+          # The endpoint returns 200 even when individual events fail to
+          # commit, so surface those instead of reporting a green run.
+          if [ "$(echo "$body" | jq '.errors | length')" -gt 0 ]; then
+            echo "::error::Sync completed with per-event errors"
+            exit 1
+          fi
         env:
+          # If this ever starts failing with exit code 22 and an HTML response
+          # body, check Cloudflare's bot settings on the lamaaustin.com zone
+          # before suspecting this workflow or the Function — a bot challenge
+          # here returns a 403 interstitial to this runner before the Pages
+          # Function is invoked. See docs/groupme-sync-troubleshooting.md
           SYNC_URL: https://lamaaustin.com/api/groupme-calendar-sync
           SYNC_SECRET: ${{ secrets.SYNC_SECRET }}
