@@ -1,9 +1,8 @@
 // GroupMe bot callback: turns a `/event Title | YYYY-MM-DD H:MM AM/PM | Location | type?`
 // chat message into a commit to content/events/, which triggers the normal
 // Cloudflare Pages auto-deploy (same mechanism the CMS itself uses).
-const GITHUB_OWNER = 'lama-austin';
-const GITHUB_REPO = 'lamaaustin-website';
-const GITHUB_BRANCH = 'main';
+import { githubPutFile, slugify, yamlString } from '../_lib/github.js';
+
 const COMMAND_RE = /^\/event\s+(.*)$/is;
 const VALID_TYPES = new Set(['ride', 'social', 'state']);
 
@@ -93,7 +92,9 @@ function parseEventCommand(rest) {
 }
 
 async function commitEvent(env, event, groupmeMessage) {
-  if (!env.GITHUB_TOKEN) throw new Error('server not configured (missing GITHUB_TOKEN)');
+  if (!env.GITHUB_TOKEN || !env.GITHUB_BRANCH) {
+    throw new Error('server not configured (missing GITHUB_TOKEN or GITHUB_BRANCH)');
+  }
 
   const slug = slugify(event.title);
   const shortId = String(groupmeMessage.id || Date.now()).slice(-6);
@@ -113,28 +114,7 @@ async function commitEvent(env, event, groupmeMessage) {
     '',
   ].join('\n');
 
-  const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `token ${env.GITHUB_TOKEN}`,
-        'User-Agent': 'lama-austin-groupme-bot',
-        Accept: 'application/vnd.github+json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: `Add event via GroupMe: ${event.title}`,
-        content: base64Encode(frontMatter),
-        branch: GITHUB_BRANCH,
-      }),
-    }
-  );
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `GitHub API returned ${res.status}`);
-  }
+  await githubPutFile(env, path, frontMatter, `Add event via GroupMe: ${event.title}`, undefined, env.GITHUB_BRANCH);
 }
 
 async function replyToGroup(env, text) {
@@ -146,20 +126,3 @@ async function replyToGroup(env, text) {
   }).catch(() => {});
 }
 
-function slugify(str) {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-function yamlString(str) {
-  return `"${str.replace(/"/g, '\\"')}"`;
-}
-
-function base64Encode(str) {
-  const bytes = new TextEncoder().encode(str);
-  let binary = '';
-  bytes.forEach((b) => (binary += String.fromCharCode(b)));
-  return btoa(binary);
-}

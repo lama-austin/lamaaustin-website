@@ -1,7 +1,8 @@
 // Shared helpers for committing to content/events/ via the GitHub Contents API.
+// Target branch is always caller-supplied (from env.GITHUB_BRANCH) rather than
+// hardcoded, so a Preview deployment can never accidentally write to main.
 const GITHUB_OWNER = 'lama-austin';
 const GITHUB_REPO = 'lamaaustin-website';
-const GITHUB_BRANCH = 'main';
 
 export function slugify(str) {
   return str
@@ -21,9 +22,9 @@ export function base64Encode(str) {
   return btoa(binary);
 }
 
-export async function githubListDir(env, path) {
+export async function githubListDir(env, path, branch) {
   const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH}`,
+    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${branch}`,
     { headers: githubHeaders(env) }
   );
   if (res.status === 404) return [];
@@ -31,7 +32,7 @@ export async function githubListDir(env, path) {
   return res.json();
 }
 
-export async function githubPutFile(env, path, content, message, sha) {
+export async function githubPutFile(env, path, content, message, sha, branch) {
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`,
     {
@@ -40,7 +41,7 @@ export async function githubPutFile(env, path, content, message, sha) {
       body: JSON.stringify({
         message,
         content: base64Encode(content),
-        branch: GITHUB_BRANCH,
+        branch,
         ...(sha ? { sha } : {}),
       }),
     }
@@ -52,13 +53,13 @@ export async function githubPutFile(env, path, content, message, sha) {
   return res.json();
 }
 
-export async function githubDeleteFile(env, path, sha, message) {
+export async function githubDeleteFile(env, path, sha, message, branch) {
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`,
     {
       method: 'DELETE',
       headers: { ...githubHeaders(env), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, sha, branch: GITHUB_BRANCH }),
+      body: JSON.stringify({ message, sha, branch }),
     }
   );
   if (!res.ok) {

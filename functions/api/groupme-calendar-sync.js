@@ -15,8 +15,8 @@ export async function onRequestPost(context) {
   if (!env.SYNC_SECRET || request.headers.get('Authorization') !== `Bearer ${env.SYNC_SECRET}`) {
     return json({ error: 'Forbidden' }, 403);
   }
-  if (!env.GITHUB_TOKEN || !env.GROUPME_USER_TOKEN) {
-    return json({ error: 'server not configured (missing GITHUB_TOKEN or GROUPME_USER_TOKEN)' }, 500);
+  if (!env.GITHUB_TOKEN || !env.GROUPME_USER_TOKEN || !env.GITHUB_BRANCH) {
+    return json({ error: 'server not configured (missing GITHUB_TOKEN, GROUPME_USER_TOKEN, or GITHUB_BRANCH)' }, 500);
   }
 
   const [activeEvents, existingFiles] = await Promise.all([
@@ -33,7 +33,7 @@ export async function onRequestPost(context) {
     const existing = existingFiles.get(event.event_id);
     const content = eventToMarkdown(event);
     try {
-      await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, existing?.sha);
+      await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, existing?.sha, env.GITHUB_BRANCH);
       results[existing ? 'updated' : 'created'].push(event.name);
     } catch (err) {
       results.errors.push(`${event.name}: ${err.message}`);
@@ -43,7 +43,7 @@ export async function onRequestPost(context) {
   for (const [id, file] of existingFiles) {
     if (seenIds.has(id)) continue;
     try {
-      await githubDeleteFile(env, file.path, file.sha, `Remove event no longer on GroupMe calendar (${id})`);
+      await githubDeleteFile(env, file.path, file.sha, `Remove event no longer on GroupMe calendar (${id})`, env.GITHUB_BRANCH);
       results.deleted.push(id);
     } catch (err) {
       results.errors.push(`delete ${id}: ${err.message}`);
@@ -65,7 +65,7 @@ async function fetchActiveEvents(env) {
 }
 
 async function listSyncedFiles(env) {
-  const entries = await githubListDir(env, EVENTS_DIR);
+  const entries = await githubListDir(env, EVENTS_DIR, env.GITHUB_BRANCH);
   const map = new Map();
   for (const entry of entries) {
     const match = entry.name.match(FILE_RE);
