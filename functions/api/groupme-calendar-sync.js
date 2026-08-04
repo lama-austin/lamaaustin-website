@@ -17,17 +17,6 @@ export async function onRequestPost(context) {
   if (!env.SYNC_SECRET || request.headers.get('Authorization') !== `Bearer ${env.SYNC_SECRET}`) {
     return json({ error: 'Forbidden' }, 403);
   }
-  // TEMP diagnostic -- reveals shape, not the actual secret values. Remove once GITHUB_TOKEN 401 is resolved.
-  if (new URL(request.url).searchParams.has('debug')) {
-    const shape = (v) => (v ? { present: true, length: v.length, prefix: v.slice(0, 5), suffix: v.slice(-3), has_whitespace: /\s/.test(v) } : { present: false });
-    return json({
-      github_token: shape(env.GITHUB_TOKEN),
-      groupme_user_token: shape(env.GROUPME_USER_TOKEN),
-      sync_secret: shape(env.SYNC_SECRET),
-      github_branch: env.GITHUB_BRANCH || null,
-    }, 200);
-  }
-
   if (!env.GITHUB_TOKEN || !env.GROUPME_USER_TOKEN || !env.GITHUB_BRANCH) {
     return json({ error: 'server not configured (missing GITHUB_TOKEN, GROUPME_USER_TOKEN, or GITHUB_BRANCH)' }, 500);
   }
