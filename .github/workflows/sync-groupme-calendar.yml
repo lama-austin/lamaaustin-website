@@ -15,6 +15,5 @@ jobs:
             -H "Authorization: Bearer $SYNC_SECRET" \
             -H "Content-Type: application/json"
         env:
-          # TODO: point at https://lamaaustin.com/api/groupme-calendar-sync once merged to main
-          SYNC_URL: https://feature-groupme-event-bot.lamaaustin-website.pages.dev/api/groupme-calendar-sync
+          SYNC_URL: https://lamaaustin.com/api/groupme-calendar-sync
           SYNC_SECRET: ${{ secrets.SYNC_SECRET }}
