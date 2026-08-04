@@ -107,9 +107,10 @@ function eventToMarkdown(event) {
 
 function guessType(name, description) {
   const text = `${name} ${description || ''}`.toLowerCase();
-  if (/\bmeeting\b/.test(text)) return 'social';
-  if (/\b(anniversary|rally)\b/.test(text)) return 'state';
-  return 'ride';
+  if (/\bride\b/.test(text)) return 'ride';
+  if (/\bmeeting\b/.test(text)) return 'meeting';
+  if (/\b(ral+y|anniversary|aniversario)\b/.test(text)) return 'state';
+  return 'social';
 }
 
 function json(data, status) {
