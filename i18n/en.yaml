@@ -34,15 +34,16 @@ events_title_line1: Events
 events_title_line2: "& Rides"
 filter_all: All
 filter_rides: Rides
+filter_meeting: Meetings
 filter_social: Social
-filter_state: State Events
+filter_state: Sanctioned Events
 section_upcoming: Upcoming
 btn_view_facebook: "View on Facebook →"
-btn_past_photos: Past Ride Photos
 no_events: "No upcoming events yet — check back soon."
 type_ride: ride
+type_meeting: meeting
 type_social: social
-type_state: state
+type_state: sanctioned
 
 # Gallery page
 page_label_gallery: GALLERY

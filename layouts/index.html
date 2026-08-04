@@ -59,7 +59,9 @@
   .map-link:hover { color: var(--white); border-color: var(--white); }
   .event-tag { display: inline-block; margin-top: 1rem; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); }
   .event-tag.ride { border-color: var(--red); color: var(--red); }
+  .event-tag.meeting { border-color: var(--muted); color: var(--muted); }
   .event-tag.social { border-color: var(--gold); color: var(--gold); }
+  .event-tag.state { border-color: var(--white); color: var(--white); }
 
   /* ── Gallery Preview ───────────────────────────────────── */
   #gallery-preview { padding: 6rem 3rem; }
@@ -205,7 +207,8 @@
         <div class="preview-date">{{ .Params.date | time.Format "MON — Jan 2, 2006" | upper }}</div>
         <div class="preview-name">{{ .Title }}</div>
         <p class="preview-detail">{{ with .Params.location }}<a class="map-link" href="https://www.google.com/maps/search/?api=1&query={{ . | urlquery }}" target="_blank" rel="noopener">{{ . }}</a>{{ end }} · {{ .Params.time }}</p>
-        <span class="event-tag {{ .Params.type }}">{{ .Params.type }}</span>
+        {{ $eventType := .Params.type | default "ride" }}
+        <span class="event-tag {{ $eventType }}">{{ i18n (printf "type_%s" $eventType) | default $eventType }}</span>
       </div>
       {{ else }}
       <div class="preview-card"><div class="preview-name" style="color:var(--muted)">No upcoming events — check back soon.</div></div>
