@@ -3,12 +3,16 @@
 Notes from debugging the failing `Sync GroupMe calendar` GitHub Action, so we
 remember what was changed and why.
 
-> **Picking this up later:** this file and the repo changes it describes live on
-> the branch **`fix/groupme-sync-bot-challenge`**, branched from `main` at
-> `4d00c40`. The Cloudflare-side fix is already live in production and is not
-> part of this branch — the sync works right now regardless of whether this
-> branch is ever merged. All the branch contains is the workflow's error
-> reporting plus these notes.
+> **Picking this up later:** everything in this file is on `main` and live in
+> production as of the "Skip GroupMe sync commits..." section near the
+> bottom. One small thing is NOT yet on `main`: better error reporting in
+> `.github/workflows/sync-groupme-calendar.yml` (`--fail-with-body` instead of
+> `-sf`, plus a check that fails the job if the sync's response contains
+> per-event errors) sits on the never-merged branch
+> **`fix/groupme-sync-bot-challenge`** (commit `33b3133`). Harmless to leave
+> unmerged — main's workflow still works, it would just go back to an opaque
+> "exit code 22" if the bot-challenge symptom ever recurred, instead of
+> printing the real error.
 >
 > Outstanding follow-up work is in
 > [contact-form-hardening.md](contact-form-hardening.md), which is **not done**.
