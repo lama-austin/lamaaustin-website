@@ -169,8 +169,8 @@ possible to inspect build logs or force a redeploy. Left as an open item:
    marked as currently live actually corresponds to a recent commit SHA. If
    it's stuck on an older one, use **Retry deployment** on the latest.
 2. If that doesn't clear it, any new push to `main` (the scheduled GroupMe
-   sync will produce one within the next 30 minutes on its own) should
-   trigger a fresh build that supersedes whatever's stuck.
+   sync will produce one on its own — see the schedule change below for how
+   often) should trigger a fresh build that supersedes whatever's stuck.
 
 Also worth noting while investigating this: the GroupMe sync recommits every
 active event on every run, even when the file content hasn't changed
@@ -178,10 +178,29 @@ active event on every run, even when the file content hasn't changed
 style commits, one cron interval apart, with byte-identical file content).
 That's why 5 commits landed in the batch that included the one real change
 (the Testing Calendar Sync event) — 4 of them were no-op resyncs. Harmless,
-but it means every 30-minute cron tick triggers a Pages rebuild regardless of
-whether anything actually changed on GroupMe. Not fixed this session; the
-sync code would need a content-diff check before calling `githubPutFile` to
-avoid the redundant commits.
+but it means every cron tick triggers a Pages rebuild regardless of whether
+anything actually changed on GroupMe. Not fixed this session; the sync code
+would need a content-diff check before calling `githubPutFile` to avoid the
+redundant commits.
+
+## Sync schedule reduced from every 30 minutes to every 3 hours
+
+`.github/workflows/sync-groupme-calendar.yml`'s cron changed from
+`*/30 * * * *` to `0 */3 * * *` (fires at 00:00, 03:00, 06:00 UTC, etc. — 8
+times a day instead of 48).
+
+**Why:** 30 minutes was more frequency than the actual use case needs — a
+club calendar edited by a person in GroupMe occasionally, not something
+anyone needs updated within minutes of a change. At that interval it was
+also making the two problems above worse: more redundant no-op commits (see
+above), and more frequent Pages builds arriving in tighter bursts, which
+looked related to the deployment-promotion issue also documented above (Prod
+staying pinned to an older commit despite newer ones building successfully).
+Fewer, more spaced-out runs reduces both without fixing either at the root.
+
+Manual syncs remain available any time regardless of the schedule, via
+`workflow_dispatch` — GitHub repo → **Actions** tab → **Sync GroupMe
+calendar** → **Run workflow**.
 
 ## Unrelated observation, not changed
 
