@@ -21,10 +21,15 @@ export async function onRequestPost(context) {
     return json({ error: 'server not configured (missing GITHUB_TOKEN, GROUPME_USER_TOKEN, or GITHUB_BRANCH)' }, 500);
   }
 
-  const [activeEvents, existingFiles] = await Promise.all([
-    fetchActiveEvents(env),
-    listSyncedFiles(env),
-  ]);
+  let activeEvents, existingFiles;
+  try {
+    [activeEvents, existingFiles] = await Promise.all([
+      fetchActiveEvents(env),
+      listSyncedFiles(env),
+    ]);
+  } catch (err) {
+    return json({ error: `Failed to fetch current state: ${err.message}` }, 502);
+  }
 
   const results = { created: [], updated: [], deleted: [], errors: [] };
   const seenIds = new Set();
@@ -36,8 +41,8 @@ export async function onRequestPost(context) {
     const slug = slugify(event.name);
     const path = `${EVENTS_DIR}/groupme-${datePart}-${slug}-${shortId}.md`;
     const existing = existingFiles.get(shortId);
-    const content = eventToMarkdown(event);
     try {
+      const content = eventToMarkdown(event);
       // Renamed (title/date changed the filename) -> remove the old file first.
       if (existing && existing.path !== path) {
         await githubDeleteFile(env, existing.path, existing.sha, `Rename synced event: ${event.name}`, env.GITHUB_BRANCH);
