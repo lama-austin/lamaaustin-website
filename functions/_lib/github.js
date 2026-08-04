@@ -22,6 +22,21 @@ export function base64Encode(str) {
   return btoa(binary);
 }
 
+// Computes the git blob SHA-1 for a given content string — the same hash
+// GitHub's Contents API reports as a file's `sha`. Lets a caller check
+// "would writing this content actually change the file?" against a
+// directory listing's sha without a second API call to fetch the existing
+// file's body.
+export async function gitBlobSha(content) {
+  const bytes = new TextEncoder().encode(content);
+  const header = new TextEncoder().encode(`blob ${bytes.length}\0`);
+  const full = new Uint8Array(header.length + bytes.length);
+  full.set(header);
+  full.set(bytes, header.length);
+  const digest = await crypto.subtle.digest('SHA-1', full);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export async function githubListDir(env, path, branch) {
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${branch}`,

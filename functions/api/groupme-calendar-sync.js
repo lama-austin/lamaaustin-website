@@ -3,7 +3,7 @@
 // and removes ones that were deleted or un-RSVP'd from GroupMe.
 // Triggered on a schedule by .github/workflows/sync-groupme-calendar.yml,
 // since GroupMe has no push notification for calendar changes.
-import { githubListDir, githubPutFile, githubDeleteFile, slugify, yamlString } from '../_lib/github.js';
+import { githubListDir, githubPutFile, githubDeleteFile, gitBlobSha, slugify, yamlString } from '../_lib/github.js';
 
 const GROUP_ID = '64017028';
 const EVENTS_DIR = 'content/events';
@@ -36,7 +36,7 @@ export async function onRequestPost(context) {
     return json({ error: `Failed to fetch current state: ${err.message}` }, 500);
   }
 
-  const results = { created: [], updated: [], deleted: [], errors: [] };
+  const results = { created: [], updated: [], unchanged: [], deleted: [], errors: [] };
   const seenIds = new Set();
 
   for (const event of activeEvents) {
@@ -52,7 +52,18 @@ export async function onRequestPost(context) {
       if (existing && existing.path !== path) {
         await githubDeleteFile(env, existing.path, existing.sha, `Rename synced event: ${event.name}`, env.GITHUB_BRANCH);
       }
-      await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, existing?.path === path ? existing.sha : undefined, env.GITHUB_BRANCH);
+      // Skip the commit entirely if the file at this path already has this
+      // exact content — GitHub's blob sha is a deterministic hash of the
+      // content, so this compares against the directory listing we already
+      // fetched with no extra API call. Without this, every event gets
+      // recommitted (and triggers a Pages rebuild) on every sync run even
+      // when nothing changed on GroupMe.
+      const samePath = existing?.path === path;
+      if (samePath && (await gitBlobSha(content)) === existing.sha) {
+        results.unchanged.push(event.name);
+        continue;
+      }
+      await githubPutFile(env, path, content, `Sync event from GroupMe: ${event.name}`, samePath ? existing.sha : undefined, env.GITHUB_BRANCH);
       results[existing ? 'updated' : 'created'].push(event.name);
     } catch (err) {
       console.error(`groupme-calendar-sync: failed syncing "${event.name}"`, err);

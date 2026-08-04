@@ -202,7 +202,38 @@ Manual syncs remain available any time regardless of the schedule, via
 `workflow_dispatch` — GitHub repo → **Actions** tab → **Sync GroupMe
 calendar** → **Run workflow**.
 
-## Unrelated observation, not changed
+## Fixed the actual cause: sync no longer commits when nothing changed
+
+The root fix for the redundant-commit problem mentioned above, not just a
+schedule-based mitigation of it.
+
+**Change:** `functions/api/groupme-calendar-sync.js` now skips the GitHub
+write entirely for an event whose file content hasn't actually changed.
+`functions/_lib/github.js` gained a `gitBlobSha(content)` helper that
+computes the git blob SHA-1 of a content string — the exact same hash
+GitHub's Contents API already returns as each file's `sha` in a directory
+listing (`git hash-object` computes it the same way: `sha1("blob " +
+byteLength + "\0" + content)`). Since `listSyncedFiles()` already fetches
+that directory listing, comparing against it costs no extra API call — the
+sync computes what the hash *would* be for the freshly-generated markdown
+and skips the `PUT` if it already matches.
+
+**Verified correct**, not just "looks right": computed the hash for one of
+the real committed event files both with the new JS function and with `git
+hash-object` on the actual file, confirmed they're byte-for-byte identical
+(`04be47bbe4dae81592396aa918bf34300cc7b88c` both ways).
+`crypto.subtle.digest` is standard Web Crypto, supported natively in
+Cloudflare's Workers/Pages Functions runtime — same interface used here as
+in the local Node verification.
+
+The response JSON gained an `unchanged: []` array alongside
+`created`/`updated`/`deleted` so a sync run's logs show explicitly which
+events were checked and skipped, instead of that being invisible.
+
+**Not changed:** the *rename* path (title/date change moves an event to a
+new filename) still always writes, since that's a real content change by
+definition — the skip only applies when the path and the content are both
+unchanged from what's already committed.
 
 Every synced event lands at `12:00 PM`
 (`content/events/groupme-*.md`). `eventToMarkdown()` formats the display time
