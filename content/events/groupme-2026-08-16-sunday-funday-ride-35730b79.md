@@ -2,7 +2,7 @@
 title: "Sunday Funday Ride"
 date: 2026-08-16T09:00:00
 time: "9:00 AM"
-location: "Central texas Harley-Davidson"
+location: "Central Texas Harley-Davidson"
 type: ride
 groupme_event_id: 35730b79c63b4ffaa56bd35dceabfed5
 draft: false
