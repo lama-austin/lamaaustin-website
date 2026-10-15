@@ -2,7 +2,7 @@
      in the admin panel. Each field takes a full link or just a handle
      (@name). Never shown for the Youth section: those members are minors. */}}
 {{ $p := . }}
-{{ if ne $p.Params.section "youth" }}
+{{ if ne (replaceRE `^[0-9]+-` "" (string $p.Params.section)) "youth" }}
 {{ $sites := slice
   (dict "key" "instagram" "label" "Instagram" "base" "https://www.instagram.com/"
         "icon" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg>`)

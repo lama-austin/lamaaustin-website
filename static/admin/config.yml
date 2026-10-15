@@ -228,7 +228,15 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    summary: "{{title}} - {{section}}"
+    summary: "{{title}}"
+    # List members in rank order: section values start with their rank number.
+    sortable_fields:
+      fields: [section, title, joined]
+      default: { field: section, direction: ascending }
+    view_groups:
+      groups:
+        - { name: rank, label: "Rank", field: section }
+      default: rank
     media_folder: "/static/images/members"
     public_folder: "/images/members"
     fields:
@@ -238,13 +246,13 @@ collections:
         name: "section"
         widget: "select"
         options:
-          - { label: "Full Patch", value: "full-patch" }
-          - { label: "Probate", value: "probate" }
-          - { label: "Prospect", value: "prospect" }
-          - { label: "Associate", value: "associate" }
-          - { label: "Dama de LAMA", value: "dama-de-lama" }
-          - { label: "Spouse", value: "spouse" }
-          - { label: "Youth", value: "youth" }
+          - { label: "1. Full Patch", value: "1-full-patch" }
+          - { label: "2. Probate", value: "2-probate" }
+          - { label: "3. Prospect", value: "3-prospect" }
+          - { label: "4. Associate", value: "4-associate" }
+          - { label: "5. Dama de LAMA", value: "5-dama-de-lama" }
+          - { label: "6. Spouse", value: "6-spouse" }
+          - { label: "7. Youth", value: "7-youth" }
       - { label: "Instagram", name: "instagram", widget: "string", required: false, hint: "Optional. A link or just the handle, e.g. @ruso_rides. Only add with the person's OK." }
       - { label: "Facebook", name: "facebook", widget: "string", required: false, hint: "Optional. A link to their profile, or just the username." }
       - { label: "TikTok", name: "tiktok", widget: "string", required: false, hint: "Optional. A link or just the handle. Not shown on the website for the Youth section." }

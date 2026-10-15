@@ -1,6 +1,6 @@
 ---
 title: Marilu Rivera
-section: spouse
+section: 6-spouse
 photo: /images/members/Embroidered Latin American Eagle Patch.png
 joined: 2021-07-04
 draft: false

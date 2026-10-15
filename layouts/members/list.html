@@ -177,7 +177,11 @@
     {{ range $sections }}
     {{ $key := .key }}
     {{ $label := .label }}
-    {{ $group := sort (where $all ".Params.section" $key) ".Params.joined" "asc" }}
+    {{/* Sections are stored with a rank number in front (e.g. "3-prospect") so
+         the admin panel lists them in rank order; ignore it when matching. */}}
+    {{ $group := slice }}
+    {{ range $all }}{{ if eq (replaceRE `^[0-9]+-` "" (string .Params.section)) $key }}{{ $group = $group | append . }}{{ end }}{{ end }}
+    {{ $group = sort $group ".Params.joined" "asc" }}
     {{ if $group }}
     <div class="member-section">
       <div class="member-section-header">
