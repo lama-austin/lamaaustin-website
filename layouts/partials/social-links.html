@@ -1,0 +1,30 @@
+{{/* Row of social icons for a member/officer card, one per account filled in
+     in the admin panel. Each field takes a full link or just a handle
+     (@name). Never shown for the Youth section: those members are minors. */}}
+{{ $p := . }}
+{{ if ne $p.Params.section "youth" }}
+{{ $sites := slice
+  (dict "key" "instagram" "label" "Instagram" "base" "https://www.instagram.com/"
+        "icon" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg>`)
+  (dict "key" "facebook" "label" "Facebook" "base" "https://www.facebook.com/"
+        "icon" `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>`)
+  (dict "key" "tiktok" "label" "TikTok" "base" "https://www.tiktok.com/@"
+        "icon" `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3.4v13.4a2.9 2.9 0 11-2.9-2.9c.3 0 .6 0 .9.1V9.1a6.4 6.4 0 106.4 6.3V8.6a8 8 0 004.4 1.4V6.6A4.6 4.6 0 0116.6 2z"/></svg>`)
+}}
+{{ $links := slice }}
+{{ range $site := $sites }}
+  {{ with trim (string (index $p.Params $site.key | default "")) " " }}
+    {{ $url := . }}
+    {{ if not (hasPrefix (lower .) "http") }}
+      {{ if in . "/" }}{{ $url = printf "https://%s" . }}
+      {{ else }}{{ $url = printf "%s%s" $site.base (strings.TrimPrefix "@" .) }}{{ end }}
+    {{ end }}
+    {{ $links = $links | append (dict "url" $url "label" $site.label "icon" $site.icon) }}
+  {{ end }}
+{{ end }}
+{{ with $links }}
+<div class="card-social">
+  {{ range . }}<a href="{{ .url }}" target="_blank" rel="noopener" aria-label="{{ .label }}: {{ partial "display-name.html" $p }}">{{ .icon | safeHTML }}</a>{{ end }}
+</div>
+{{ end }}
+{{ end }}

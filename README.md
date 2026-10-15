@@ -34,6 +34,14 @@ Events on the **GroupMe calendar show up on the website automatically**
 - To sync right away instead of waiting: on GitHub, open the repository →
   **Actions** → **Sync GroupMe calendar** → **Run workflow**.
 
+### Social media on member cards
+
+Officers and members can have **Instagram**, **Facebook** and **TikTok**
+filled in; each shows as a small icon under their name on the Members page.
+A full link or just the handle (`@name`) both work. Only add someone's
+accounts with their OK. Icons are never shown for the **Youth** section,
+even if filled in.
+
 ### Officers
 
 Pick each officer's **Position** from the list. The President goes on top of
