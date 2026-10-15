@@ -1,5 +1,6 @@
 ---
 title: Marcelo
+nickname: Pan Y Vino
 role: Treasurer
 section: leadership
 photo: /images/officers/marcelo.jpg
