@@ -137,6 +137,48 @@ collections:
           - { label: "Primary Button Link", name: "primary_cta_link", widget: "string" }
           - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string" }
           - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string" }
+      - label: "Anniversary Page"
+        name: "anniversary"
+        file: "content/anniversary.md"
+        media_folder: "/static/images/events"
+        public_folder: "/images/events"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Layout", name: "layout", widget: "hidden", default: "anniversary" }
+          - { label: "Outputs", name: "outputs", widget: "hidden", default: ["html", "calendar"] }
+          - { label: "Dates", name: "dates_label", widget: "string", hint: "Shown under the title, e.g. October 23–25, 2026" }
+          - { label: "Intro", name: "intro", widget: "text" }
+          - { label: "Share Description", name: "description", widget: "text", hint: "The text that appears under the link preview when the page is shared in WhatsApp, GroupMe or Facebook." }
+          - { label: "Flyer", name: "flyer", widget: "image", required: false }
+          - { label: "Share Preview Image", name: "share_image", widget: "image", required: false, hint: "Wide image (about 1200x630) shown in link previews. Leave empty to use the flyer." }
+          - { label: "Show Banner On Homepage", name: "show_on_homepage", widget: "boolean", default: true, hint: "The banner also disappears by itself after the last item on the schedule ends." }
+          - label: "Hotels"
+            name: "hotels"
+            widget: "list"
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Hotel Name", name: "name", widget: "string" }
+              - { label: "Tag", name: "label", widget: "string", required: false, hint: "Small red text above the name, e.g. Host Hotel" }
+              - { label: "Address", name: "address", widget: "string", required: false }
+              - { label: "Perks", name: "perks", widget: "text", required: false }
+              - { label: "Booking Link", name: "booking", widget: "string", required: false, hint: "Link to the hotel's booking page with the group rate. Leave empty to hide the Book button." }
+              - { label: "Phone", name: "phone", widget: "string", required: false }
+              - { label: "Group Name / Code To Mention", name: "code", widget: "string", required: false, hint: "e.g. LAMA Austin Anniversary. Shown as 'Ask for: ...'" }
+          - label: "Schedule"
+            name: "schedule"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "What", name: "title", widget: "string" }
+              - { label: "Starts", name: "start", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
+              - { label: "Ends", name: "end", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", hint: "Used for calendar reminders. Only shown on the page if the box below is checked." }
+              - { label: "Show End Time On Page", name: "show_end", widget: "boolean", default: false }
+              - { label: "Time Text Instead Of Clock Time", name: "time_note", widget: "string", required: false, hint: "Optional, e.g. 'After the celebration' or 'Details coming soon'. Replaces the time shown on the page." }
+              - { label: "Place", name: "place", widget: "string", required: false }
+              - { label: "Address", name: "address", widget: "string", required: false }
+              - { label: "Search For Directions", name: "map_query", widget: "string", required: false, hint: "What to search in Google Maps for the Directions button (a name or a full address). Leave empty to hide the button." }
+              - { label: "Details", name: "details", widget: "text", required: false }
 
   - name: "events"
     label: "Events & Rides"

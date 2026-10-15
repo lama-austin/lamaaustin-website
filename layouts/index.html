@@ -6,6 +6,9 @@
   .hero-accent { position: absolute; top: 20%; right: -5%; width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle, rgba(192,57,43,0.12) 0%, transparent 65%); pointer-events: none; }
   .hero-content { position: relative; z-index: 2; max-width: 900px; }
   .hero-chapter { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; animation: fadeUp 0.6s ease 0.2s both; }
+  .hero-announce { display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; padding: 0.6rem 1rem; background: rgba(192,57,43,0.18); border: 1px solid var(--red); color: var(--white); text-decoration: none; font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; transition: background 0.2s; }
+  .hero-announce:hover { background: rgba(192,57,43,0.35); }
+  .hero-announce strong { color: var(--red-hot); font-weight: 700; }
   .hero-chapter::before { content: ''; display: block; width: 40px; height: 1px; background: var(--red); }
   .hero-title { font-family: var(--font-display); font-size: clamp(5rem, 13vw, 11rem); line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 0.5rem; animation: fadeUp 0.6s ease 0.35s both; }
   .hero-title .red { color: var(--red); }
@@ -127,6 +130,16 @@
   <div class="hero-bg"></div>
   <div class="hero-accent"></div>
   <div class="hero-content">
+    {{/* Event banner: shown while the anniversary page has "show_on_homepage"
+         on and its last scheduled item hasn't ended yet. */}}
+    {{ with .Site.GetPage "/anniversary" }}
+      {{ if and .Params.show_on_homepage .Params.schedule }}
+        {{ $last := index .Params.schedule (sub (len .Params.schedule) 1) }}
+        {{ if (time.AsTime ($last.end | default $last.start)).After now }}
+    <a href="{{ .RelPermalink }}" class="hero-announce"><strong>{{ .Title }}</strong> {{ .Params.dates_label }} · Full schedule →</a>
+        {{ end }}
+      {{ end }}
+    {{ end }}
     <div class="hero-chapter">{{ $home.Params.hero_chapter | default "Austin, Texas Chapter" }}</div>
     <h1 class="hero-title">{{ $home.Params.hero_title_top | default "L.A.M.A." }}<br/><span class="red">{{ $home.Params.hero_title_accent | default "Austin" }}</span></h1>
     <p class="hero-subtitle">{{ $home.Params.hero_subtitle | default "Latin American Motorcyclists Association" }}</p>

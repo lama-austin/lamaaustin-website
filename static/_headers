@@ -4,3 +4,7 @@
 # RFC 8288 Link header for agent discovery (homepage only)
 /
   Link: </llms.txt>; rel="describedby"
+
+# Add-to-calendar file for the anniversary page
+/anniversary/index.ics
+  Content-Type: text/calendar; charset=utf-8
