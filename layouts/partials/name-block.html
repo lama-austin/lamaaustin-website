@@ -1,0 +1,3 @@
+{{/* A member's name for a card, with their nickname (if any) on its own
+     line below, e.g. JORGE / "RUSO". Styled by .nickname in baseof.html. */}}
+{{ .Title }}{{ with .Params.nickname }}<span class="nickname">"{{ . }}"</span>{{ end }}

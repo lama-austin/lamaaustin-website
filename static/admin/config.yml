@@ -202,7 +202,7 @@ collections:
     public_folder: "/images/officers"
     fields:
       - { label: "Name", name: "title", widget: "string" }
-      - { label: "Nickname", name: "nickname", widget: "string", required: false, hint: "Optional. Shown in quotes after the name, e.g. Jorge \"Ruso\". Type it without quotes." }
+      - { label: "Nickname", name: "nickname", widget: "string", required: false, hint: "Optional. Shown in quotes on its own line under the name. Type it without quotes." }
       - label: "Position"
         name: "role"
         widget: "select"
@@ -230,7 +230,7 @@ collections:
     public_folder: "/images/members"
     fields:
       - { label: "Name", name: "title", widget: "string" }
-      - { label: "Nickname", name: "nickname", widget: "string", required: false, hint: "Optional. Shown in quotes after the name, e.g. Jorge \"Ruso\". Type it without quotes." }
+      - { label: "Nickname", name: "nickname", widget: "string", required: false, hint: "Optional. Shown in quotes on its own line under the name. Type it without quotes." }
       - label: "Section"
         name: "section"
         widget: "select"

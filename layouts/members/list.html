@@ -115,7 +115,7 @@
               {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ partial "display-name.html" . }}" />
               {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
             </div>
-            <div class="officer-info"><div class="officer-name">{{ partial "display-name.html" . }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+            <div class="officer-info"><div class="officer-name">{{ partial "name-block.html" . }}</div><div class="officer-role">{{ .Params.role }}</div></div>
           </div>
           <div class="org-connector-v"></div>
         </div>
@@ -130,7 +130,7 @@
               {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ partial "display-name.html" . }}" />
               {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
             </div>
-            <div class="officer-info"><div class="officer-name">{{ partial "display-name.html" . }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+            <div class="officer-info"><div class="officer-name">{{ partial "name-block.html" . }}</div><div class="officer-role">{{ .Params.role }}</div></div>
           </div>
           {{ if $others }}<div class="org-connector-v"></div>{{ end }}
         </div>
@@ -147,7 +147,7 @@
               {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ partial "display-name.html" . }}" />
               {{ else }}<div class="officer-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>{{ i18n "add_photo" }}</span></div>{{ end }}
             </div>
-            <div class="officer-info"><div class="officer-name">{{ partial "display-name.html" . }}</div><div class="officer-role">{{ .Params.role }}</div></div>
+            <div class="officer-info"><div class="officer-name">{{ partial "name-block.html" . }}</div><div class="officer-role">{{ .Params.role }}</div></div>
           </div>
         </div>
         {{ end }}
@@ -184,7 +184,7 @@
             {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ partial "display-name.html" . }}" loading="lazy" />
             {{ else }}<div class="member-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
           </div>
-          <div class="member-name">{{ partial "display-name.html" . }}</div>
+          <div class="member-name">{{ partial "name-block.html" . }}</div>
         </div>
         {{ end }}
       </div>
