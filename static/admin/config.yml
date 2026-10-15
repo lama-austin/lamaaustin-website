@@ -243,3 +243,4 @@ collections:
           - { label: "Instagram URL", name: "instagram", widget: "string" }
           - { label: "Founded Year", name: "founded", widget: "string" }
           - { label: "Member Count", name: "members", widget: "string" }
+          - { label: "WhatsApp Number", name: "whatsapp", widget: "string", hint: "The number the Join form sends messages to. Any format works, e.g. (210) 555-1234 or +1 210 555 1234. Include the country code if it is not a US number." }
