@@ -69,6 +69,8 @@ officer's entry (name and photo) or add a new one and delete the old one.
   that ask for one (see `static/llms.txt`).
 
 More detail and past troubleshooting notes are in [`docs/`](docs/).
+Notes from the latest working session are in
+[`docs/session-notes-2026-10-15.md`](docs/session-notes-2026-10-15.md).
 Outstanding work, including moving accounts to chapter ownership, is in
 [`docs/todo.md`](docs/todo.md).
 
