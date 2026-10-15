@@ -32,7 +32,7 @@
 
 <div class="page-header" data-label="ABOUT">
   <div class="page-header-inner">
-    <div class="breadcrumb"><a href="{{ if eq .Language.Lang "es" }}/es/{{ else }}/{{ end }}">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_about" }}</span></div>
+    <div class="breadcrumb"><a href="/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_about" }}</span></div>
     <h1 class="page-title">{{ replace ($about.Params.page_title | default "About\nL.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h1>
   </div>
 </div>
@@ -78,13 +78,12 @@
 
 <section id="chapter-cta">
   <div class="chapter-cta-inner">
-    {{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
     <div class="section-label">{{ i18n "cta_meet_chapter_label" }}</div>
     <h2 class="section-title">{{ i18n "cta_officers_heading" }}</h2>
     <p>{{ i18n "cta_officers_desc" }}</p>
     <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-      <a href="{{ $pfx }}/members/" class="btn btn-primary">{{ i18n "btn_view_officers" }}</a>
-      <a href="{{ $pfx }}/join/" class="btn btn-outline">{{ i18n "btn_how_to_join" }}</a>
+      <a href="/members/" class="btn btn-primary">{{ i18n "btn_view_officers" }}</a>
+      <a href="/join/" class="btn btn-outline">{{ i18n "btn_how_to_join" }}</a>
     </div>
   </div>
 </section>

@@ -51,8 +51,7 @@
 
 <div class="page-header" data-label="JOIN">
   <div class="page-header-inner">
-    {{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
-    <div class="breadcrumb"><a href="{{ $pfx }}/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_join" }}</span></div>
+    <div class="breadcrumb"><a href="/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_join" }}</span></div>
     <h1 class="page-title">{{ replace (.Params.page_title | default "Join\nL.A.M.A. Austin") "\n" "<br/>" | safeHTML }}</h1>
   </div>
 </div>
