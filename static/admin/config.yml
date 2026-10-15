@@ -164,8 +164,6 @@ collections:
         widget: "list"
         required: false
         summary: "{{fields.caption}}"
-        media_folder: "/static/images/events"
-        public_folder: "/images/events"
         fields:
           - { label: "Photo", name: "image", widget: "image", media_folder: "/static/images/events", public_folder: "/images/events" }
           - { label: "Caption", name: "caption", widget: "string", required: false }
