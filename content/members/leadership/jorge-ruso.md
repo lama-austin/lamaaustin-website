@@ -4,7 +4,7 @@ nickname: Ruso
 role: Business Manager
 section: leadership
 instagram: ''
-facebook: www.google.com
+facebook: ''
 tiktok: ''
 photo: /images/officers/jorge-ruso.jpg
 weight: 4
