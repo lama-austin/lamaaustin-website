@@ -24,9 +24,8 @@ site can be handed off, move each of these to chapter-owned accounts:
       client ID/secret are Worker variables. Re-create the OAuth app under
       the **LAMA Austin admin GitHub account** (callback URL
       `https://oauth.lamaaustin.com/callback`) and update the two variables.
-- [ ] **Deploy the security fix in `workers/oauth/worker.js`** to the
-      `lama-oauth` Worker (paste into the Cloudflare dashboard → Deploy),
-      then sign in at /admin/ to confirm it still works.
+- [x] **Deploy the security fix in `workers/oauth/worker.js`** to the
+      `lama-oauth` Worker. Done 2026-10-15.
 - [ ] **Delete the unused `lama-contact` Worker** in Cloudflare (old email
       version of the contact form; its email service, MailChannels' free
       API, no longer exists).
