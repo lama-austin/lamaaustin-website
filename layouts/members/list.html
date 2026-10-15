@@ -186,7 +186,12 @@
     <div class="member-section">
       <div class="member-section-header">
         <div class="member-section-title">{{ $label }}</div>
+        {{/* Officers are all Full Patch, so they count toward that section. */}}
+        {{ if and (eq $key "full-patch") $leadership }}
+        <div class="member-count">{{ i18n "members_count" (add (len $group) (len $leadership)) }} · {{ i18n "officers_included" (len $leadership) }}</div>
+        {{ else }}
         <div class="member-count">{{ i18n "members_count" (len $group) }}</div>
+        {{ end }}
       </div>
       <div class="member-grid">
         {{ range $group }}

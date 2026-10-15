@@ -73,6 +73,9 @@ section_associate: Associate
 section_dama_de_lama: Dama de LAMA
 section_spouse: Spouse
 section_youth: Youth
+officers_included:
+  one: "including {{ .Count }} officer"
+  other: "including {{ .Count }} officers"
 members_count:
   one: "{{ .Count }} member"
   other: "{{ .Count }} members"
