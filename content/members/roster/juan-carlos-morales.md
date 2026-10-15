@@ -1,0 +1,11 @@
+---
+title: Juan Carlos Morales
+nickname: Juanka
+section: 1-full-patch
+instagram: ''
+facebook: ''
+tiktok: ''
+photo: /images/members/Embroidered Latin American Eagle Patch.png
+joined: 2023-07-26
+draft: false
+---
