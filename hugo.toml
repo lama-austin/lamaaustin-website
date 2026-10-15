@@ -5,8 +5,6 @@ buildFuture = true
 
 [params]
   description = "Latin American Motorcyclists Association – Austin, Texas Chapter"
-  facebook = "https://facebook.com/lamaaustin"
-  instagram = "https://instagram.com/lamaaustin"
 
 [markup.goldmark.renderer]
   unsafe = true
