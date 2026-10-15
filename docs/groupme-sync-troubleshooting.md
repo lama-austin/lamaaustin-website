@@ -11,7 +11,7 @@ remember what was changed and why.
 > old 30-minute cron and would have reverted the schedule change below).
 >
 > Outstanding follow-up work is in
-> [contact-form-hardening.md](contact-form-hardening.md), which is **not done**.
+> [todo.md](todo.md) (contact form), which is **not done**.
 
 ## Symptom
 
