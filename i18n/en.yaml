@@ -50,7 +50,9 @@ type_state: sanctioned
 page_label_gallery: GALLERY
 gallery_title_line1: Photo
 gallery_title_line2: Gallery
-photos_count: Photos
+photos_count:
+  one: "{{ .Count }} Photo"
+  other: "{{ .Count }} Photos"
 no_albums: "No albums yet — add your first one in the admin panel."
 upload_photo: Upload photo in admin panel
 
@@ -71,7 +73,9 @@ section_associate: Associate
 section_dama_de_lama: Dama de LAMA
 section_spouse: Spouse
 section_youth: Youth
-members_count: members
+members_count:
+  one: "{{ .Count }} member"
+  other: "{{ .Count }} members"
 
 # Join form
 section_process: Process

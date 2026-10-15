@@ -175,7 +175,7 @@
     <div class="member-section">
       <div class="member-section-header">
         <div class="member-section-title">{{ $label }}</div>
-        <div class="member-count">{{ len $group }} {{ i18n "members_count" }}</div>
+        <div class="member-count">{{ i18n "members_count" (len $group) }}</div>
       </div>
       <div class="member-grid">
         {{ range $group }}

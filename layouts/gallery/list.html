@@ -59,7 +59,7 @@
         <div class="album-title">{{ $album.Title }}</div>
         <div class="album-meta">{{ $album.Params.date | time.Format "January 2, 2006" }}{{ with $album.Params.location }} · <a class="map-link" href="https://www.google.com/maps/search/?api=1&query={{ . | urlquery }}" target="_blank" rel="noopener">{{ . }}</a>{{ end }}</div>
       </div>
-      <div class="album-count">{{ len $photos }} {{ i18n "photos_count" }}</div>
+      <div class="album-count">{{ i18n "photos_count" (len $photos) }}</div>
     </div>
     <div class="{{ if eq $i 0 }}gallery-grid-hero{{ else }}gallery-grid-compact{{ end }}" id="album-{{ $i }}">
       {{ range $j, $photo := $photos }}
