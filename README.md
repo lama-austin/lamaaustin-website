@@ -48,8 +48,11 @@ officer's entry (name and photo) or add a new one and delete the old one.
   `static/` (images and other files served as-is).
 - **Cloudflare Pages** rebuilds and hosts the site on every push to `main`.
 - **Admin panel**: Sveltia CMS, configured in `static/admin/config.yml`,
-  saves straight to `main` on GitHub. Login goes through
-  `oauth.lamaaustin.com`.
+  saves straight to `main` on GitHub. Login goes through the Cloudflare
+  Worker `lama-oauth` at `oauth.lamaaustin.com` (source in
+  `workers/oauth/worker.js`; deployed by pasting it into the Cloudflare
+  dashboard, not automatically). Editors need a GitHub account with write
+  access to the repository.
 - **GroupMe sync**: `.github/workflows/sync-groupme-calendar.yml` calls
   `functions/api/groupme-calendar-sync.js` every 3 hours, which writes
   `content/events/groupme-*.md` through the GitHub API.
@@ -70,7 +73,8 @@ Filling in this list is part of [`docs/todo.md`](docs/todo.md) item 1.
 | Code and content | GitHub `lama-austin/lamaaustin-website` | |
 | Hosting and DNS | Cloudflare (Pages project `lamaaustin-website`) | |
 | Domain lamaaustin.com | Registrar: ? | |
-| Admin login service | `oauth.lamaaustin.com`, hosted at: ? | |
+| Admin login service | Cloudflare Worker `lama-oauth` at `oauth.lamaaustin.com` | |
+| GitHub OAuth app used by the login | GitHub → Settings → Developer settings → OAuth Apps (on the account that created it); its ID/secret are `lama-oauth` variables `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | |
 | GroupMe sync token | Cloudflare Pages variable `GROUPME_USER_TOKEN` | |
 | GitHub token for the sync | Cloudflare Pages variable `GITHUB_TOKEN` | |
 | Sync shared secret | GitHub Actions secret + Cloudflare variable `SYNC_SECRET` | |

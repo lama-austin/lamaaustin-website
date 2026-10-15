@@ -19,8 +19,17 @@ site can be handed off, move each of these to chapter-owned accounts:
       Cloudflare variable; they must match. Record where it lives.
 - [ ] **Cloudflare account** (Pages project + DNS) owned by the chapter.
 - [ ] **Domain registrar** for lamaaustin.com owned by the chapter.
-- [ ] **Admin-panel login service** at `oauth.lamaaustin.com`: find where
-      it is hosted and who owns it; document it.
+- [ ] **Admin-panel login**: the Cloudflare Worker `lama-oauth`
+      (source: `workers/oauth/worker.js`) uses a **GitHub OAuth app** whose
+      client ID/secret are Worker variables. Re-create the OAuth app under
+      the **LAMA Austin admin GitHub account** (callback URL
+      `https://oauth.lamaaustin.com/callback`) and update the two variables.
+- [ ] **Deploy the security fix in `workers/oauth/worker.js`** to the
+      `lama-oauth` Worker (paste into the Cloudflare dashboard → Deploy),
+      then sign in at /admin/ to confirm it still works.
+- [ ] **Delete the unused `lama-contact` Worker** in Cloudflare (old email
+      version of the contact form; its email service, MailChannels' free
+      API, no longer exists).
 - [ ] Write all of the above (where each thing lives, who has access) into
       the README's "Accounts" section.
 
