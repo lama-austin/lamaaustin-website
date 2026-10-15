@@ -1,5 +1,6 @@
 ---
-title: Jorge "Ruso"
+title: Jorge
+nickname: Ruso
 role: Business Manager
 section: leadership
 photo: /images/officers/jorge-ruso.jpg

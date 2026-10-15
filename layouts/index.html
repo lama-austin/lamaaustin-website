@@ -186,11 +186,11 @@
       {{ $r := .Params.role | lower }}
       <a href="/members/" class="op-card{{ if and (in $r "president") (not (in $r "vice")) }} is-president{{ end }}">
         <div class="op-photo">
-          {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ .Title }}" loading="lazy" />
+          {{ if .Params.photo }}<img src="{{ .Params.photo }}" alt="{{ partial "display-name.html" . }}" loading="lazy" />
           {{ else }}<div class="op-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>{{ end }}
         </div>
         <div class="op-info">
-          <div class="op-name">{{ .Title }}</div>
+          <div class="op-name">{{ partial "display-name.html" . }}</div>
           <div class="op-role">{{ .Params.role }}</div>
         </div>
       </a>

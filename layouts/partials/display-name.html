@@ -1,0 +1,5 @@
+{{/* A member's name as shown on the site: the name, then their nickname in
+     quotes if they have one, e.g. Jorge "Ruso". */}}
+{{ $name := .Title }}
+{{ with .Params.nickname }}{{ $name = printf "%s \"%s\"" $name . }}{{ end }}
+{{ return $name }}
