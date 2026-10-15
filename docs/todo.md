@@ -26,9 +26,8 @@ site can be handed off, move each of these to chapter-owned accounts:
       `https://oauth.lamaaustin.com/callback`) and update the two variables.
 - [x] **Deploy the security fix in `workers/oauth/worker.js`** to the
       `lama-oauth` Worker. Done 2026-10-15.
-- [ ] **Delete the unused `lama-contact` Worker** in Cloudflare (old email
-      version of the contact form; its email service, MailChannels' free
-      API, no longer exists).
+- [x] **Delete the unused `lama-contact` Worker** in Cloudflare. Done
+      2026-10-15.
 - [ ] Write all of the above (where each thing lives, who has access) into
       the README's "Accounts" section.
 
