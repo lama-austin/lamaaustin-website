@@ -17,7 +17,7 @@ few minutes. If you don't see your change, wait a little and refresh.
 | --- | --- |
 | Homepage, About, Join or Members page text | **Pages** |
 | Officers (org chart on the Members page) | **Leadership** |
-| Members (Full Patch, Probate, Prospect, Associate, Spouse, Youth) | **Chapter Members** |
+| Members (Full Patch, Probate, Prospect, Associate, Dama de LAMA, Spouse, Youth) | **Chapter Members** |
 | Photo albums | **Gallery Albums** |
 | Events that aren't in GroupMe | **Events & Rides** |
 | Facebook/Instagram links, founded year, member count, **WhatsApp number for the Join form** | **Site Settings** |

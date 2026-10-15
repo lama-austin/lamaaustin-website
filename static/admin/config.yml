@@ -237,6 +237,7 @@ collections:
           - { label: "Probate", value: "probate" }
           - { label: "Prospect", value: "prospect" }
           - { label: "Associate", value: "associate" }
+          - { label: "Dama de LAMA", value: "dama-de-lama" }
           - { label: "Spouse", value: "spouse" }
           - { label: "Youth", value: "youth" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
