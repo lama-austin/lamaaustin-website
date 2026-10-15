@@ -164,8 +164,6 @@ collections:
         widget: "list"
         required: false
         summary: "{{fields.caption}}"
-        media_folder: "/static/images/events"
-        public_folder: "/images/events"
         fields:
           - { label: "Photo", name: "image", widget: "image", media_folder: "/static/images/events", public_folder: "/images/events" }
           - { label: "Caption", name: "caption", widget: "string", required: false }
@@ -194,25 +192,37 @@ collections:
 
   - name: "officers"
     label: "Leadership"
-    folder: "content/members"
-    create: false
+    description: "Chapter officers, shown as the org chart at the top of the Members page. The President goes on top, the Vice President under them, and everyone else on the row below."
+    folder: "content/members/leadership"
+    create: true
+    delete: true
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
     media_folder: "/static/images/officers"
     public_folder: "/images/officers"
-    filter: { field: "section", value: "leadership" }
     fields:
       - { label: "Name", name: "title", widget: "string" }
-      - { label: "Title / Role", name: "role", widget: "string", hint: "e.g. President, Vice President" }
+      - label: "Position"
+        name: "role"
+        widget: "select"
+        options:
+          - "President"
+          - "Vice President"
+          - "Treasurer"
+          - "Business Manager"
+          - "Secretary"
+          - "Moto-Touring Officer"
       - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
-      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Lower numbers appear first. Use 1 for President, then 2, 3, 4..." }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Order of the officers on the bottom row of the chart (lower numbers first). President and Vice President are placed automatically." }
+      - { label: "Hide from website", name: "draft", widget: "boolean", default: false }
 
   - name: "members"
     label: "Chapter Members"
-    folder: "content/members"
+    description: "Everyone who is not an officer. Each member appears under their section on the Members page, oldest join date first. Sections with nobody in them are hidden."
+    folder: "content/members/roster"
     create: true
+    delete: true
     slug: "{{slug}}"
     summary: "{{title}} - {{section}}"
     media_folder: "/static/images/members"
@@ -224,13 +234,15 @@ collections:
         widget: "select"
         options:
           - { label: "Full Patch", value: "full-patch" }
-          - { label: "Prospect", value: "prospect" }
           - { label: "Probate", value: "probate" }
+          - { label: "Prospect", value: "prospect" }
           - { label: "Associate", value: "associate" }
           - { label: "Dama de LAMA", value: "dama-de-lama" }
+          - { label: "Spouse", value: "spouse" }
+          - { label: "Youth", value: "youth" }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/members", public_folder: "/images/members", hint: "Portrait-style photo works best." }
       - { label: "Date Joined", name: "joined", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, required: false, hint: "Used to sort members by seniority. Oldest date appears first." }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Hide from website", name: "draft", widget: "boolean", default: false }
 
   - name: "settings"
     label: "Site Settings"
@@ -243,3 +255,4 @@ collections:
           - { label: "Instagram URL", name: "instagram", widget: "string" }
           - { label: "Founded Year", name: "founded", widget: "string" }
           - { label: "Member Count", name: "members", widget: "string" }
+          - { label: "WhatsApp Number", name: "whatsapp", widget: "string", hint: "The number the Join form sends messages to. Any format works, e.g. (210) 555-1234 or +1 210 555 1234. Include the country code if it is not a US number." }

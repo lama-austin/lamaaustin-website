@@ -3,9 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
   <title>LAMA Austin · Admin</title>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Sveltia CMS: a drop-in replacement for Decap CMS that reads the same
+       config.yml. The version is pinned on purpose so the admin panel can't
+       change underneath us; bump it deliberately and test /admin/ after.
+       To go back to Decap, swap this tag for:
+       <script src="https://unpkg.com/decap-cms@3.17.1/dist/decap-cms.js"></script> -->
+  <script src="https://unpkg.com/@sveltia/cms@0.221.8/dist/sveltia-cms.js"></script>
 </body>
 </html>

@@ -58,10 +58,9 @@
   @media (max-width: 768px) { #members-intro, #members-grid { padding-left: 1.5rem; padding-right: 1.5rem; } .org-branch { grid-template-columns: repeat(2, 1fr); } .org-branch::before { left: 25%; right: 25%; } .member-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }
 </style>
 
-{{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
 <div class="page-header" data-label="{{ i18n "page_label_members" }}">
   <div class="page-header-inner">
-    <div class="breadcrumb"><a href="{{ $pfx }}/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_members" }}</span></div>
+    <div class="breadcrumb"><a href="/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_members" }}</span></div>
     <h1 class="page-title">{{ replace (.Params.page_title | default "Chapter\nMembers") "\n" "<br/>" | safeHTML }}</h1>
   </div>
 </div>
@@ -78,7 +77,7 @@
     <div class="members-side">
       <h3>{{ i18n "officers_want_connect" }}</h3>
       <p>{{ i18n "officers_connect_desc" }}</p>
-      <a href="{{ $pfx }}/join/" class="btn btn-primary" style="margin-top:1.25rem;">{{ i18n "officers_membership_btn" }}</a>
+      <a href="/join/" class="btn btn-primary" style="margin-top:1.25rem;">{{ i18n "officers_membership_btn" }}</a>
     </div>
   </div>
 </section>
@@ -164,6 +163,8 @@
       (dict "key" "prospect"     "label" (i18n "section_prospect"))
       (dict "key" "associate"    "label" (i18n "section_associate"))
       (dict "key" "dama-de-lama" "label" (i18n "section_dama_de_lama"))
+      (dict "key" "spouse"       "label" (i18n "section_spouse"))
+      (dict "key" "youth"        "label" (i18n "section_youth"))
     }}
 
     {{ range $sections }}

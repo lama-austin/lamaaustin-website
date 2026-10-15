@@ -105,7 +105,7 @@ work doesn't need re-discovering.
   either contact form.** Both forms build a `wa.me` deep link client-side
   instead of POSTing to this endpoint. The endpoint is still deployed and
   directly POST-able, so the hardening concern raised in
-  [contact-form-hardening.md](contact-form-hardening.md) (no rate limit, no
+  [todo.md](todo.md) (no rate limit, no
   captcha, billable Twilio calls) is still live even though the endpoint is
   disconnected from the actual UI. This needs a decision, not just cleanup:
   wire the form to it, or delete the function.

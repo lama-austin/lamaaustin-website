@@ -1,0 +1,7 @@
+{{/* Returns the chapter WhatsApp number from Site Settings (data/settings.json)
+     as digits only, the format wa.me links need. Accepts any human format,
+     e.g. "(210) 782-3867" or "+1 210 782 3867"; a 10-digit US number gets the
+     country code 1 added. */}}
+{{ $digits := replaceRE `[^0-9]` "" (string (.Site.Data.settings.whatsapp | default "")) }}
+{{ if eq (len $digits) 10 }}{{ $digits = printf "1%s" $digits }}{{ end }}
+{{ return $digits }}

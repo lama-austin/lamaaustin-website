@@ -41,10 +41,9 @@
   }
 </style>
 
-{{ $pfx := cond (eq .Language.Lang "es") "/es" "" }}
 <div class="page-header" data-label="{{ i18n "page_label_events" }}">
   <div class="page-header-inner">
-    <div class="breadcrumb"><a href="{{ $pfx }}/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_events" }}</span></div>
+    <div class="breadcrumb"><a href="/">{{ i18n "bc_home" }}</a> <span>→</span> <span>{{ i18n "bc_events" }}</span></div>
     <h1 class="page-title">{{ i18n "events_title_line1" }}<br/>{{ i18n "events_title_line2" }}</h1>
   </div>
 </div>

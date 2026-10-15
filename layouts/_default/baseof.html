@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ .Language.Lang }}">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ if .IsHome }}LAMA Austin | Latin American Motorcyclists Association{{ else }}{{ .Title }} | LAMA Austin{{ end }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
-  {{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />{{ end }}
 
   {{/* Organization structured data — describes the club itself on every page */}}
   {{ $orgData := dict
@@ -155,20 +154,18 @@
 </head>
 <body>
   {{ $s := .Site.Data.settings }}
-  {{ $lang := .Language.Lang }}
-  {{ $pfx := cond (eq $lang "es") "/es" "" }}
   <nav>
-    <a href="{{ $pfx }}/" class="nav-logo">LAMA<span>.</span>ATX</a>
+    <a href="/" class="nav-logo">LAMA<span>.</span>ATX</a>
     <button class="nav-toggle" type="button" aria-label="{{ i18n "nav_menu" | default "Menu" }}" aria-expanded="false" aria-controls="nav-links">
       <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="{{ $pfx }}/about/" {{ if and (not .IsHome) (in .RelPermalink "/about/") }}class="active"{{ end }}>{{ i18n "footer_chapter" }}</a></li>
-      <li><a href="{{ $pfx }}/members/" {{ if eq .Section "members" }}class="active"{{ end }}>{{ i18n "nav_officers" }}</a></li>
-      <li><a href="{{ $pfx }}/events/" {{ if eq .Section "events" }}class="active"{{ end }}>{{ i18n "nav_rides" }}</a></li>
-      <li><a href="{{ $pfx }}/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>{{ i18n "nav_media" }}</a></li>
-      <li><a href="{{ $pfx }}/join/" {{ if in .RelPermalink "/join/" }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>{{ i18n "nav_join" }}</a></li>
+      <li><a href="/about/" {{ if and (not .IsHome) (in .RelPermalink "/about/") }}class="active"{{ end }}>{{ i18n "footer_chapter" }}</a></li>
+      <li><a href="/members/" {{ if eq .Section "members" }}class="active"{{ end }}>{{ i18n "nav_officers" }}</a></li>
+      <li><a href="/events/" {{ if eq .Section "events" }}class="active"{{ end }}>{{ i18n "nav_rides" }}</a></li>
+      <li><a href="/gallery/" {{ if eq .Section "gallery" }}class="active"{{ end }}>{{ i18n "nav_media" }}</a></li>
+      <li><a href="/join/" {{ if in .RelPermalink "/join/" }}class="nav-cta active"{{ else }}class="nav-cta"{{ end }}>{{ i18n "nav_join" }}</a></li>
       <li class="nav-divider"></li>
       <li><div id="google_translate_element"></div></li>
       {{ if or $s.facebook $s.instagram }}<li class="nav-divider"></li>{{ end }}
@@ -182,11 +179,11 @@
   <footer>
     <div class="footer-logo">LAMA<span>.</span>ATX</div>
     <ul class="footer-links">
-      <li><a href="{{ $pfx }}/about/">{{ i18n "footer_chapter" }}</a></li>
-      <li><a href="{{ $pfx }}/members/">{{ i18n "nav_officers" }}</a></li>
-      <li><a href="{{ $pfx }}/events/">{{ i18n "nav_rides" }}</a></li>
-      <li><a href="{{ $pfx }}/gallery/">{{ i18n "nav_media" }}</a></li>
-      <li><a href="{{ $pfx }}/join/">{{ i18n "nav_join" }}</a></li>
+      <li><a href="/about/">{{ i18n "footer_chapter" }}</a></li>
+      <li><a href="/members/">{{ i18n "nav_officers" }}</a></li>
+      <li><a href="/events/">{{ i18n "nav_rides" }}</a></li>
+      <li><a href="/gallery/">{{ i18n "nav_media" }}</a></li>
+      <li><a href="/join/">{{ i18n "nav_join" }}</a></li>
     </ul>
     {{ if or $s.facebook $s.instagram }}
     <div class="footer-social">
