@@ -40,14 +40,6 @@
   .anv-card p { color: #aaa; font-size: 0.92rem; line-height: 1.7; }
   .anv-cat { font-family: var(--font-ui); font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin: 2rem 0 0.9rem; }
   .anv-cat:first-of-type { margin-top: 0; }
-  .anv-checklist { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem; }
-  .anv-checklist label { display: flex; align-items: center; gap: 0.9rem; background: var(--panel); border: 1px solid var(--border); padding: 1rem 1.25rem; cursor: pointer; color: #ccc; font-size: 0.95rem; line-height: 1.5; transition: border-color 0.2s, color 0.2s; }
-  .anv-checklist input { appearance: none; -webkit-appearance: none; flex-shrink: 0; width: 1.35rem; height: 1.35rem; border: 2px solid var(--muted); margin: 0; cursor: pointer; display: grid; place-items: center; }
-  .anv-checklist input::after { content: ''; width: 0.4rem; height: 0.75rem; border: solid var(--white); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); opacity: 0; }
-  .anv-checklist input:checked { background: var(--red); border-color: var(--red); }
-  .anv-checklist input:checked::after { opacity: 1; }
-  .anv-checklist label:has(input:checked) { border-color: var(--red); color: var(--muted); }
-  .anv-checklist label:has(input:checked) span { text-decoration: line-through; }
   .anv-contact-main { border-color: var(--red); background: linear-gradient(135deg, rgba(192,57,43,0.14), rgba(255,255,255,0.03)); }
   .anv-contact { display: flex; flex-direction: column; justify-content: space-between; }
   .anv-day { margin-bottom: 3rem; }
@@ -81,7 +73,7 @@
     .anv-section { padding: 3rem 1.5rem 0.5rem; }
     .anv-tabs-inner { padding: 0 0.75rem; }
     .anv-tab { padding: 0.95rem 0.8rem; font-size: 0.75rem; letter-spacing: 0.15em; }
-    .anv-cards, .anv-checklist { grid-template-columns: 1fr; }
+    .anv-cards { grid-template-columns: 1fr; }
     .anv-actions .btn { flex: 1 1 100%; justify-content: center; }
   }
 </style>
@@ -110,7 +102,6 @@
     <a class="anv-tab" href="#schedule">Schedule</a>
     {{ if .Params.hotels }}<a class="anv-tab" href="#stay">Where To Stay</a>{{ end }}
     {{ if .Params.tips }}<a class="anv-tab" href="#know">Good To Know</a>{{ end }}
-    {{ if .Params.checklist }}<a class="anv-tab" href="#checklist">Checklist</a>{{ end }}
     {{ if .Params.things_to_do }}<a class="anv-tab" href="#todo">Things To Do</a>{{ end }}
     <a class="anv-tab" href="#contact">Contact</a>
   </div>
@@ -196,18 +187,6 @@
     </div>
     {{ end }}
   </div>
-</section>
-{{ end }}
-
-{{ with .Params.checklist }}
-<section class="anv-section" id="checklist">
-  <h2 class="anv-section-title">Checklist</h2>
-  <p class="anv-section-sub">Tap to check things off. Your phone remembers what you've checked.</p>
-  <ul class="anv-checklist">
-    {{ range $i, $item := . }}
-    <li><label><input type="checkbox" data-key="{{ $i }}-{{ $item | urlize }}" /><span>{{ $item }}</span></label></li>
-    {{ end }}
-  </ul>
 </section>
 {{ end }}
 
@@ -323,20 +302,6 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-  })();
-
-  (function () {
-    // Checklist ticks are kept in this browser only; the page works without it.
-    var KEY = 'lama-anniversary-checklist';
-    var saved = {};
-    try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
-    document.querySelectorAll('.anv-checklist input').forEach(function (box) {
-      box.checked = !!saved[box.dataset.key];
-      box.addEventListener('change', function () {
-        saved[box.dataset.key] = box.checked;
-        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
-      });
-    });
   })();
 
   (function () {

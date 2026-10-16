@@ -175,12 +175,6 @@ collections:
             fields:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Text", name: "text", widget: "text" }
-          - label: "Checklist"
-            name: "checklist"
-            widget: "list"
-            required: false
-            hint: "Things to bring or do before the event. Visitors can tick them off on their phone."
-            field: { label: "Item", name: "item", widget: "string" }
           - label: "Things To Do"
             name: "things_to_do"
             widget: "list"

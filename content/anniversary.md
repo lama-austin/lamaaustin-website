@@ -52,17 +52,6 @@ tips:
     text: "Kickstands up at 9:00 AM sharp from Central Texas Harley-Davidson. Show up a little early with a full tank."
   - title: "Flying In"
     text: "Austin-Bergstrom International Airport (AUS) is about 30–40 minutes from Round Rock without traffic."
-checklist:
-  - "Vest / colors"
-  - "Driver's license with motorcycle endorsement"
-  - "Proof of insurance and registration"
-  - "Hotel confirmation"
-  - "Cash, Zelle or Cash App for food and raffles"
-  - "Full tank before kickstands up Saturday at 9:00 AM"
-  - "Rain gear and a warm layer for the evening"
-  - "Sunglasses and sunscreen"
-  - "Phone charger"
-  - "Joined the event WhatsApp chat"
 things_to_do:
   - name: "Twisted Sisters"
     category: "Ride"
