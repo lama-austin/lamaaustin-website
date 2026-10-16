@@ -165,7 +165,7 @@
       <div class="anv-links">
         {{ with .booking }}<a class="primary" href="{{ . }}" target="_blank" rel="noopener">Book A Room</a>{{ end }}
         {{ with .phone }}<a class="primary" href="tel:{{ replaceRE `[^0-9+]` "" . }}">Call {{ . }}</a>{{ end }}
-        {{ with .address }}<a href="https://www.google.com/maps/search/?api=1&query={{ printf "%s, %s" $h.name . | urlquery }}" target="_blank" rel="noopener">Directions</a>{{ end }}
+        {{ with .map_link }}<a href="{{ . }}" target="_blank" rel="noopener">Directions</a>{{ else }}{{ with .address }}<a href="https://www.google.com/maps/search/?api=1&query={{ printf "%s, %s" $h.name . | urlquery }}" target="_blank" rel="noopener">Directions</a>{{ end }}{{ end }}
       </div>
     </div>
     {{ end }}
