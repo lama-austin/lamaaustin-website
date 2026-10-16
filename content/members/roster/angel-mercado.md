@@ -2,6 +2,7 @@
 title: Angel Mercado
 nickname: Negrito
 section: 1-full-patch
+role: Road Captain
 instagram: ''
 facebook: ''
 tiktok: ''
