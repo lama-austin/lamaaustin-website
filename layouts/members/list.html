@@ -68,7 +68,6 @@
   .member-totals-label { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--white); }
   .member-totals-list { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
   .member-totals-list strong { color: var(--white); font-weight: 600; }
-  .leadership-head { display: flex; align-items: baseline; gap: 1.5rem; }
 
   .empty-state { background: var(--panel); padding: 2rem; color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.08em; }
 
@@ -108,11 +107,12 @@
     {{/* ── Leadership ── */}}
     {{ $leadership := sort (where $all ".Params.section" "leadership") ".Params.weight" "asc" }}
 
-    {{/* ── Chapter total: leadership + Full Patch + Probate + Prospect ── */}}
+    {{/* ── Chapter total: leadership + Full Patch + Probate + Prospect.
+         Leadership counts toward the total but isn't listed on its own. ── */}}
     {{ $rankOf := dict }}
     {{ range $all }}{{ $k := replaceRE `^[0-9]+-` "" (string .Params.section) }}{{ $rankOf = merge $rankOf (dict $k (add (index $rankOf $k | default 0) 1)) }}{{ end }}
     {{ $counted := slice
-      (dict "label" (i18n "section_current_leadership_short") "n" (len $leadership))
+      (dict "label" "" "n" (len $leadership))
       (dict "label" (i18n "section_full_patch") "n" (index $rankOf "full-patch" | default 0))
       (dict "label" (i18n "section_probate") "n" (index $rankOf "probate" | default 0))
       (dict "label" (i18n "section_prospect") "n" (index $rankOf "prospect" | default 0))
@@ -122,16 +122,13 @@
     <div class="member-totals">
       <div class="member-totals-main"><span class="member-totals-num">{{ $total }}</span><span class="member-totals-label">{{ i18n "members_total_label" }}</span></div>
       <div class="member-totals-list">
-        {{ range $counted }}{{ if gt .n 0 }}<span>{{ .label }} <strong>{{ .n }}</strong></span>{{ end }}{{ end }}
+        {{ range $counted }}{{ if and .label (gt .n 0) }}<span>{{ .label }} <strong>{{ .n }}</strong></span>{{ end }}{{ end }}
       </div>
     </div>
     {{ end }}
 
     {{ if $leadership }}
-    <div class="leadership-head">
-      <div class="section-label">{{ i18n "section_current_leadership" }}</div>
-      <div class="member-count">{{ i18n "members_count" (len $leadership) }}</div>
-    </div>
+    <div class="section-label">{{ i18n "section_current_leadership" }}</div>
 
     {{ $president := "" }}
     {{ $vp := "" }}
