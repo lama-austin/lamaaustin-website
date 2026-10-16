@@ -291,8 +291,6 @@ collections:
           - "Business Manager"
           - "Secretary"
           - "Moto-Touring Officer"
-          - "Sergeant at Arms"
-          - "Road Captain"
       - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
       - { label: "Instagram", name: "instagram", widget: "string", required: false, hint: "Optional. A link or just the handle, e.g. @ruso_rides. Only add with the person's OK." }
       - { label: "Facebook", name: "facebook", widget: "string", required: false, hint: "Optional. A link to their profile, or just the username." }
@@ -337,7 +335,7 @@ collections:
         name: "role"
         widget: "select"
         required: false
-        hint: "Optional. A chapter role this member holds. Shown as a red tag on their card. Leave empty for none."
+        hint: "Optional. A chapter role this member holds (not a board position). Shown as a red tag on their card. Leave empty for none."
         options:
           - "Road Captain"
           - "Sergeant at Arms"
