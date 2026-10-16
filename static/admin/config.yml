@@ -37,11 +37,6 @@ collections:
             widget: "list"
             summary: "{{fields.paragraph}}"
             field: { label: "Paragraph", name: "paragraph", widget: "text" }
-          - label: "Join Requirements"
-            name: "join_requirements"
-            widget: "list"
-            summary: "{{fields.requirement}}"
-            field: { label: "Requirement", name: "requirement", widget: "string" }
       - label: "About Page"
         name: "about"
         file: "content/about.md"
@@ -114,6 +109,7 @@ collections:
             field: { label: "Paragraph", name: "paragraph", widget: "text" }
           - label: "Requirements"
             name: "requirements"
+            hint: "Also shown in the Join section of the homepage."
             widget: "list"
             summary: "{{fields.requirement}}"
             field: { label: "Requirement", name: "requirement", widget: "string" }
@@ -137,8 +133,6 @@ collections:
               - { label: "Patch Image", name: "image", widget: "image", required: false, media_folder: "/static/images/patches", public_folder: "/images/patches", hint: "Best results: upload a square or tightly cropped patch image, then publish and wait for deploy before checking the live page." }
           - { label: "Final Section Heading", name: "final_heading", widget: "string" }
           - { label: "Final Section Text", name: "final_text", widget: "text" }
-          - { label: "Primary Button Text", name: "primary_cta_text", widget: "string" }
-          - { label: "Primary Button Link", name: "primary_cta_link", widget: "string" }
           - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string" }
           - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string" }
       - label: "Anniversary Page"
@@ -348,7 +342,7 @@ collections:
           - { label: "2. Probate", value: "2-probate" }
           - { label: "3. Prospect", value: "3-prospect" }
           - { label: "4. Associate", value: "4-associate" }
-          - { label: "5. Dama de LAMA", value: "5-dama-de-lama" }
+          - { label: "5. Damas de L.A.M.A.", value: "5-dama-de-lama" }
           - { label: "6. Spouse", value: "6-spouse" }
           - { label: "7. Youth", value: "7-youth" }
       - label: "Role"

@@ -8,7 +8,7 @@ buildFuture = true
 disableKinds = ["taxonomy", "term"]
 
 [params]
-  description = "Latin American Motorcyclists Association – Austin, Texas Chapter"
+  description = "Latin American Motorcycle Association – Austin, Texas Chapter"
 
 [markup.goldmark.renderer]
   unsafe = true

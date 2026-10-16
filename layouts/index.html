@@ -142,7 +142,7 @@
     {{ end }}
     <div class="hero-chapter">{{ $home.Params.hero_chapter | default "Austin, Texas Chapter" }}</div>
     <h1 class="hero-title">{{ $home.Params.hero_title_top | default "L.A.M.A." }}<br/><span class="red">{{ $home.Params.hero_title_accent | default "Austin" }}</span></h1>
-    <p class="hero-subtitle">{{ $home.Params.hero_subtitle | default "Latin American Motorcyclists Association" }}</p>
+    <p class="hero-subtitle">{{ $home.Params.hero_subtitle | default "Latin American Motorcycle Association" }}</p>
     <div class="hero-actions">
       <a href="{{ $home.Params.hero_primary_cta_link | default "/join/" }}" class="btn btn-primary">{{ $home.Params.hero_primary_cta_text | default "Join the Chapter" }}</a>
       <a href="{{ $home.Params.hero_secondary_cta_link | default "/events/" }}" class="btn btn-outline">{{ $home.Params.hero_secondary_cta_text | default "Upcoming Rides" }}</a>
@@ -279,7 +279,8 @@
       <p>{{ . }}</p>
       {{ end }}
       <ul class="req-list">
-        {{ range $home.Params.join_requirements }}
+        {{/* Same list as the Join page, so there's one place to edit it. */}}
+        {{ range (.Site.GetPage "/join").Params.requirements }}
         <li>{{ . }}</li>
         {{ end }}
       </ul>

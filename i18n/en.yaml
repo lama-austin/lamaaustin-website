@@ -24,9 +24,9 @@ stat_state_chapter: State Chapter
 stat_members: Members
 section_our_story: Our Story
 cta_meet_chapter_label: Meet The Chapter
-cta_officers_heading: "Get To Know Our Officers And Membership Process"
-cta_officers_desc: "Want to learn more about the people leading L.A.M.A. Austin or what it takes to join? We have dedicated pages for both, so visitors can quickly find the information they need."
-btn_view_officers: View Officers
+cta_officers_heading: "Get To Know Our Members And How To Join"
+cta_officers_desc: "Want to learn more about the people of L.A.M.A. Austin or what it takes to join? We have dedicated pages for both, so visitors can quickly find the information they need."
+btn_view_officers: Meet The Members
 btn_how_to_join: How To Join
 
 # Events page
@@ -71,7 +71,7 @@ section_full_patch: Full Patch
 section_prospect: Prospect
 section_probate: Probate
 section_associate: Associate
-section_dama_de_lama: Dama de LAMA
+section_dama_de_lama: Damas de L.A.M.A.
 section_spouse: Spouse
 section_youth: Youth
 leadership_included: including leadership

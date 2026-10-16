@@ -35,15 +35,15 @@ secondary_cta_link: "/events/"
 
 ## About L.A.M.A.
 
-The Latin American Motorcycle Association was founded in 1977 in Chicago's Humboldt Park neighborhood. From the beginning, L.A.M.A. was intended to be a moto-touring club guided by truly democratic ideas.
+The Latin American Motorcycle Association was founded by Mario Nieves in June 1977 in Chicago's Humboldt Park neighborhood. From the beginning, L.A.M.A. was intended to be a moto-touring club guided by truly democratic ideas, and a welcoming answer to the negative image many people had of motorcyclists.
 
-In 1995, a chapter was formed outside of Illinois, and in 1996 L.A.M.A. became a national association when its first national president was elected. In 1999, L.A.M.A. became an international association when chapters were formed in Puerto Rico, Mexico, and Cuba. Today, the association includes more than 200 chapters worldwide spanning the Americas, Asia, Europe, and Australia.
+For its first 19 years, Chicago was the only chapter. In 1996 a sister chapter was born in Miami, Florida, and L.A.M.A. elected its first National President. With the new millennium in 2000, L.A.M.A. became an international association, the L.A.M.A. International Motorcycle Association (I.M.A.), with chapters in Puerto Rico, Mexico, and Cuba. Today the association has about 240 chapters in 26 countries, nearly 100 of them in the United States.
 
 ## A Club Without Borders
 
 L.A.M.A. has evolved into an international humanist association. We accept working people from all walks of life, regardless of nationality, race, color, religion, social class, gender, age, or brand of motorcycle.
 
-We believe it is more important to recognize and identify ourselves as human first. That philosophy continues to shape the way chapters connect, welcome new members, and represent the association around the world.
+Our mission is to unite motorcycle enthusiasts in fellowship, promoting peace, love, harmony, and non-violence worldwide. We believe it is more important to recognize and identify ourselves as human first. That philosophy continues to shape the way chapters connect, welcome new members, and represent the association around the world.
 
 ## A Living Brotherhood
 
@@ -53,10 +53,12 @@ Because of that philosophy, L.A.M.A. has become one of the most respected motorc
 
 ## Long-Distance Riding Tradition
 
-L.A.M.A. is recognized as one of the most active long-distance riding clubs in the world, with more than 45 years and counting of shared miles, national runs, and international runs.
+L.A.M.A. is recognized as one of the most active long-distance riding clubs in the world, with nearly 50 years of shared miles, national runs, and international runs.
+
+In 2006, L.A.M.A. introduced Moto-Touring, an adventure sport in which riders log odometer miles covering long distances across the world's landscapes. Members compete in Regional, National, Continental, and World Moto-Touring Championships, and the association gathers each year for its International Rally. Photos from the 29th International Rally in Acajutla, El Salvador are in our [gallery](/gallery/).
 
 As a member, you have the opportunity to visit chapters across the association, including chapters in other countries, and ride alongside brothers and sisters who share the same commitment to the road.
 
 ## Damas de L.A.M.A.
 
-Our women, the Damas de L.A.M.A., ride their own and travel with us across long distances, through long hours, and in all kinds of conditions. Rain or shine, heat or cold, they represent the same endurance, discipline, and pride that define the association as a whole.
+Our women, the Damas de L.A.M.A., live by their motto: "We ride our own." They travel with us across long distances, through long hours, and in all kinds of conditions. Rain or shine, heat or cold, they represent the same endurance, discipline, and pride that define the association as a whole.

@@ -11,10 +11,10 @@ intro_heading: |-
   A Member
 intro_paragraphs:
   - The membership process for joining a L.A.M.A. chapter is straightforward, welcoming, and built around getting to know the chapter the right way.
-  - You can ride any brand of motorcycle as long as it is 650cc or higher. More than anything, we are looking for people who respect the brotherhood, value inclusiveness, and want to be part of the family.
+  - You can ride any brand of motorcycle as long as it is 600cc or higher. More than anything, we are looking for people who respect the brotherhood, value inclusiveness, and want to be part of the family.
 requirements:
-  - A motorcycle 650cc or higher
-  - A valid motorcycle license
+  - Your own street-legal motorcycle, 600cc or higher
+  - A valid motorcycle license (M class) and insurance
   - Respect for the chapter, our values, and the road
   - Willingness to ride with us, attend meetings, and get to know the chapter
 contact_heading: Start By Reaching Out
@@ -51,8 +51,6 @@ stages:
     image: /images/patches/aba1aa_1ae093cb0b6e49f5a5e5069be7da8b8d~mv2.gif
 final_heading: Questions Or Ready To Connect?
 final_text: If you are interested in joining, the best next step is to reach out and ride with us. We are happy to answer questions, explain the process, and help you learn what membership looks like in real life.
-primary_cta_text: Contact The Chapter
-primary_cta_link: /#join
 secondary_cta_text: See Upcoming Rides
 secondary_cta_link: /events/
 ---
