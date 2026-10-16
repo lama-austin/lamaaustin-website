@@ -43,7 +43,7 @@ stages:
   - title: Full Colors
     duration: Awarded after successful completion
     description: Full Colors are awarded in a ceremonial fashion to Probate members who successfully complete the full probation period and earn full membership in the chapter.
-    image: ''
+    image: /images/patches/Embroidered Latin American Eagle Patch.png
   - title: Damas de L.A.M.A.
     duration: For women who ride their own
     description: The Damas de L.A.M.A. patch is awarded to our female members who ride their own motorcycle and represent the same pride, endurance, and commitment to the road.
