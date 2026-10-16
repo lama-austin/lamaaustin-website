@@ -31,6 +31,24 @@ site can be handed off, move each of these to chapter-owned accounts:
 - [ ] Write all of the above (where each thing lives, who has access) into
       the README's "Accounts" section.
 
+## 1b. Search visibility (Google)
+
+The website side was fixed 2026-10-15 (real sitemap, 404 page, page
+descriptions/titles, share previews). Remaining steps need an account
+owner, ideally the chapter's own Google account:
+
+- [ ] **Google Search Console** (search.google.com/search-console): add
+      the domain lamaaustin.com, verify with the DNS record it gives you
+      (Cloudflare → DNS → add TXT record), then submit
+      `https://lamaaustin.com/sitemap.xml` under Sitemaps.
+- [ ] **Google Business Profile** (business.google.com): list LAMA Austin
+      as a club in Austin, TX with the address hidden (service-area
+      business), the website link, and photos. This is what makes the club
+      show up on Google Maps / "near me" searches.
+- [ ] Ask LAMA national, regional and state sites to link to
+      lamaaustin.com from their chapter lists; put the link on the chapter
+      Facebook and Instagram profiles.
+
 ## 2. Contact form delivery
 
 Goal: someone can send us their info **without needing WhatsApp
