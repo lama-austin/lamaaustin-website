@@ -7,6 +7,7 @@ dates_label: "October 23–25, 2026"
 intro: "Three days of brotherhood, riding and family. Everyone is welcome: members, friends, families and riders from every chapter."
 flyer: /images/events/anniversary-2026-flyer.jpg
 share_image: /images/events/anniversary-2026-share.jpg
+share_title: "LAMA Austin 5th Anniversary Celebration · October 23–25, 2026"
 show_on_homepage: true
 group_chat: "https://chat.whatsapp.com/GViQYMhLQuM7UfY2ILFj3j"
 hotels:

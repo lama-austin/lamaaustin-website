@@ -3,7 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{{ if .IsHome }}LAMA Austin | Latin American Motorcyclists Association{{ else }}{{ .Title }} | LAMA Austin{{ end }}</title>
+  {{/* Search engine + share preview basics. Each page can set its own
+       "description" (and optionally "seo_title" / "share_image") in the
+       admin panel; otherwise sensible defaults are used. */}}
+  {{/* Events and Gallery have no page file of their own; their title and
+       description live in data/seo.json (admin: Pages → Events/Gallery Page). */}}
+  {{ $sectionSEO := cond (eq .Kind "section") (index .Site.Data.seo .Section | default dict) dict }}
+  {{ $pageTitle := $sectionSEO.title | default .Title }}
+  {{ $title := .Params.seo_title | default (cond .IsHome "LAMA Austin | Latin American Motorcycle Club in Austin, TX" (printf "%s | LAMA Austin Motorcycle Club" $pageTitle)) }}
+  {{ $desc := .Description | default $sectionSEO.description | default .Site.Params.description }}
+  {{ $shareTitle := .Params.share_title | default $title }}
+  {{ $shareImage := .Params.share_image | default "images/hero-group.jpg" }}
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $desc }}" />
+  <link rel="canonical" href="{{ .Permalink }}" />
+  <meta property="og:site_name" content="LAMA Austin" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="{{ $shareTitle }}" />
+  <meta property="og:description" content="{{ $desc }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:image" content="{{ $shareImage | absURL }}" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
 
@@ -17,6 +38,8 @@
       "logo" ("images/lama-international-patch.webp" | absURL)
       "description" .Site.Params.description
       "foundingDate" .Site.Data.settings.founded
+      "address" (dict "@type" "PostalAddress" "addressLocality" "Austin" "addressRegion" "TX" "addressCountry" "US")
+      "areaServed" (dict "@type" "City" "name" "Austin, Texas")
       "sameAs" (slice .Site.Data.settings.facebook .Site.Data.settings.instagram)
   }}
   <script type="application/ld+json">{{ $orgData | jsonify | safeJS }}</script>
@@ -34,7 +57,7 @@
         "eventStatus" "https://schema.org/EventScheduled"
         "location" (dict "@type" "Place" "name" .Params.location "hasMap" (printf "https://www.google.com/maps/search/?api=1&query=%s" (.Params.location | urlquery)))
         "description" (.Plain | strings.TrimSpace)
-        "url" .Permalink
+        "url" (printf "%sevents/#%s" ("" | absURL) .File.ContentBaseName)
         "organizer" (dict "@type" "Organization" "name" "LAMA Austin" "url" $.Site.BaseURL)
     ) }}
   {{ end }}

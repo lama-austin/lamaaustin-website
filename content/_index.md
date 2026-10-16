@@ -1,4 +1,5 @@
 ---
+description: "LAMA Austin is the Austin, Texas chapter of L.A.M.A., the Latin American motorcycle association. Group rides, monthly meetings and family events since 2021."
 title: LAMA Austin
 hero_chapter: Austin, Texas Chapter
 hero_title_top: L.A.M.A.

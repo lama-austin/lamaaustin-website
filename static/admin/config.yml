@@ -21,6 +21,7 @@ collections:
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Search & Share Description", name: "description", widget: "text", required: false, hint: "One or two sentences (under 160 characters) shown under the link in Google and in link previews on WhatsApp/Facebook." }
           - { label: "Hero Chapter Label", name: "hero_chapter", widget: "string", hint: "Small text above the homepage title." }
           - { label: "Hero Title Line 1", name: "hero_title_top", widget: "string" }
           - { label: "Hero Title Accent", name: "hero_title_accent", widget: "string", hint: "The red word on the second line." }
@@ -48,6 +49,7 @@ collections:
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Search & Share Description", name: "description", widget: "text", required: false, hint: "One or two sentences (under 160 characters) shown under the link in Google and in link previews on WhatsApp/Facebook." }
           - { label: "Layout", name: "layout", widget: "hidden", default: "about" }
           - { label: "Header Title", name: "page_title", widget: "text", hint: "Use a new line to split the title across two lines." }
           - { label: "Intro Label", name: "intro_label", widget: "string" }
@@ -84,6 +86,7 @@ collections:
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Search & Share Description", name: "description", widget: "text", required: false, hint: "One or two sentences (under 160 characters) shown under the link in Google and in link previews on WhatsApp/Facebook." }
           - { label: "Header Title", name: "page_title", widget: "text", hint: "Use a new line to split the title across two lines." }
           - { label: "Intro Label", name: "intro_label", widget: "string" }
           - { label: "Intro Heading", name: "intro_heading", widget: "text", hint: "Use a new line to split the heading across multiple lines." }
@@ -99,6 +102,7 @@ collections:
         public_folder: "/images/pages"
         fields:
           - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Search & Share Description", name: "description", widget: "text", required: false, hint: "One or two sentences (under 160 characters) shown under the link in Google and in link previews on WhatsApp/Facebook." }
           - { label: "Layout", name: "layout", widget: "hidden", default: "join" }
           - { label: "Header Title", name: "page_title", widget: "text", hint: "Use a new line to split the title across two lines." }
           - { label: "Intro Label", name: "intro_label", widget: "string" }
@@ -211,6 +215,22 @@ collections:
               - { label: "Search For Directions", name: "map_query", widget: "string", required: false, hint: "What to search in Google Maps for the Directions button (a name or a full address). Leave empty to hide the button." }
               - { label: "Details", name: "details", widget: "text", required: false }
               - { label: "Route Link", name: "route", widget: "string", required: false, hint: "Optional Google Maps link to the ride route. Adds a View Route button." }
+      - label: "Events & Gallery Pages"
+        name: "section_pages"
+        file: "data/seo.json"
+        fields:
+          - label: "Events Page"
+            name: "events"
+            widget: "object"
+            fields:
+              - { label: "Page Title", name: "title", widget: "string" }
+              - { label: "Search & Share Description", name: "description", widget: "text", required: false, hint: "One or two sentences (under 160 characters) shown under the link in Google and in link previews on WhatsApp/Facebook." }
+          - label: "Gallery Page"
+            name: "gallery"
+            widget: "object"
+            fields:
+              - { label: "Page Title", name: "title", widget: "string" }
+              - { label: "Search & Share Description", name: "description", widget: "text", required: false, hint: "One or two sentences (under 160 characters) shown under the link in Google and in link previews on WhatsApp/Facebook." }
 
   - name: "events"
     label: "Events & Rides"

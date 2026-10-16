@@ -3,8 +3,23 @@ languageCode = "en-us"
 title = "LAMA Austin"
 buildFuture = true
 
+# No tag/category pages: the site doesn't use them, and the empty pages
+# only cluttered the sitemap.
+disableKinds = ["taxonomy", "term"]
+
 [params]
   description = "Latin American Motorcyclists Association – Austin, Texas Chapter"
 
 [markup.goldmark.renderer]
   unsafe = true
+
+# Members, events and gallery albums appear on their section pages only
+# (/members/, /events/, /gallery/). Don't publish a separate page for each
+# one: there's no design for those pages, so they were blank, yet they were
+# listed in the sitemap for Google.
+[[cascade]]
+  [cascade.build]
+    render = "never"
+  [cascade._target]
+    kind = "page"
+    path = "{/members/**,/events/**,/gallery/**}"

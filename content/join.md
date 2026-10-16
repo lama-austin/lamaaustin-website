@@ -1,4 +1,5 @@
 ---
+description: "How to join LAMA Austin: membership requirements, the prospect and probate process, and our patches. Riders with a street-legal 600cc+ motorcycle are welcome."
 title: Join
 layout: join
 page_title: |-

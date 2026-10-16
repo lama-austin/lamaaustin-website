@@ -1,4 +1,5 @@
 ---
+description: "Who we are: L.A.M.A. Austin is a brotherhood of riders built on respect, culture and the open road, part of an international association with chapters across the Americas."
 title: "About"
 layout: "about"
 page_title: "About\nL.A.M.A. Austin"

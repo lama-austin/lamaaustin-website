@@ -1,4 +1,5 @@
 ---
+description: "Meet the riders of LAMA Austin: chapter leadership, full patch members, prospects, associates and their families."
 title: Members
 page_title: "Chapter\nMembers"
 intro_label: Our People
