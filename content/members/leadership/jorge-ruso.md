@@ -1,5 +1,5 @@
 ---
-title: Jorge
+title: Jorge Suchomlinow
 nickname: Ruso
 role: Business Manager
 section: leadership
