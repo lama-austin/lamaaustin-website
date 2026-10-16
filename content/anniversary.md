@@ -8,6 +8,7 @@ intro: "Three days of brotherhood, riding and family. Everyone is welcome: membe
 flyer: /images/events/anniversary-2026-flyer.jpg
 share_image: /images/events/anniversary-2026-share.jpg
 show_on_homepage: true
+group_chat: "https://chat.whatsapp.com/GViQYMhLQuM7UfY2ILFj3j"
 hotels:
   - name: "Quality Inn & Suites Round Rock - Austin North"
     label: "Host Hotel"
@@ -15,7 +16,7 @@ hotels:
     perks: "Special room rates for our guests · Free Wi-Fi · Outdoor pool · Free breakfast"
     booking: ""
     phone: ""
-    code: ""
+    booking_note: "Mention you're with LAMA to get the $229 rate."
 tips:
   - title: "Everything Is Close"
     text: "The host hotel, Besos and Central Texas Harley-Davidson are all along I-35 in Round Rock, just minutes apart. The Oasis is out on Lake Travis, so plan about 45 minutes from Round Rock."
@@ -25,6 +26,8 @@ tips:
     text: "Several highways around Austin (SH 130, SH 45, 183A and the MoPac express lanes) are cashless toll roads that bill by license plate. Set your GPS to avoid tolls if you'd rather skip them."
   - title: "Helmet Law"
     text: "Texas requires a helmet for riders under 21. Riders 21 and older can ride without one only if they've completed a motorcycle safety course or carry at least $10,000 in medical insurance."
+  - title: "Join The Event Chat"
+    text: "Times, last-minute changes, the after party and the Sunday ride details are all posted in the event WhatsApp chat. Join it before you head out."
   - title: "Saturday Ride"
     text: "Kickstands up at 9:00 AM sharp from Central Texas Harley-Davidson. Show up a little early with a full tank."
   - title: "Flying In"
@@ -104,7 +107,7 @@ schedule:
     start: 2026-10-24T17:00:00-05:00
     end: 2026-10-24T21:00:00-05:00
     show_end: false
-    time_note: "After the celebration"
+    time_note: "After the celebration (time in the event chat)"
     place: "The Oasis on Lake Travis"
     address: "6550 Comanche Trail, Austin, TX"
     map_query: "The Oasis on Lake Travis, 6550 Comanche Trail, Austin, TX"
@@ -116,5 +119,5 @@ schedule:
     time_note: "Details coming soon"
     place: ""
     map_query: ""
-    details: "A surprise ride to close out the weekend. Watch GroupMe for the meeting spot and time."
+    details: "A surprise ride to close out the weekend. The meeting spot and time will be posted in the event WhatsApp chat."
 ---

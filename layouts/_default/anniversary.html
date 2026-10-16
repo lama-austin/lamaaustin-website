@@ -40,6 +40,7 @@
   .anv-card p { color: #aaa; font-size: 0.92rem; line-height: 1.7; }
   .anv-cat { font-family: var(--font-ui); font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin: 2rem 0 0.9rem; }
   .anv-cat:first-of-type { margin-top: 0; }
+  .anv-contact-main { border-color: var(--red); background: linear-gradient(135deg, rgba(192,57,43,0.14), rgba(255,255,255,0.03)); }
   .anv-contact { display: flex; flex-direction: column; justify-content: space-between; }
   .anv-day { margin-bottom: 3rem; }
   .anv-day-label { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.04em; padding-bottom: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
@@ -87,6 +88,7 @@
     {{ with .Params.intro }}<p class="anv-intro">{{ . }}</p>{{ end }}
     <div class="anv-actions">
       {{ with $calURL }}<a href="{{ . }}" class="btn btn-primary">Add Weekend To My Calendar</a>{{ end }}
+      {{ with .Params.group_chat }}<a href="{{ . }}" target="_blank" rel="noopener" class="btn btn-outline">Join The Event Chat</a>{{ end }}
       <button type="button" class="btn btn-outline" id="anvShare" data-title="LAMA Austin {{ .Title }}" data-url="{{ .Permalink }}">Share This Page</button>
       {{ with .Params.flyer }}<a href="{{ . }}" target="_blank" rel="noopener" class="btn btn-outline">View Flyer</a>{{ end }}
     </div>
@@ -159,7 +161,7 @@
       <div class="anv-item-title">{{ .name }}</div>
       {{ with .address }}<div class="anv-address">{{ . }}</div>{{ end }}
       {{ with .perks }}<p class="anv-hotel-perks">{{ . }}</p>{{ end }}
-      {{ with .code }}<p class="anv-hotel-code">Ask for: <strong>{{ . }}</strong></p>{{ end }}
+      {{ with .booking_note }}<p class="anv-hotel-code"><strong>{{ . }}</strong></p>{{ end }}
       <div class="anv-links">
         {{ with .booking }}<a class="primary" href="{{ . }}" target="_blank" rel="noopener">Book A Room</a>{{ end }}
         {{ with .phone }}<a class="primary" href="tel:{{ replaceRE `[^0-9+]` "" . }}">Call {{ . }}</a>{{ end }}
@@ -218,12 +220,22 @@
   <h2 class="anv-section-title">Contact</h2>
   <p class="anv-section-sub">Questions about the weekend? Reach out, we're happy to help.</p>
   <div class="anv-cards">
+    {{ with .Params.group_chat }}
+    <div class="anv-card anv-contact anv-contact-main">
+      <div>
+        <div class="anv-hotel-label">Best way to reach us</div>
+        <div class="anv-card-title">Join The Event Chat</div>
+        <p>Our WhatsApp group for the weekend. Ask questions and get the latest times, locations and changes.</p>
+      </div>
+      <div class="anv-links"><a class="primary" href="{{ . }}" target="_blank" rel="noopener">Join On WhatsApp</a></div>
+    </div>
+    {{ end }}
     {{ with $wa }}
     <div class="anv-card anv-contact">
       <div>
         <div class="anv-hotel-label">LAMA Austin</div>
-        <div class="anv-card-title">Message Us On WhatsApp</div>
-        <p>The fastest way to reach the chapter.</p>
+        <div class="anv-card-title">Message The Chapter</div>
+        <p>Prefer a private message? Send us a WhatsApp.</p>
       </div>
       <div class="anv-links"><a class="primary" href="https://wa.me/{{ . }}?text={{ printf "Hi! I have a question about the LAMA Austin %s." $.Title | urlquery }}" target="_blank" rel="noopener">Open WhatsApp</a></div>
     </div>
