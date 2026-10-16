@@ -5,7 +5,7 @@ section: 1-full-patch
 instagram: ''
 facebook: ''
 tiktok: ''
-photo: /images/members/Embroidered Latin American Eagle Patch.png
+photo: /images/members/member-patch.jpg
 joined: 2025-08-21
 draft: false
 ---

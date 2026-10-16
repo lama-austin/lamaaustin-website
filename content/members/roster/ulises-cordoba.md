@@ -5,7 +5,7 @@ section: 3-prospect
 instagram: ''
 facebook: ''
 tiktok: ''
-photo: /images/members/Embroidered Latin American Eagle Patch.png
+photo: /images/members/member-patch.jpg
 joined: 2026-05-17
 draft: false
 ---
