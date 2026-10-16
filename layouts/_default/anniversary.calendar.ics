@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//LAMA Austin//lamaaustin.com//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:LAMA Austin {{ .Title }}
+{{- $page := . }}
+{{- range $i, $e := .Params.schedule }}
+{{- $start := time.AsTime $e.start }}
+{{- $end := time.AsTime ($e.end | default $e.start) }}
+{{- $details := printf "%s%s\n\nFull schedule: %s" ($e.details | default "") (cond (isset $e "time_note") (printf " (%s)" ($e.time_note | default "")) "") $page.Permalink }}
+BEGIN:VEVENT
+UID:{{ $start.UTC.Format "20060102T150405Z" }}-{{ $i }}-anniversary@lamaaustin.com
+DTSTAMP:{{ now.UTC.Format "20060102T150405Z" }}
+DTSTART:{{ $start.UTC.Format "20060102T150405Z" }}
+DTEND:{{ $end.UTC.Format "20060102T150405Z" }}
+SUMMARY:{{ printf "LAMA Austin Anniversary: %s" $e.title | replaceRE `([,;\\])` `\$1` }}
+LOCATION:{{ delimit (slice ($e.place | default "") ($e.address | default "")) ", " | strings.TrimSuffix ", " | strings.TrimPrefix ", " | replaceRE `([,;\\])` `\$1` }}
+DESCRIPTION:{{ $details | replaceRE `([,;\\])` `\$1` | replaceRE "\n" `\n` }}
+URL:{{ $page.Permalink }}
+END:VEVENT
+{{- end }}
+END:VCALENDAR

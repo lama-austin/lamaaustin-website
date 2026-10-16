@@ -1,0 +1,325 @@
+{{ define "head" }}
+  {{/* Share preview (WhatsApp, GroupMe, Facebook, iMessage) for this page. */}}
+  <meta name="description" content="{{ .Description }}" />
+  <meta property="og:site_name" content="LAMA Austin" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="LAMA Austin {{ .Title }} · {{ .Params.dates_label }}" />
+  <meta property="og:description" content="{{ .Description }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  {{ with .Params.share_image | default .Params.flyer }}<meta property="og:image" content="{{ . | absURL }}" />{{ end }}
+  <meta name="twitter:card" content="summary_large_image" />
+{{ end }}
+
+{{ define "main" }}
+<style>
+  .anv-hero { padding: 9rem 3rem 3.5rem; background: radial-gradient(ellipse at 80% 0%, rgba(192,57,43,0.25), transparent 60%), var(--dark); border-bottom: 1px solid var(--border); }
+  .anv-hero-inner { max-width: 1100px; margin: 0 auto; }
+  .anv-dates { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
+  .anv-title { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .anv-intro { color: #bbb; font-size: 1.05rem; line-height: 1.8; max-width: 640px; margin: 1.25rem 0 2rem; }
+  .anv-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .anv-actions .btn { cursor: pointer; border: none; }
+  .anv-actions .btn-outline { background: none; border: 1px solid var(--border); }
+
+  /* Quick-jump tabs: stick under the site nav while scrolling */
+  .anv-tabs { position: sticky; top: var(--anv-nav, 64px); z-index: 50; background: rgba(10,10,10,0.98); border-bottom: 1px solid var(--border); }
+  .anv-tabs-inner { max-width: calc(1100px + 6rem); margin: 0 auto; padding: 0 3rem; display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; }
+  .anv-tabs-inner::-webkit-scrollbar { display: none; }
+  .anv-tab { flex-shrink: 0; font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 1.05rem 1rem; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .anv-tab:hover { color: var(--white); }
+  .anv-tab.active { color: var(--white); border-bottom-color: var(--red); }
+
+  .anv-section { max-width: calc(1100px + 6rem); margin: 0 auto; padding: 4rem 3rem 1rem; scroll-margin-top: var(--anv-offset, 120px); }
+  .anv-section:last-of-type { padding-bottom: 6rem; }
+  .anv-section-title { font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.25rem); letter-spacing: 0.03em; line-height: 1; margin-bottom: 0.5rem; }
+  .anv-section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+  .anv-schedule-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 4rem; align-items: start; }
+  .anv-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem; }
+  .anv-card { background: var(--panel); border: 1px solid var(--border); padding: 1.4rem 1.5rem; }
+  .anv-card-title { font-family: var(--font-ui); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .anv-card p { color: #aaa; font-size: 0.92rem; line-height: 1.7; }
+  .anv-cat { font-family: var(--font-ui); font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin: 2rem 0 0.9rem; }
+  .anv-cat:first-of-type { margin-top: 0; }
+  .anv-contact-main { border-color: var(--red); background: linear-gradient(135deg, rgba(192,57,43,0.14), rgba(255,255,255,0.03)); }
+  .anv-contact { display: flex; flex-direction: column; justify-content: space-between; }
+  .anv-day { margin-bottom: 3rem; }
+  .anv-day-label { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.04em; padding-bottom: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .anv-item { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--red); padding: 1.4rem 1.5rem; margin-bottom: 0.75rem; }
+  .anv-time { font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); }
+  .anv-item-title { font-family: var(--font-ui); font-size: 1.35rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin: 0.25rem 0 0.4rem; }
+  .anv-place { color: var(--white); font-size: 0.95rem; }
+  .anv-address { color: var(--muted); font-size: 0.85rem; margin-top: 0.15rem; }
+  .anv-hotel { background: linear-gradient(135deg, rgba(192,57,43,0.14), rgba(255,255,255,0.03)); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 0.75rem; }
+  .anv-hotel-label { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red); }
+  .anv-hotel-perks { color: #aaa; font-size: 0.9rem; line-height: 1.7; margin-top: 0.5rem; }
+  .anv-hotel-code { color: var(--white); font-size: 0.95rem; margin-top: 0.5rem; }
+  .anv-details { color: #aaa; font-size: 0.95rem; line-height: 1.7; margin-top: 0.4rem; }
+  .anv-links { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 0.9rem; }
+  .anv-links a { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--muted); padding: 0.35rem 0; }
+  .anv-links a:hover { color: var(--white); border-color: var(--white); }
+  .anv-links a.primary { color: var(--white); border-bottom-color: var(--red); }
+
+  .anv-flyer { position: sticky; top: calc(var(--anv-offset, 120px) + 1rem); }
+  .anv-flyer a { display: block; border: 1px solid var(--border); }
+  .anv-flyer img { width: 100%; display: block; }
+  .anv-flyer-note { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 0.75rem; text-align: center; }
+
+  @media (max-width: 900px) {
+    .anv-schedule-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .anv-flyer { position: static; order: 2; }
+  }
+  @media (max-width: 768px) {
+    .anv-hero { padding: 7.5rem 1.5rem 2.5rem; }
+    .anv-section { padding: 3rem 1.5rem 0.5rem; }
+    .anv-tabs-inner { padding: 0 0.75rem; }
+    .anv-tab { padding: 0.95rem 0.8rem; font-size: 0.75rem; letter-spacing: 0.15em; }
+    .anv-cards { grid-template-columns: 1fr; }
+    .anv-actions .btn { flex: 1 1 100%; justify-content: center; }
+  }
+</style>
+
+{{ $calURL := "" }}
+{{ with .OutputFormats.Get "calendar" }}{{ $calURL = .RelPermalink }}{{ end }}
+
+<section class="anv-hero">
+  <div class="anv-hero-inner">
+    <div class="anv-dates">{{ .Params.dates_label }}</div>
+    <h1 class="anv-title">{{ .Title }}</h1>
+    {{ with .Params.intro }}<p class="anv-intro">{{ . }}</p>{{ end }}
+    <div class="anv-actions">
+      {{ with $calURL }}<a href="{{ . }}" class="btn btn-primary">Add Weekend To My Calendar</a>{{ end }}
+      {{ with .Params.group_chat }}<a href="{{ . }}" target="_blank" rel="noopener" class="btn btn-outline">Join The Event Chat</a>{{ end }}
+      <button type="button" class="btn btn-outline" id="anvShare" data-title="LAMA Austin {{ .Title }}" data-url="{{ .Permalink }}">Share This Page</button>
+      {{ with .Params.flyer }}<a href="{{ . }}" target="_blank" rel="noopener" class="btn btn-outline">View Flyer</a>{{ end }}
+    </div>
+  </div>
+</section>
+
+{{ $s := .Site.Data.settings }}
+{{ $wa := partial "whatsapp-number.html" . }}
+<div class="anv-tabs" role="navigation" aria-label="Page sections">
+  <div class="anv-tabs-inner">
+    <a class="anv-tab" href="#schedule">Schedule</a>
+    {{ if .Params.hotels }}<a class="anv-tab" href="#stay">Where To Stay</a>{{ end }}
+    {{ if .Params.tips }}<a class="anv-tab" href="#know">Good To Know</a>{{ end }}
+    {{ if .Params.things_to_do }}<a class="anv-tab" href="#todo">Things To Do</a>{{ end }}
+    <a class="anv-tab" href="#contact">Contact</a>
+  </div>
+</div>
+
+<section class="anv-section" id="schedule">
+  <h2 class="anv-section-title">Schedule</h2>
+  <p class="anv-section-sub">All times are Central Time.</p>
+  <div class="anv-schedule-grid">
+  <div>
+    {{ $lastDay := "" }}
+    {{ range $i, $e := .Params.schedule }}
+      {{ $start := time.AsTime $e.start }}
+      {{ $end := time.AsTime ($e.end | default $e.start) }}
+      {{ $day := $start.Format "Monday, January 2" }}
+      {{ if ne $day $lastDay }}
+        {{ if $lastDay }}</div>{{ end }}
+        <div class="anv-day"><div class="anv-day-label">{{ $day }}</div>
+        {{ $lastDay = $day }}
+      {{ end }}
+      <div class="anv-item">
+        <div class="anv-time">
+          {{- with $e.time_note }}{{ . }}{{ else }}{{ $start.Format "3:04 PM" }}{{ if $e.show_end }} – {{ $end.Format "3:04 PM" }}{{ end }}{{ end -}}
+        </div>
+        <div class="anv-item-title">{{ $e.title }}</div>
+        {{ with $e.place }}<div class="anv-place">{{ . }}</div>{{ end }}
+        {{ with $e.address }}<div class="anv-address">{{ . }}</div>{{ end }}
+        {{ with $e.details }}<p class="anv-details">{{ . }}</p>{{ end }}
+        <div class="anv-links">
+          {{ with $e.map_query }}<a class="primary" href="https://www.google.com/maps/search/?api=1&query={{ . | urlquery }}" target="_blank" rel="noopener">Directions</a>{{ end }}
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ printf "LAMA Austin Anniversary: %s" $e.title | urlquery }}&dates={{ $start.UTC.Format "20060102T150405Z" }}/{{ $end.UTC.Format "20060102T150405Z" }}&location={{ $e.place | default "" | urlquery }}&details={{ $e.details | default "" | urlquery }}%0A%0A{{ $.Permalink | urlquery }}" target="_blank" rel="noopener">Google Calendar</a>
+        </div>
+      </div>
+    {{ end }}
+    {{ if $lastDay }}</div>{{ end }}
+
+  </div>
+
+  {{ with .Params.flyer }}
+  <aside class="anv-flyer">
+    <a href="{{ . }}" target="_blank" rel="noopener"><img src="{{ . }}" alt="5th Anniversary Celebration flyer" loading="lazy" /></a>
+    <div class="anv-flyer-note">Tap the flyer to open it full size</div>
+  </aside>
+  {{ end }}
+  </div>
+</section>
+
+{{ with .Params.hotels }}
+<section class="anv-section" id="stay">
+  <h2 class="anv-section-title">Where To Stay</h2>
+  <p class="anv-section-sub">Special rates for our guests. Room blocks are limited, so book early.</p>
+  <div class="anv-cards">
+    {{ range . }}
+    {{ $h := . }}
+    <div class="anv-hotel">
+      {{ with .label }}<div class="anv-hotel-label">{{ . }}</div>{{ end }}
+      <div class="anv-item-title">{{ .name }}</div>
+      {{ with .address }}<div class="anv-address">{{ . }}</div>{{ end }}
+      {{ with .perks }}<p class="anv-hotel-perks">{{ . }}</p>{{ end }}
+      {{ with .booking_note }}<p class="anv-hotel-code"><strong>{{ . }}</strong></p>{{ end }}
+      <div class="anv-links">
+        {{ with .booking }}<a class="primary" href="{{ . }}" target="_blank" rel="noopener">Book A Room</a>{{ end }}
+        {{ with .phone }}<a class="primary" href="tel:{{ replaceRE `[^0-9+]` "" . }}">Call {{ . }}</a>{{ end }}
+        {{ with .map_link }}<a href="{{ . }}" target="_blank" rel="noopener">Directions</a>{{ else }}{{ with .address }}<a href="https://www.google.com/maps/search/?api=1&query={{ printf "%s, %s" $h.name . | urlquery }}" target="_blank" rel="noopener">Directions</a>{{ end }}{{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+
+{{ with .Params.tips }}
+<section class="anv-section" id="know">
+  <h2 class="anv-section-title">Good To Know</h2>
+  <p class="anv-section-sub">Tips for riders coming in from out of town.</p>
+  <div class="anv-cards">
+    {{ range . }}
+    <div class="anv-card">
+      <div class="anv-card-title">{{ .title }}</div>
+      <p>{{ .text }}</p>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+{{ with .Params.things_to_do }}
+{{ $all := . }}
+<section class="anv-section" id="todo">
+  <h2 class="anv-section-title">Things To Do</h2>
+  <p class="anv-section-sub">Staying a little longer? Our favorite rides, food and sights around Austin.</p>
+  {{ range slice "Ride" "Eat" "See & Do" }}
+    {{ $cat := . }}
+    {{ $items := where $all "category" $cat }}
+    {{ with $items }}
+    <div class="anv-cat">{{ cond (eq $cat "Ride") "Rides" (cond (eq $cat "Eat") "Eats" $cat) }}</div>
+    <div class="anv-cards">
+      {{ range . }}
+      <div class="anv-card">
+        <div class="anv-card-title">{{ .name }}</div>
+        <p>{{ .description }}</p>
+        <div class="anv-links">
+          {{ with .map_query }}<a class="primary" href="https://www.google.com/maps/search/?api=1&query={{ . | urlquery }}" target="_blank" rel="noopener">Directions</a>{{ end }}
+          {{ with .link }}<a href="{{ . }}" target="_blank" rel="noopener">Website</a>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+  {{ end }}
+</section>
+{{ end }}
+
+<section class="anv-section" id="contact">
+  <h2 class="anv-section-title">Contact</h2>
+  <p class="anv-section-sub">Questions about the weekend? Reach out, we're happy to help.</p>
+  <div class="anv-cards">
+    {{ with .Params.group_chat }}
+    <div class="anv-card anv-contact anv-contact-main">
+      <div>
+        <div class="anv-hotel-label">Best way to reach us</div>
+        <div class="anv-card-title">Join The Event Chat</div>
+        <p>Our WhatsApp group for the weekend. Ask questions and get the latest times, locations and changes.</p>
+      </div>
+      <div class="anv-links"><a class="primary" href="{{ . }}" target="_blank" rel="noopener">Join On WhatsApp</a></div>
+    </div>
+    {{ end }}
+    {{ with $wa }}
+    <div class="anv-card anv-contact">
+      <div>
+        <div class="anv-hotel-label">LAMA Austin</div>
+        <div class="anv-card-title">Message The Chapter</div>
+        <p>Prefer a private message? Send us a WhatsApp.</p>
+      </div>
+      <div class="anv-links"><a class="primary" href="https://wa.me/{{ . }}?text={{ printf "Hi! I have a question about the LAMA Austin %s." $.Title | urlquery }}" target="_blank" rel="noopener">Open WhatsApp</a></div>
+    </div>
+    {{ end }}
+    {{ range .Params.contacts }}
+    {{ $digits := replaceRE `[^0-9+]` "" (.phone | default "") }}
+    <div class="anv-card anv-contact">
+      <div>
+        {{ with .role }}<div class="anv-hotel-label">{{ . }}</div>{{ end }}
+        <div class="anv-card-title">{{ .name }}</div>
+        {{ with .phone }}<p>{{ . }}</p>{{ end }}
+      </div>
+      {{ with $digits }}<div class="anv-links"><a class="primary" href="tel:{{ . }}">Call</a><a href="sms:{{ . }}">Text</a></div>{{ end }}
+    </div>
+    {{ end }}
+    {{ with $s.facebook }}
+    <div class="anv-card anv-contact">
+      <div>
+        <div class="anv-hotel-label">Updates</div>
+        <div class="anv-card-title">Follow Us On Facebook</div>
+        <p>Announcements, photos and last-minute changes.</p>
+      </div>
+      <div class="anv-links"><a class="primary" href="{{ . }}" target="_blank" rel="noopener">Open Facebook</a></div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<script>
+  (function () {
+    // Keep the tab bar just under the site nav, and land sections below both.
+    var nav = document.querySelector('body > nav');
+    var tabs = document.querySelector('.anv-tabs');
+    var root = document.documentElement;
+    function measure() {
+      var n = nav ? nav.offsetHeight : 64;
+      root.style.setProperty('--anv-nav', n + 'px');
+      root.style.setProperty('--anv-offset', (n + (tabs ? tabs.offsetHeight : 52)) + 'px');
+    }
+    measure();
+    window.addEventListener('resize', measure);
+
+    // Highlight the tab for the section currently on screen.
+    var links = Array.prototype.slice.call(document.querySelectorAll('.anv-tab'));
+    var byId = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    function setActive(id) {
+      links.forEach(function (a) { a.classList.toggle('active', a === byId[id]); });
+      var a = byId[id];
+      if (a && a.parentNode.scrollWidth > a.parentNode.clientWidth) {
+        a.parentNode.scrollTo({ left: a.offsetLeft - 16, behavior: 'smooth' });
+      }
+    }
+    function onScroll() {
+      var line = parseInt(getComputedStyle(root).getPropertyValue('--anv-offset'), 10) + 40;
+      var current = null;
+      Object.keys(byId).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) current = id;
+      });
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 4) current = links[links.length - 1].getAttribute('href').slice(1);
+      setActive(current);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  (function () {
+    var btn = document.getElementById('anvShare');
+    if (!btn) return;
+    var label = btn.textContent;
+    btn.addEventListener('click', function () {
+      var data = { title: btn.dataset.title, url: btn.dataset.url };
+      if (navigator.share) {
+        navigator.share(data).catch(function () {});
+        return;
+      }
+      var done = function () {
+        btn.textContent = 'Link Copied!';
+        setTimeout(function () { btn.textContent = label; }, 2500);
+      };
+      if (navigator.clipboard) navigator.clipboard.writeText(data.url).then(done);
+      else window.prompt('Copy this link:', data.url);
+    });
+  })();
+</script>
+{{ end }}
