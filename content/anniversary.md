@@ -115,7 +115,7 @@ schedule:
     address: "2801 N Interstate Hwy 35, Round Rock, TX"
     map_query: "Central Texas Harley-Davidson, 2801 N Interstate Hwy 35, Round Rock, TX"
     details: "Kickstands up at 9:00 AM sharp. Meet at Central Texas Harley-Davidson and ride together to the Capitol. Route: south on Jeffrey Way, south on Mays St, west on Old Settlers Blvd, south on I-35, west on SH 45 (toll road), south on MoPac, east on Enfield Rd, east on 15th St, south on San Jacinto Blvd, west on 11th St, ending in front of the Capitol."
-    route: "https://maps.app.goo.gl/7FuqsrLRpVPsQBF9A"
+    route: "https://maps.app.goo.gl/112PZgqBmoFKbcM18"
   - title: "Anniversary Celebration"
     start: 2026-10-24T14:00:00-05:00
     end: 2026-10-24T17:00:00-05:00
