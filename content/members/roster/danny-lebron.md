@@ -2,6 +2,7 @@
 title: Danny Lebron
 nickname: Robocop
 section: 1-full-patch
+role: Sergeant at Arms
 instagram: ''
 facebook: ''
 tiktok: ''
