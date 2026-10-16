@@ -272,6 +272,10 @@ collections:
     delete: true
     slug: "{{slug}}"
     summary: "{{title}} - {{role}}"
+    # List officers in chart order (Display Order), not alphabetically.
+    sortable_fields:
+      fields: [weight, title, role]
+      default: { field: weight, direction: ascending }
     media_folder: "/static/images/officers"
     public_folder: "/images/officers"
     fields:
@@ -287,12 +291,14 @@ collections:
           - "Business Manager"
           - "Secretary"
           - "Moto-Touring Officer"
+          - "Sergeant at Arms"
+          - "Road Captain"
       - { label: "Section", name: "section", widget: "hidden", default: "leadership" }
       - { label: "Instagram", name: "instagram", widget: "string", required: false, hint: "Optional. A link or just the handle, e.g. @ruso_rides. Only add with the person's OK." }
       - { label: "Facebook", name: "facebook", widget: "string", required: false, hint: "Optional. A link to their profile, or just the username." }
       - { label: "TikTok", name: "tiktok", widget: "string", required: false, hint: "Optional. A link or just the handle. Not shown on the website for the Youth section." }
       - { label: "Photo", name: "photo", widget: "image", required: false, media_folder: "/static/images/officers", public_folder: "/images/officers", hint: "Use a portrait-style photo if possible." }
-      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Order of the officers on the bottom row of the chart (lower numbers first). President and Vice President are placed automatically." }
+      - { label: "Display Order", name: "weight", widget: "number", default: 10, value_type: "int", hint: "Order in this admin list and on the bottom row of the chart (lower numbers first). Suggested: 1 President, 2 Vice President, then 3, 4, 5... President and Vice President are always placed at the top of the chart automatically." }
       - { label: "Hide from website", name: "draft", widget: "boolean", default: false }
 
   - name: "members"
@@ -327,6 +333,14 @@ collections:
           - { label: "5. Dama de LAMA", value: "5-dama-de-lama" }
           - { label: "6. Spouse", value: "6-spouse" }
           - { label: "7. Youth", value: "7-youth" }
+      - label: "Role"
+        name: "role"
+        widget: "select"
+        required: false
+        hint: "Optional. A chapter role this member holds. Shown as a red tag on their card. Leave empty for none."
+        options:
+          - "Road Captain"
+          - "Sergeant at Arms"
       - { label: "Instagram", name: "instagram", widget: "string", required: false, hint: "Optional. A link or just the handle, e.g. @ruso_rides. Only add with the person's OK." }
       - { label: "Facebook", name: "facebook", widget: "string", required: false, hint: "Optional. A link to their profile, or just the username." }
       - { label: "TikTok", name: "tiktok", widget: "string", required: false, hint: "Optional. A link or just the handle. Not shown on the website for the Youth section." }
