@@ -6,7 +6,7 @@ role: ''
 instagram: ''
 facebook: ''
 tiktok: ''
-photo: ''
-joined: ''
+photo: /images/members/Embroidered Latin American Eagle Patch.png
+joined: 2025-05-25
 draft: false
 ---
