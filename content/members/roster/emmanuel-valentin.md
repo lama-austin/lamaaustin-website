@@ -1,7 +1,8 @@
 ---
 title: Emmanuel Valentin
-nickname: ''
+nickname: Guero
 section: 1-full-patch
+role: ''
 instagram: ''
 facebook: ''
 tiktok: ''
