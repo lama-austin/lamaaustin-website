@@ -1,7 +1,8 @@
 ---
 title: Sergio Ochoa
-nickname: ''
+nickname: Alacrán
 section: 1-full-patch
+role: Road Captain
 instagram: ''
 facebook: ''
 tiktok: ''
